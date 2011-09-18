@@ -19,16 +19,15 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
 #if !defined(AFX_MAINWND_H__A5A421E7_D255_40F8_8E29_9C2DD2A83624__INCLUDED_)
 #define AFX_MAINWND_H__A5A421E7_D255_40F8_8E29_9C2DD2A83624__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
 // MainWnd.h : header file
 //
 
@@ -67,43 +66,43 @@ private:
 	HICON trayIcon;
 	HANDLE hInstanceMutex;
 
-  CDialog *activeDlg;
+	CDialog *activeDlg;
 
 
-// Construction
+	// Construction
 public:
 	CMainWnd();
 
-// Attributes
+	// Attributes
 public:
 
-  // desktop window that is drawn on
-  static CWnd dskWnd;  
+	// desktop window that is drawn on
+	static CWnd dskWnd;
 
-  // The region that covers all top level windows
-  static CRgn *wndRgn;
-	
-  // alpha blending level (0-255)
-  static unsigned char blendLevel;
+	// The region that covers all top level windows
+	static CRgn *wndRgn;
 
-  // !0 if sound is enabled
-  static int soundEnabled;
+	// alpha blending level (0-255)
+	static unsigned char blendLevel;
 
-  // number between 0-100: 0 = no santa, 100 = always santa
-  static int santaPercent;
+	// !0 if sound is enabled
+	static int soundEnabled;
 
-  // MPA 4-3-2005: added "soundfilename"
-  static CString soundFilename;
+	// number between 0-100: 0 = no santa, 100 = always santa
+	static int santaPercent;
 
-// Operations
+	// MPA 4-3-2005: added "soundfilename"
+	static CString soundFilename;
+
+	// Operations
 public:
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainWnd)
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 public:
 	bool CheckSubType( CToon *pToon );
 	void UpdateWndRgn();
@@ -119,7 +118,7 @@ public:
 protected:
 	//{{AFX_MSG(CMainWnd)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnSysTray(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnSysTray(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose();
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnAbout();

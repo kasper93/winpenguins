@@ -19,16 +19,14 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
 #if !defined(AFX_URLSTATIC_H__7E240B89_C265_4298_87CF_4FB6D8FB612B__INCLUDED_)
 #define AFX_URLSTATIC_H__7E240B89_C265_4298_87CF_4FB6D8FB612B__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 // UrlStatic.h : header file
 //
 
@@ -37,25 +35,25 @@
 
 class CUrlStatic : public CStatic
 {
-// Construction
+	// Construction
 public:
 	CUrlStatic();
 
-// Attributes
+	// Attributes
 public:
 
-// Operations
+	// Operations
 public:
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CUrlStatic)
-	public:
+public:
 	virtual BOOL Create(CWnd *parent, UINT staticId);
 
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CUrlStatic();
 

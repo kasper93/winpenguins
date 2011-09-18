@@ -4,7 +4,7 @@
  *  Copyright (C) 2000  Michael Vines
  *
  *  This file contains code from XPenguins 1.1
- *		Copyright (C) 1999,2000  Robin Hogan
+ *      Copyright (C) 1999,2000  Robin Hogan
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -46,15 +46,15 @@
 #define PENGUIN_COUNT			9
 
 typedef struct {
-   DWORD resId;  // resource id
-   DWORD mskResId;  // resource id of the bitmask
-   CBitmap *bmp;
-   CBitmap *mskBmp;
+	DWORD resId;  // resource id
+	DWORD mskResId;  // resource id of the bitmask
+	CBitmap *bmp;
+	CBitmap *mskBmp;
 
-   int nframes,ndirections; /* number of frames and directions in image */
-   int width,height; /* width and height of an individual frame/direction */
+	int nframes,ndirections; /* number of frames and directions in image */
+	int width,height; /* width and height of an individual frame/direction */
 
-   bool cycle;  // does the animation cycle
+	bool cycle;  // does the animation cycle
 } ToonData;
 
 

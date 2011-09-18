@@ -22,16 +22,14 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
 #if !defined(AFX_TOON_H__7339F5A5_53B0_4448_8C93_420E8E3B5FEC__INCLUDED_)
 #define AFX_TOON_H__7339F5A5_53B0_4448_8C93_420E8E3B5FEC__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 // Toon.h : header file
 //
 
@@ -53,23 +51,23 @@ typedef enum TToonSubType
 	TST_NORMAL_PENGUIN,
 	TST_SANTA_PENGUIN
 
-}ToonSubType;
+} ToonSubType;
 
 /* Bitmap colour that will be transparent */
 #define BG_COLOUR RGB(0,0,0)
- 
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CToon window
 
-class CToon 
+class CToon
 {
 
-// Construction
+	// Construction
 public:
 	CToon();
 
-// Attributes
+	// Attributes
 public:
 	int m_x;
 	int m_y;
@@ -87,12 +85,12 @@ public:
 
 	ToonSubType m_tstSubType;
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CToon)
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 public:
 	bool IsBlocked(int direction);
 	int AdvanceToon(bool force);
@@ -112,9 +110,13 @@ public:
 	void Paint(CDC *activeDC, CDC *tmpDc);
 	void PaintBackground(CDC *bgBitmapDC, CDC *activeDC);
 	void PaintToDesktop(CDC *dc, CDC *activeBmpDC);
-		
-	void SetSubType( ToonSubType tst ) { m_tstSubType = tst; }
-	ToonSubType GetSubType( void ) { return m_tstSubType; }
+
+	void SetSubType( ToonSubType tst ) {
+		m_tstSubType = tst;
+	}
+	ToonSubType GetSubType( void ) {
+		return m_tstSubType;
+	}
 private:
 	void AdvanceFrame();
 
@@ -124,7 +126,7 @@ protected:
 
 	//{{AFX_MSG(CToon)
 	//}}AFX_MSG
-//	DECLARE_MESSAGE_MAP()
+	//	DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

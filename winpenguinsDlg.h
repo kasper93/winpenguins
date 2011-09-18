@@ -19,16 +19,14 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
 #if !defined(AFX_WINPENGUINSDLG_H__9A375BB6_4AD9_4221_9C06_B83B6BF7DDA8__INCLUDED_)
 #define AFX_WINPENGUINSDLG_H__9A375BB6_4AD9_4221_9C06_B83B6BF7DDA8__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 
 #include "UrlStatic.h"
@@ -47,22 +45,22 @@ class CAboutDlg : public CDialog
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CAboutDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 	virtual BOOL OnInitDialog();
 
-// Implementation
+	// Implementation
 protected:
-  CUrlStatic urlStatic;
+	CUrlStatic urlStatic;
 
 	//{{AFX_MSG(CAboutDlg)
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
@@ -76,11 +74,11 @@ protected:
 
 class CWinpenguinsDlg : public CDialog
 {
-// Construction
+	// Construction
 public:
 	CWinpenguinsDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CWinpenguinsDlg)
 	enum { IDD = IDD_WINPENGUINS_DIALOG };
 	int		m_pcount;
@@ -94,11 +92,11 @@ public:
 
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CWinpenguinsDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 	HICON m_hIcon;
 

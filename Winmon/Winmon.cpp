@@ -19,7 +19,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -31,23 +31,23 @@
 HINSTANCE hMod;
 HANDLE hSem;
 
-BOOL APIENTRY DllMain( HINSTANCE hModule,  
-                       DWORD  ul_reason_for_call, 
-                       LPVOID lpReserved
+BOOL APIENTRY DllMain( HINSTANCE hModule,
+					   DWORD  ul_reason_for_call,
+					   LPVOID lpReserved
 					 )
 {
 	hMod = hModule;
-    switch (ul_reason_for_call)
+	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
 			hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
-							     "WinPenguins-DeskPaintSem");
+								 "WinPenguins-DeskPaintSem");
 			if (hSem == NULL) {
-				hSem = CreateSemaphore(NULL, 1, 1, 
-					                   "WinPenguins-DeskPaintSem");
+				hSem = CreateSemaphore(NULL, 1, 1,
+									   "WinPenguins-DeskPaintSem");
 				assert(hSem != NULL);
 			}
-		    break;
+			break;
 
 		case DLL_PROCESS_DETACH:
 			DeleteObject(hSem);
@@ -57,8 +57,8 @@ BOOL APIENTRY DllMain( HINSTANCE hModule,
 		case DLL_THREAD_DETACH:
 			break;
 
-    }
-    return TRUE;
+	}
+	return TRUE;
 }
 
 
@@ -66,7 +66,7 @@ BOOL APIENTRY DllMain( HINSTANCE hModule,
 #pragma bss_seg("sdata")
 #pragma data_seg("sdata")
 
-BOOL wndPosInvalid;  
+BOOL wndPosInvalid;
 BOOL dskWndPainted;
 BOOL dskWndResized;
 RECT dskWndPaintedRect;
@@ -81,55 +81,55 @@ HWND desktopWnd;
 
 LRESULT CALLBACK SysMsgHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-  MSG *cw = (MSG*)lParam;
+	MSG *cw = (MSG*)lParam;
 
-  switch (cw->message) {
-  case WM_ERASEBKGND:
-  case WM_PAINT:
-	  if (cw->hwnd == desktopWnd) {
-			RECT rt;
-			
-			if (!GetUpdateRect(cw->hwnd, &rt, false)) {
-				::GetClientRect(cw->hwnd, &rt);
+	switch (cw->message) {
+		case WM_ERASEBKGND:
+		case WM_PAINT:
+			if (cw->hwnd == desktopWnd) {
+				RECT rt;
+
+				if (!GetUpdateRect(cw->hwnd, &rt, false)) {
+					::GetClientRect(cw->hwnd, &rt);
+				}
+
+				WaitForSingleObject(hSem, INFINITE);
+				UnionRect(&dskWndPaintedRect, &dskWndPaintedRect, &rt);
+				ReleaseSemaphore(hSem, 1, NULL);
+
+				dskWndPainted = TRUE;
 			}
+			break;
+		default:
+			break;
+	}
 
-			WaitForSingleObject(hSem, INFINITE);
-			UnionRect(&dskWndPaintedRect, &dskWndPaintedRect, &rt);
-			ReleaseSemaphore(hSem, 1, NULL);
-
-			dskWndPainted = TRUE;
-	  }
-	  break;
-  default:
-	  break;
-  }
-
-  return CallNextHookEx(hWndMsgHook, nCode, wParam, lParam);
+	return CallNextHookEx(hWndMsgHook, nCode, wParam, lParam);
 }
 
 
 LRESULT CALLBACK SysMsgRetHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-  DWORD pid;
-  CWPRETSTRUCT *cw = (CWPRETSTRUCT*)lParam;
+	DWORD pid;
+	CWPRETSTRUCT *cw = (CWPRETSTRUCT*)lParam;
 
-  GetWindowThreadProcessId(cw->hwnd, &pid);
+	GetWindowThreadProcessId(cw->hwnd, &pid);
 
-  if (pid != pidToIgnore) {
-	  switch (cw->message) {
-	  case WM_WINDOWPOSCHANGED:
-		  if (cw->hwnd == desktopWnd) {
-			  dskWndResized = TRUE;
-		  }
+	if (pid != pidToIgnore) {
+		switch (cw->message) {
+			case WM_WINDOWPOSCHANGED:
+				if (cw->hwnd == desktopWnd) {
+					dskWndResized = TRUE;
+				}
 
-		  wndPosInvalid = TRUE;
-		  break;
-	  default:
-		  break;
-	  }
-  }
+				wndPosInvalid = TRUE;
+				break;
+			default:
+				break;
+		}
+	}
 
-  return CallNextHookEx(hWndRetHook, nCode, wParam, lParam);
+	return CallNextHookEx(hWndRetHook, nCode, wParam, lParam);
 }
 
 

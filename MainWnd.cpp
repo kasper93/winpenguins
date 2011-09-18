@@ -22,7 +22,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -56,35 +56,49 @@ static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM lParam)
 	RECT rt;
 	CRgn rgn;
 
-	if (!IsWindowVisible(hWnd)) return TRUE;
+	if (!IsWindowVisible(hWnd)) {
+		return TRUE;
+	}
 
 	// Ignore windows in our process
 	DWORD pid;
 	GetWindowThreadProcessId(hWnd, &pid);
-	if (pid == GetCurrentProcessId()) return TRUE;
+	if (pid == GetCurrentProcessId()) {
+		return TRUE;
+	}
 
 	// Ignore the "Program Manager" window
 	char title[256];
 	::GetWindowText(hWnd, title, 256);
-	if (!stricmp(title, "Program Manager")) return TRUE;
+	if (!_stricmp(title, "Program Manager")) {
+		return TRUE;
+	}
 
 	// All good, add this window to the region
-	if (!GetWindowRect(hWnd, &rt)) return TRUE;
+	if (!GetWindowRect(hWnd, &rt)) {
+		return TRUE;
+	}
 
-	if (rt.right < 0 && rt.bottom < 0) return TRUE;
+	if (rt.right < 0 && rt.bottom < 0) {
+		return TRUE;
+	}
 
 	if (CMainWnd::wndRgn != NULL) {
-		if (!rgn.CreateRectRgnIndirect(&rt)) return TRUE;
+		if (!rgn.CreateRectRgnIndirect(&rt)) {
+			return TRUE;
+		}
 
 		CMainWnd::wndRgn->CombineRgn(CMainWnd::wndRgn, &rgn, RGN_OR);
 	} else {
 		CMainWnd::wndRgn = new CRgn();
 
-		if (!CMainWnd::wndRgn->CreateRectRgnIndirect(&rt)) return TRUE;
+		if (!CMainWnd::wndRgn->CreateRectRgnIndirect(&rt)) {
+			return TRUE;
+		}
 	}
 	return TRUE;
 }
- 
+
 
 static HWND foundWnd;
 static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
@@ -124,9 +138,9 @@ CString CMainWnd::soundFilename = "";
 
 CMainWnd::CMainWnd()
 {
-  activeDlg = 0;
+	activeDlg = 0;
 
-    // Check if another instance of WinPenguins is already running
+	// Check if another instance of WinPenguins is already running
 	hInstanceMutex = ::CreateMutex(NULL, FALSE, "WinPenguinsInstanceMutex");
 	if (NULL == hInstanceMutex) {
 		MessageBox("Unable to create instance mutex", "Internal Error", MB_ICONERROR);
@@ -136,13 +150,13 @@ CMainWnd::CMainWnd()
 		::ExitProcess(0);  	// Exit quitely if the mutex already exists
 	}
 
-	srand(time(NULL));
+	time_t srand(time(NULL));
 
 	// Check OS version.  Windows 2000 has a TranparentBlt() function
-	// which makes things much cleaner, otherwise we have to fake it. 
-	// 
+	// which makes things much cleaner, otherwise we have to fake it.
+	//
 	// NOTE: Win98 supposedly also has this function, however it seems
-	// to leak GDI resources whenever I use it.  
+	// to leak GDI resources whenever I use it.
 	bool enableAlpha = false;
 	bool transInternal = true;
 
@@ -152,14 +166,14 @@ CMainWnd::CMainWnd()
 	GetVersionEx(&vi);
 	if (vi.dwMajorVersion >= 5) {
 		transInternal = false;
-   	    enableAlpha = true;
+		enableAlpha = true;
 	} else {
 		if ((4 == vi.dwMajorVersion) && (vi.dwMinorVersion > 0)) {
-		  enableAlpha = true;
-		} 
+			enableAlpha = true;
+		}
 	}
 
-	// Find the desktop window 
+	// Find the desktop window
 	//   this is kindof kludgy and I'm not sure if it'll work in all cases!
 	CWnd *progMan = CWnd::FindWindow("Progman", "Program Manager");
 
@@ -171,14 +185,14 @@ CMainWnd::CMainWnd()
 
 	dskWnd.Attach(foundWnd);
 
-	
-    transparentblt = NULL;
-    alphablend = NULL;
- 
+
+	transparentblt = NULL;
+	alphablend = NULL;
+
 	msimg32 = ::LoadLibrary("msimg32.dll");
 	if (msimg32 != NULL) {
-		if (!transInternal) { 
-		  (FARPROC &)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
+		if (!transInternal) {
+			(FARPROC &)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
 		}
 
 		if (enableAlpha) {
@@ -186,12 +200,12 @@ CMainWnd::CMainWnd()
 		}
 	}
 
-	
-	// Load the Winmon DLL. First just try to load it (ie. if it is already 
-	// in the path).  If that failes, then load the copy that is in the EXE 
-	// resources.  
-    //
-	// The reason this is done is so that people can simply distribute the 
+
+	// Load the Winmon DLL. First just try to load it (ie. if it is already
+	// in the path).  If that fails, then load the copy that is in the EXE
+	// resources.
+	//
+	// The reason this is done is so that people can simply distribute the
 	// winpenguins executable without worrying about the additional DLL
 
 	winmonFileName[0] = '\0';
@@ -220,7 +234,7 @@ CMainWnd::CMainWnd()
 		winmonFileName[MAX_PATH] = '\0';
 
 		// write winmon.dll and load it
-		HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, NULL, 
+		HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, NULL,
 								  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, NULL);
 		CloseHandle(hFile);
@@ -258,10 +272,10 @@ CMainWnd::~CMainWnd()
 
 	// XXX: this api call fails with an access denied error!
 	::DeleteFile(winmonFileName);
-	
+
 	if (msimg32 != NULL) {
 		::FreeLibrary(msimg32);
-	} 
+	}
 
 	::CloseHandle(hInstanceMutex);
 }
@@ -286,19 +300,20 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMainWnd message handlers
 
-int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CWnd::OnCreate(lpCreateStruct) == -1)
+	if (CWnd::OnCreate(lpCreateStruct) == -1) {
 		return -1;
+	}
 
-	// Load config options from registry 
+	// Load config options from registry
 	m_numPenguins = theApp.GetProfileInt("Options", "PenguinCount", 5);
 	m_moveDelay = theApp.GetProfileInt("Options", "MoveDelay", 50);
 	m_splatDist = theApp.GetProfileInt("Options", "SplatDistance", 2000);
 	blendLevel = theApp.GetProfileInt("Options", "BlendLevel", 255);
 	santaPercent = theApp.GetProfileInt("Options", "SantaPercent", 0);
 	soundEnabled = theApp.GetProfileInt("Options", "SoundEnabled", 0);
-	soundFilename = theApp.GetProfileString("Options", "SoundFilename",0);//MPA 4-3-2005		
+	soundFilename = theApp.GetProfileString("Options", "SoundFilename",0);//MPA 4-3-2005
 
 	SetToonCountTo(m_numPenguins);
 
@@ -314,95 +329,96 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	trayIcon = theApp.LoadIcon(IDR_ICON);
 	ni.hIcon = trayIcon;
 
-	Shell_NotifyIcon(NIM_ADD, &ni);	
+	Shell_NotifyIcon(NIM_ADD, &ni);
 
-	// Movement timer 
+	// Movement timer
 	SetTimer(0, m_moveDelay, 0);
 
 	return 0;
 }
 
 
-void CMainWnd::OnSysTray(WPARAM wParam, LPARAM lParam) 
+LRESULT CMainWnd::OnSysTray(WPARAM wParam, LPARAM lParam)
 {
 	switch (lParam) {
-  case WM_LBUTTONUP:
-    if (activeDlg != 0) {
-      activeDlg->SetForegroundWindow();
-      break;
-    }
-  
-    OnOptions();
-    break;
-    
-	case WM_RBUTTONDOWN:
-    if (activeDlg != 0) {
-      activeDlg->SetForegroundWindow();
-      break;
-    }
+		case WM_LBUTTONUP:
+			if (activeDlg != 0) {
+				activeDlg->SetForegroundWindow();
+				break;
+			}
 
-    {
-		POINT pt;
-		::GetCursorPos(&pt);
+			OnOptions();
+			break;
 
-		CMenu menu;
-		CMenu *sysMenu;
+		case WM_RBUTTONDOWN:
+			if (activeDlg != 0) {
+				activeDlg->SetForegroundWindow();
+				break;
+			}
 
-		menu.LoadMenu(MAKEINTRESOURCE(IDR_SYSTRAY));
+			{
+				POINT pt;
+				::GetCursorPos(&pt);
 
-		sysMenu = menu.GetSubMenu(0);
-		sysMenu->SetDefaultItem(1, TRUE);
-		sysMenu->TrackPopupMenu(TPM_RIGHTALIGN | TPM_RIGHTBUTTON,
-			    	            pt.x, pt.y, this, NULL);
-		}
-		break;
+				CMenu menu;
+				CMenu *sysMenu;
 
-	case WM_LBUTTONDBLCLK:
-    if (activeDlg != 0) {
-      activeDlg->SetForegroundWindow();
-      break;
-    }
+				menu.LoadMenu(MAKEINTRESOURCE(IDR_SYSTRAY));
 
-		PostMessage(WM_COMMAND, ID_OPTIONS, 0);  
-		break;
+				sysMenu = menu.GetSubMenu(0);
+				sysMenu->SetDefaultItem(1, TRUE);
+				sysMenu->TrackPopupMenu(TPM_RIGHTALIGN | TPM_RIGHTBUTTON,
+										pt.x, pt.y, this, NULL);
+			}
+			break;
 
-	default:
-		break;
+		case WM_LBUTTONDBLCLK:
+			if (activeDlg != 0) {
+				activeDlg->SetForegroundWindow();
+				break;
+			}
+
+			PostMessage(WM_COMMAND, ID_OPTIONS, 0);
+			break;
+
+		default:
+			break;
 	}
+	return 0;
 }
 
 
-void CMainWnd::OnClose() 
+void CMainWnd::OnClose()
 {
 	if (m_numPenguins > 0 || toonList.GetSize() > 0) {
 		m_numPenguins = 0;
 		SetToonCountTo(m_numPenguins);
 		return;
-	}  
+	}
 
 	CWnd::OnClose();
 }
 
 
-void CMainWnd::OnTimer(UINT nIDEvent) 
+void CMainWnd::OnTimer(UINT nIDEvent)
 {
 	switch (nIDEvent) {
-	case 0:
+		case 0:
 		{
 			// Update the WindowRegion if any windows have moved...
 			UpdateWndRgn();
 
-			// recreate the screen bitmaps when the desktop window is 
+			// recreate the screen bitmaps when the desktop window is
 			// changed, ie. resizing the taskbar
 			if (Winmon_DesktopChanged()) {
-				CreateScreenBitmaps();			
+				CreateScreenBitmaps();
 			}
 
 			// desktop window has been painted on, flush the penguins
 			// and recapture the bitmap
 			RECT dskRt;
 			if (Winmon_DeskWndPainted(&dskRt)) {
-				// Clear all the penguins 
+				// Clear all the penguins
 				for (int i = 0; i < toonList.GetSize(); i++) {
 					toonList[i]->Erase(dskWnd, &dskRt);
 				}
@@ -410,7 +426,7 @@ void CMainWnd::OnTimer(UINT nIDEvent)
 
 				UpdateBgBitmap(&dskRt);
 
-				// Ignore the WM_PAINT message we just sent to 
+				// Ignore the WM_PAINT message we just sent to
 				// the desktop window
 				(void)Winmon_DeskWndPainted(NULL);
 			}
@@ -419,7 +435,7 @@ void CMainWnd::OnTimer(UINT nIDEvent)
 			for (int i = 0; i < toonList.GetSize(); i++) {
 				int status;
 				bool startingAndBlocked = false;
-				
+
 				// check if the toon is inside a window...
 				if (toonList[i]->IsBlocked(TOON_HERE)) {
 					if (!toonList[i]->m_startingUp) {
@@ -435,11 +451,62 @@ void CMainWnd::OnTimer(UINT nIDEvent)
 				status = toonList[i]->AdvanceToon(startingAndBlocked);
 
 				switch (toonList[i]->m_bmpIndex) {
-				case PENGUIN_FALLER:
-					if (startingAndBlocked) break;
+					case PENGUIN_FALLER:
+						if (startingAndBlocked) {
+							break;
+						}
 
-					if (status != TOON_OK) {
-						if (toonList[i]->IsBlocked(TOON_DOWN)) {
+						if (status != TOON_OK) {
+							if (toonList[i]->IsBlocked(TOON_DOWN)) {
+								int direction;
+
+								if (toonList[i]->m_prefd > -1) {
+									direction = toonList[i]->m_prefd;
+								} else {
+									direction = rand() %2;
+								}
+
+								CheckSubType( toonList[i] );
+
+								if ( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN ) {
+									toonList[i]->SetType( PENGUIN_WALKER, direction );
+
+								} else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
+									toonList[i]->SetType( PENGUIN_SANTA_WALKER, direction );
+
+								} else	{
+									// this shouldn't happen, but all the same...
+									toonList[i]->SetType( PENGUIN_WALKER, direction );
+								}
+
+								toonList[i]->SetVelocity(4 *((2*direction)-1), 0);
+								toonList[i]->m_prefd = -1;
+							} else {
+								if (rand() % 10 > 5) {
+									toonList[i]->SetVelocity(-toonList[i]->m_u, 3);
+								}
+
+								CheckSubType( toonList[i] );
+
+								if ( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
+								{
+									toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_u > 0 );
+								}
+								else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
+								{
+									toonList[i]->SetType( PENGUIN_SANTA_CLIMBER, toonList[i]->m_u > 0 );
+								}
+								else
+								{
+									toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_u > 0 );
+								}
+
+								toonList[i]->SetVelocity(0, -4);
+							}
+						}
+						break;
+					case PENGUIN_TUMBLER:
+						if (status != TOON_OK) {
 							int direction;
 
 							if (toonList[i]->m_prefd > -1) {
@@ -450,233 +517,186 @@ void CMainWnd::OnTimer(UINT nIDEvent)
 
 							CheckSubType( toonList[i] );
 
-							if( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN ) {
+							if ( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
+							{
 								toonList[i]->SetType( PENGUIN_WALKER, direction );
-
-              } else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
+							}
+							else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
+							{
 								toonList[i]->SetType( PENGUIN_SANTA_WALKER, direction );
-
-              } else	{
-                // this shouldn't happen, but all the same...
+							}
+							else	// this shouldn't happen, but all the same...
+							{
 								toonList[i]->SetType( PENGUIN_WALKER, direction );
 							}
 
 							toonList[i]->SetVelocity(4 *((2*direction)-1), 0);
 							toonList[i]->m_prefd = -1;
-						} else {
-							if (rand() % 10 > 5) {
-								toonList[i]->SetVelocity(-toonList[i]->m_u, 3);
+
+							if (toonList[i]->m_y - toonList[i]->m_tumbleStartY > m_splatDist) {
+								toonList[i]->ExplodeAni();
 							}
+
+						}
+						break;
+					case PENGUIN_WALKER:
+					case PENGUIN_SANTA_WALKER:
+						if (!toonList[i]->IsBlocked(TOON_DOWN)) {
+							toonList[i]->m_prefd = toonList[i]->m_directionIndex;
+							toonList[i]->SetType(PENGUIN_TUMBLER, PENGUIN_FOREWARD);
+							toonList[i]->SetVelocity(0, 6);
+							toonList[i]->m_tumbleStartY = toonList[i]->m_y;
+						} else if (status != TOON_OK) {
+							/* Blocked!  We can turn around, fly or climb */
+							switch (rand() % 8) {
+								case 0:
+								case 1:
+									toonList[i]->SetType(PENGUIN_FLOATER, PENGUIN_FOREWARD);
+									toonList[i]->SetVelocity(rand()%5*(-toonList[i]->m_u/4),-3);
+									break;
+								case 2:
+								case 3:
+
+									CheckSubType( toonList[i] );
+
+									if (toonList[i]->GetSubType() == TST_NORMAL_PENGUIN) {
+										toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_directionIndex );
+									} else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
+										toonList[i]->SetType( PENGUIN_SANTA_CLIMBER, toonList[i]->m_directionIndex );
+									} else {
+										toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_directionIndex );
+									}
+
+									toonList[i]->SetVelocity(0,-4);
+									break;
+								default:
+
+									CheckSubType( toonList[i] );
+
+									if ( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN ) {
+										toonList[i]->SetType(PENGUIN_WALKER, !toonList[i]->m_directionIndex);
+									} else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
+										toonList[i]->SetType( PENGUIN_SANTA_WALKER, !toonList[i]->m_directionIndex );
+									}
+
+									toonList[i]->SetVelocity(-toonList[i]->m_u, 0);
+
+									break;
+							}
+						}
+						break;
+					case PENGUIN_CLIMBER:
+					case PENGUIN_SANTA_CLIMBER:
+						if (!toonList[i]->IsBlocked(toonList[i]->m_directionIndex)) {
 
 							CheckSubType( toonList[i] );
 
-							if( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
+							if ( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
 							{
-								toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_u > 0 );
+								toonList[i]->SetType(PENGUIN_WALKER, toonList[i]->m_directionIndex);
 							}
-							else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
+							else if ( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
 							{
-								toonList[i]->SetType( PENGUIN_SANTA_CLIMBER, toonList[i]->m_u > 0 );
+								toonList[i]->SetType( PENGUIN_SANTA_WALKER, toonList[i]->m_directionIndex );
 							}
-							else
+							else	// again, should never happen... but...
 							{
-								toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_u > 0 );
+								toonList[i]->SetType( PENGUIN_WALKER, toonList[i]->m_directionIndex );
 							}
 
-							toonList[i]->SetVelocity(0, -4);
-						}
-					}
-					break;
-				case PENGUIN_TUMBLER:
-					if (status != TOON_OK) {
-						int direction;
-
-						if (toonList[i]->m_prefd > -1) {
-							direction = toonList[i]->m_prefd;
-						} else {
-							direction = rand() %2;
-						}
-
-						CheckSubType( toonList[i] );
-
-						if( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
-						{
-							toonList[i]->SetType( PENGUIN_WALKER, direction );
-						}
-						else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
-						{
-							toonList[i]->SetType( PENGUIN_SANTA_WALKER, direction );
-						}
-						else	// this shouldn't happen, but all the same...
-						{
-							toonList[i]->SetType( PENGUIN_WALKER, direction );
-						}
-
-						toonList[i]->SetVelocity(4 *((2*direction)-1), 0);
-						toonList[i]->m_prefd = -1;
-
-						if (toonList[i]->m_y - toonList[i]->m_tumbleStartY > m_splatDist) {
-							toonList[i]->ExplodeAni();
-						}
-
-					}
-					break;
-				case PENGUIN_WALKER:
-				case PENGUIN_SANTA_WALKER:
-					if (!toonList[i]->IsBlocked(TOON_DOWN)) {
-						toonList[i]->m_prefd = toonList[i]->m_directionIndex;
-						toonList[i]->SetType(PENGUIN_TUMBLER, PENGUIN_FOREWARD);
-						toonList[i]->SetVelocity(0, 6);
-						toonList[i]->m_tumbleStartY = toonList[i]->m_y;
-					} else if (status != TOON_OK) {
-						/* Blocked!  We can turn around, fly or climb */
-						switch (rand() % 8) {
-						case 0:
-						case 1:
-							toonList[i]->SetType(PENGUIN_FLOATER, PENGUIN_FOREWARD);
-							toonList[i]->SetVelocity(rand()%5*(-toonList[i]->m_u/4),-3);
-							break;
-						case 2:
-						case 3:
-
-							CheckSubType( toonList[i] );
-
-							if (toonList[i]->GetSubType() == TST_NORMAL_PENGUIN) {
-            	  toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_directionIndex );
-              } else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
-								toonList[i]->SetType( PENGUIN_SANTA_CLIMBER, toonList[i]->m_directionIndex );
-              } else {
-								toonList[i]->SetType( PENGUIN_CLIMBER, toonList[i]->m_directionIndex );
-							}
-
-							toonList[i]->SetVelocity(0,-4);
-							break;
-						default:
-
-							CheckSubType( toonList[i] );
-
-							if( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN ) {
-								toonList[i]->SetType(PENGUIN_WALKER, !toonList[i]->m_directionIndex);
-              } else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN ) {
-								toonList[i]->SetType( PENGUIN_SANTA_WALKER, !toonList[i]->m_directionIndex );
-							}
-
-							toonList[i]->SetVelocity(-toonList[i]->m_u, 0);
-
-							break;
-						}
-					}
-					break;
-				case PENGUIN_CLIMBER:
-				case PENGUIN_SANTA_CLIMBER:
-					if (!toonList[i]->IsBlocked(toonList[i]->m_directionIndex)) {
-
-						CheckSubType( toonList[i] );
-
-						if( toonList[i]->GetSubType() == TST_NORMAL_PENGUIN )
-						{
-							toonList[i]->SetType(PENGUIN_WALKER, toonList[i]->m_directionIndex);
-						}
-						else if( toonList[i]->GetSubType() == TST_SANTA_PENGUIN )
-						{
-							toonList[i]->SetType( PENGUIN_SANTA_WALKER, toonList[i]->m_directionIndex );
-						}
-						else	// again, should never happen... but...
-						{
-							toonList[i]->SetType( PENGUIN_WALKER, toonList[i]->m_directionIndex );
-						}
-
-						toonList[i]->SetVelocity(4*((2*toonList[i]->m_directionIndex)-1), 0);
-						toonList[i]->SetPosition(toonList[i]->m_x+
-												 (2*toonList[i]->m_directionIndex)-1,
-												 toonList[i]->m_y);
-						toonList[i]->m_prefd = toonList[i]->m_directionIndex;
-					} else if (status != TOON_OK) {
-						toonList[i]->SetType(PENGUIN_FALLER, PENGUIN_FOREWARD);
-						toonList[i]->SetVelocity(1-toonList[i]->m_directionIndex*2, 3);
-					}
-					break;
-				case PENGUIN_FLOATER:
-					if (status != TOON_OK) {
-						if (toonList[i]->IsBlocked(TOON_UP)) {
+							toonList[i]->SetVelocity(4*((2*toonList[i]->m_directionIndex)-1), 0);
+							toonList[i]->SetPosition(toonList[i]->m_x+
+													 (2*toonList[i]->m_directionIndex)-1,
+													 toonList[i]->m_y);
+							toonList[i]->m_prefd = toonList[i]->m_directionIndex;
+						} else if (status != TOON_OK) {
 							toonList[i]->SetType(PENGUIN_FALLER, PENGUIN_FOREWARD);
-							toonList[i]->SetVelocity(((toonList[i]->m_u > 0)*2-1), 3);
-						} else {
-							toonList[i]->SetVelocity(-toonList[i]->m_u, -3);
+							toonList[i]->SetVelocity(1-toonList[i]->m_directionIndex*2, 3);
 						}
-					}
-					break;
-				default:
-					break;
+						break;
+					case PENGUIN_FLOATER:
+						if (status != TOON_OK) {
+							if (toonList[i]->IsBlocked(TOON_UP)) {
+								toonList[i]->SetType(PENGUIN_FALLER, PENGUIN_FOREWARD);
+								toonList[i]->SetVelocity(((toonList[i]->m_u > 0)*2-1), 3);
+							} else {
+								toonList[i]->SetVelocity(-toonList[i]->m_u, -3);
+							}
+						}
+						break;
+					default:
+						break;
 				}
 
 			}
 
 			CDC *dc = dskWnd.GetDC();
 			CDC bgBitmapDC, activeBmpDC, tmpDC;
-			
+
 			bgBitmapDC.CreateCompatibleDC(dc);
 			activeBmpDC.CreateCompatibleDC(dc);
 			tmpDC.CreateCompatibleDC(dc);
-			
+
 			CBitmap *oldBgBmp, *oldActiveBmp;
 
 			oldBgBmp = bgBitmapDC.SelectObject(&bgBitmap);
 			oldActiveBmp = activeBmpDC.SelectObject(&activeBmp);
 
-			for (i = 0; i < toonList.GetSize(); i++) {
+			for (int i = 0; i < toonList.GetSize(); i++) {
 				toonList[i]->PaintBackground(&bgBitmapDC, &activeBmpDC);
 			}
 
-			for (i = 0; i < toonList.GetSize(); i++) {
+			for (int i = 0; i < toonList.GetSize(); i++) {
 				toonList[i]->Paint(&activeBmpDC, &tmpDC);
 			}
 
 			BOOL deadToons = FALSE;
 			// Finally output to the desktop window
-			for (i = 0; i < toonList.GetSize(); i++) {
-				if (!toonList[i]->m_active) deadToons = TRUE;
+			for (int i = 0; i < toonList.GetSize(); i++) {
+				if (!toonList[i]->m_active) {
+					deadToons = TRUE;
+				}
 
 				toonList[i]->PaintToDesktop(dc, &activeBmpDC);
 			}
-			
+
 			bgBitmapDC.SelectObject(oldBgBmp);
 			activeBmpDC.SelectObject(oldActiveBmp);
 
 			tmpDC.DeleteDC();
 
 			if (deadToons) {
-				for (i = toonList.GetSize()-1; i >= 0; i--) {
+				for (int i = toonList.GetSize()-1; i >= 0; i--) {
 					if (!toonList[i]->m_active) {
 						toonList.RemoveAt(i);
 					}
 				}
 
 			}
-			
+
 			dskWnd.ReleaseDC(dc);
 			SetToonCountTo(m_numPenguins);
 		}
 
 		break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 
 	CWnd::OnTimer(nIDEvent);
 }
 
 
-void CMainWnd::OnAbout() 
+void CMainWnd::OnAbout()
 {
 	CAboutDlg dlg;
 
-  activeDlg = &dlg;
+	activeDlg = &dlg;
 
-	(void) dlg.DoModal();	
+	(void) dlg.DoModal();
 
-  activeDlg = 0;
+	activeDlg = 0;
 }
 
 // <TL> Thought some people might find this nice...
@@ -685,13 +705,13 @@ void CMainWnd::OnScreenCapture()
 {
 	CFileDialog dlg( FALSE, "BMP", NULL, OFN_OVERWRITEPROMPT, "Bitmap Files (*.bmp)|*.bmp||", this );
 
-  activeDlg = &dlg;
+	activeDlg = &dlg;
 
-	if( dlg.DoModal() == IDOK )	{
+	if ( dlg.DoModal() == IDOK )	{
 		RECTCAPINFO rci;
 
 		CMainWnd::OnTimer(0);	// step forward a frame to avoid messing
-								// up our pretty scenery
+		// up our pretty scenery
 
 		ResetCaptureInfo( &rci, FALSE );
 
@@ -700,16 +720,16 @@ void CMainWnd::OnScreenCapture()
 		ResetCaptureInfo( &rci, TRUE );
 	}
 
-  activeDlg = 0;
+	activeDlg = 0;
 }
 
 // </TL>
 
-void CMainWnd::OnExit() 
+void CMainWnd::OnExit()
 {
-  // Remove the systray icon
+	// Remove the systray icon
 	NOTIFYICONDATA ni;
-	
+
 	ni.cbSize = sizeof(ni);
 	ni.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	ni.uID = 0;
@@ -718,20 +738,20 @@ void CMainWnd::OnExit()
 	strcpy(ni.szTip, "WinPenguins");
 	ni.hIcon = trayIcon;
 
-	Shell_NotifyIcon(NIM_DELETE, &ni);	
+	Shell_NotifyIcon(NIM_DELETE, &ni);
 
 	PostMessage(WM_CLOSE, 0, 0);
 }
 
 
-void CMainWnd::OnOptions() 
+void CMainWnd::OnOptions()
 {
-  
-  CWinpenguinsDlg optiondlg;
 
-  activeDlg = &optiondlg;
+	CWinpenguinsDlg optiondlg;
 
- 	optiondlg.m_pcount = m_numPenguins;
+	activeDlg = &optiondlg;
+
+	optiondlg.m_pcount = m_numPenguins;
 	optiondlg.m_delay = MAX_MOVE_DELAY - m_moveDelay;
 	optiondlg.m_splat = m_splatDist;
 	optiondlg.m_alpha = blendLevel;
@@ -758,8 +778,8 @@ void CMainWnd::OnOptions()
 		santaPercent = theApp.GetProfileInt("Options", "SantaPercent", 0);
 		soundEnabled = theApp.GetProfileInt("Options", "SoundEnabled", 0);
 		soundFilename = theApp.GetProfileString("Options", "SoundFilename", "");//MPA 4-3-2005
-		
-	    optiondlg.m_pcount = m_numPenguins;
+
+		optiondlg.m_pcount = m_numPenguins;
 		optiondlg.m_delay = MAX_MOVE_DELAY - m_moveDelay;
 		optiondlg.m_splat = m_splatDist;
 		optiondlg.m_alpha = blendLevel;
@@ -770,7 +790,7 @@ void CMainWnd::OnOptions()
 		ApplyOptions(&optiondlg);
 	}
 
-  activeDlg = 0;
+	activeDlg = 0;
 }
 
 
@@ -800,11 +820,11 @@ void CMainWnd::SetToonCountTo(int count)
 //http://www.mindcracker.com/mindcracker/c_cafe/mfc/filedlg.asp
 void CMainWnd::BrowseSoundFilename(CWinpenguinsDlg *const dlg)
 {
-CFileDialog fileDlg( TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, "Wave Files (*.wav)|*.wav||", dlg);
-fileDlg.m_ofn.lpstrTitle = "Select Boom-Splat Sound File";
+	CFileDialog fileDlg( TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, "Wave Files (*.wav)|*.wav||", dlg);
+	fileDlg.m_ofn.lpstrTitle = "Select Boom-Splat Sound File";
 	if (fileDlg.DoModal() == IDOK)
 	{
-	dlg->m_soundfilename = fileDlg.GetPathName();
+		dlg->m_soundfilename = fileDlg.GetPathName();
 	}
 }
 
@@ -818,7 +838,7 @@ void CMainWnd::ApplyOptions(CWinpenguinsDlg *const dlg)
 	santaPercent = dlg->m_santa;
 	soundFilename = dlg->m_soundfilename;
 
-	// Movement timer 
+	// Movement timer
 	KillTimer(0);
 	SetTimer(0, m_moveDelay, 0);
 
@@ -845,20 +865,20 @@ void CMainWnd::UpdateBgBitmap(RECT *updateRect)
 	CDC *dc = dskWnd.GetDC();
 	CDC bmpDc;
 	CBitmap *oldBmp;
-	
+
 	bmpDc.CreateCompatibleDC(dc);
 	oldBmp = bmpDc.SelectObject(&bgBitmap);
 
 
-	bmpDc.BitBlt(updateRect->left, updateRect->top, 
+	bmpDc.BitBlt(updateRect->left, updateRect->top,
 				 updateRect->right - updateRect->left,
 				 updateRect->bottom - updateRect->top,
 				 dc, updateRect->left, updateRect->top, SRCCOPY);
-/*
-	RECT rt;
-	::GetClientRect(dskWnd, &rt);
-	bmpDc.BitBlt(0, 0, rt.right - rt.left, rt.bottom - rt.top, dc, 0, 0, SRCCOPY);
-*/
+	/*
+		RECT rt;
+		::GetClientRect(dskWnd, &rt);
+		bmpDc.BitBlt(0, 0, rt.right - rt.left, rt.bottom - rt.top, dc, 0, 0, SRCCOPY);
+	*/
 
 	bmpDc.SelectObject(oldBmp);
 
@@ -876,7 +896,7 @@ void CMainWnd::CreateScreenBitmaps()
 	CDC bmpDc;
 
 	::GetWindowRect(dskWnd, &rt);
-	
+
 	bgBitmap.DeleteObject();
 	bgBitmap.CreateCompatibleBitmap(dc, rt.right - rt.left, rt.bottom - rt.top);
 
@@ -898,6 +918,6 @@ bool CMainWnd::CheckSubType( CToon *pToon)
 
 		return true;
 	}
-	
-  return false;
+
+	return false;
 }

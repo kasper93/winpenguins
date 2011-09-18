@@ -19,7 +19,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -47,14 +47,14 @@ extern "C"
 		DWORD dwNumColors;
 		LPVOID pBits;
 
-	}RECTCAPINFO, FAR *LPRECTCAPINFO;
+	} RECTCAPINFO, FAR *LPRECTCAPINFO;
 
 	// low level functions
 	int __cdecl CreateDisplayDC( LPRECTCAPINFO lpCapInfo );
 	void __cdecl AdjustCaptureRect( LPRECTCAPINFO lpCapInfo, int x, int y, int nWidth, int nHeight );
 	int __cdecl CreateSuitableDIB( LPRECTCAPINFO lpCapInfo );
 	int __cdecl PerformBitBlockTransfer( LPRECTCAPINFO lpCapInfo );
-	
+
 	// high level functions
 	int __cdecl FullScreenCapture( LPRECTCAPINFO lpCapInfo );
 	int __cdecl CaptureScreenRect( LPRECTCAPINFO lpCapInfo, LPRECT lpBounds );

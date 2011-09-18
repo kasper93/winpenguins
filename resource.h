@@ -2,6 +2,7 @@
 // Microsoft Developer Studio generated include file.
 // Used by winpenguins.rc
 //
+#define IDR_RT_MANIFEST                 1
 #define IDAPPLY                         3
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100

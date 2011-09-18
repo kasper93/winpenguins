@@ -19,7 +19,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -46,7 +46,7 @@ BOOL CAboutDlg::OnInitDialog()
 {
 	(void) CDialog::OnInitDialog();
 
-  urlStatic.Create(this, IDC_STATIC_URL);
+	urlStatic.Create(this, IDC_STATIC_URL);
 
 	CWnd *gplEdit = GetDlgItem(IDC_GPL);
 	CString gplText;
@@ -75,12 +75,12 @@ END_MESSAGE_MAP()
 
 
 
-void CAboutDlg::OnLButtonDblClk(UINT nFlags, CPoint point) 
+void CAboutDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	CDialog::OnLButtonDblClk(nFlags, point);
 
-//	CAnimateCtrl *ani = (CAnimateCtrl*)GetDlgItem(IDC_ANIWALKER);
-//	ani->Open(penguinRes[rand()%PENGUIN_COUNT]);
+	//	CAnimateCtrl *ani = (CAnimateCtrl*)GetDlgItem(IDC_ANIWALKER);
+	//	ani->Open(penguinRes[rand()%PENGUIN_COUNT]);
 }
 
 
@@ -163,13 +163,13 @@ BOOL CWinpenguinsDlg::OnInitDialog()
 	p->UpdateWindow();
 
 
-  p = (CSliderCtrl*)GetDlgItem(IDC_ALPHA);
+	p = (CSliderCtrl*)GetDlgItem(IDC_ALPHA);
 	p->SetRange(0, 255);
 	p->SetTicFreq(32);
 	p->SetPos(m_alpha);
 	p->UpdateWindow();
 
-  p = (CSliderCtrl*)GetDlgItem(IDC_SANTA);
+	p = (CSliderCtrl*)GetDlgItem(IDC_SANTA);
 	p->SetRange(0, 100);
 	p->SetTicFreq(10);
 	p->SetPos(m_santa);
@@ -184,15 +184,15 @@ BOOL CWinpenguinsDlg::OnInitDialog()
 	f->UpdateWindow();
 	//---
 
-  CButton *b = (CButton*)GetDlgItem(IDC_SOUNDENABLED);
+	CButton *b = (CButton*)GetDlgItem(IDC_SOUNDENABLED);
 	b->SetCheck(m_soundenabled);
-  
+
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 
-void CWinpenguinsDlg::OnApply() 
+void CWinpenguinsDlg::OnApply()
 {
 	UpdateData(TRUE);
 	((CMainWnd*)theApp.m_pMainWnd)->ApplyOptions(this);
@@ -200,7 +200,7 @@ void CWinpenguinsDlg::OnApply()
 
 
 //MPA 4-3-2005: soundfilename support
-void CWinpenguinsDlg::OnSFBrowse() 
+void CWinpenguinsDlg::OnSFBrowse()
 {
 	UpdateData(TRUE);
 	((CMainWnd*)theApp.m_pMainWnd)->BrowseSoundFilename(this);

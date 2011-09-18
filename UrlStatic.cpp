@@ -19,7 +19,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
@@ -55,93 +55,93 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CUrlStatic message handlers
 
-void CUrlStatic::OnPaint() 
+void CUrlStatic::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
-	
+
 	// Do not call CStatic::OnPaint() for painting messages
 
-  CString text;
-  GetWindowText(text);
+	CString text;
+	GetWindowText(text);
 
 
-  CPen pen(PS_SOLID, 1, RGB(0,0,255)), *oldPen;
-  CGdiObject *oldFont;
+	CPen pen(PS_SOLID, 1, RGB(0,0,255)), *oldPen;
+	CGdiObject *oldFont;
 
-  oldFont = dc.SelectStockObject(ANSI_VAR_FONT);
-  oldPen = dc.SelectObject(&pen);
+	oldFont = dc.SelectStockObject(ANSI_VAR_FONT);
+	oldPen = dc.SelectObject(&pen);
 
-  dc.SetTextColor(RGB(0, 0, 255));
-  dc.SetBkMode(TRANSPARENT);
+	dc.SetTextColor(RGB(0, 0, 255));
+	dc.SetBkMode(TRANSPARENT);
 
-  dc.TextOut(0, 0, text);
+	dc.TextOut(0, 0, text);
 
-  CSize size = dc.GetTextExtent(text);
-  dc.MoveTo(0, size.cy);
-  dc.LineTo(size.cx, size.cy);
+	CSize size = dc.GetTextExtent(text);
+	dc.MoveTo(0, size.cy);
+	dc.LineTo(size.cx, size.cy);
 
-  dc.SelectObject(oldPen);
-  dc.SelectObject(oldFont);
+	dc.SelectObject(oldPen);
+	dc.SelectObject(oldFont);
 }
 
 
-BOOL CUrlStatic::Create(CWnd *parent, UINT staticId) 
+BOOL CUrlStatic::Create(CWnd *parent, UINT staticId)
 {
-  CString text;
-  RECT rt;
+	CString text;
+	RECT rt;
 
-  CWnd *base = parent->GetDlgItem(staticId);
+	CWnd *base = parent->GetDlgItem(staticId);
 
-  base->GetWindowRect(&rt);
-  parent->ScreenToClient(&rt);
+	base->GetWindowRect(&rt);
+	parent->ScreenToClient(&rt);
 
-  base->GetWindowText(text);
-  base->ShowWindow(SW_HIDE);
+	base->GetWindowText(text);
+	base->ShowWindow(SW_HIDE);
 
-  return CStatic::Create(text, WS_CHILD | WS_VISIBLE | SS_LEFT | SS_NOTIFY, 
-                         rt, parent, staticId);
+	return CStatic::Create(text, WS_CHILD | WS_VISIBLE | SS_LEFT | SS_NOTIFY,
+						   rt, parent, staticId);
 }
 
 
-void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point) 
+void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CStatic::OnLButtonDown(nFlags, point);
 
-  char *ignored = "";
-  char browserExec[MAX_PATH];
-  char filename[MAX_PATH];
+	char *ignored = "";
+	char browserExec[MAX_PATH];
+	char filename[MAX_PATH];
 
 
 	GetTempPath(MAX_PATH, filename);
-  GetTempFileName(filename, "html", 0, filename);
-  strncat(filename, ".htm", MAX_PATH);
-  filename[MAX_PATH] = '\0';
+	GetTempFileName(filename, "html", 0, filename);
+	strncat(filename, ".htm", MAX_PATH);
+	filename[MAX_PATH] = '\0';
 
-  FILE *fp = fopen(filename, "w");
-  if (NULL == fp) {
-    MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
-    return;
-  }
+	FILE *fp = fopen(filename, "w");
+	if (NULL == fp) {
+		MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
+		return;
+	}
 
-  fputs("<html></html>", fp);
-  fclose(fp);
-  
-  browserExec[0] = '\0';
-  FindExecutable(filename, ignored, browserExec);
-  unlink(filename);
+	fputs("<html></html>", fp);
+	fclose(fp);
 
-  if (strlen(browserExec) <= 0) {
-    MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
+	browserExec[0] = '\0';
+	FindExecutable(filename, ignored, browserExec);
+	_unlink(filename);
 
-  } else {
-      CString url;
+	if (strlen(browserExec) <= 0) {
+		MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
 
-      GetWindowText(url);
+	} else {
+		CString url;
 
-      if ((int)ShellExecute(m_hWnd, "open", browserExec, 
-                       url, ignored, SW_SHOWNORMAL) <= 32) {
-        MessageBox("Unable to open URL", "Browser 'open' Failed", MB_ICONWARNING);
-      }
-  }
+		GetWindowText(url);
+
+		if ((int)ShellExecute(m_hWnd, "open", browserExec,
+							  url, ignored, SW_SHOWNORMAL) <= 32) {
+			MessageBox("Unable to open URL", "Browser 'open' Failed", MB_ICONWARNING);
+		}
+	}
 
 }
