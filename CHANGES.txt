@@ -15,7 +15,7 @@
     dialog or About box open.
   - Added a border around the GPL text in the About box
   - Made the URL in the About box work when clicked on
-  
+
 0.4   April 4, 2001
   - Added alpha blending (Windows 2000 only)
   - cleaned up the options dialog slightly
@@ -27,12 +27,12 @@
 
 
 0.3   May 18, 2000
-  - After discussing with the FSF, updated license to include a special 
+  - After discussing with the FSF, updated license to include a special
     exception for the Visual C++ runtime library
   - Options dialog spelling mistake fixed
   - Prevent multiple instances running at the same time
   - Minor change to the winmon.dll resource extraction code, the actual name
-    "winmon.dll" is used instead of creating a random temporary filename 
+    "winmon.dll" is used instead of creating a random temporary filename
 
 
 0.2   May 12, 2000
@@ -40,16 +40,16 @@
   - fixed taskbar resize/auto-hide/screen_resolution bug
   - some general code cleanup
   - winmon.dll is no longer required.  If it cannot be found winpenguins.exe
-    will extract a copy of winmon.dll from its resources into a temporary file 
+    will extract a copy of winmon.dll from its resources into a temporary file
     and use that instead
   - systray icon is removed when the program terminates
 
 0.1b  May 11, 2000
-  - minor fix so that msimg32.dll is only loaded if it will 
+  - minor fix so that msimg32.dll is only loaded if it will
     actually be used.
 
 0.1a  May 10, 2000
-  - small change to the desktop repainting code 
+  - small change to the desktop repainting code
 
 0.1   May 9, 2000
   - initial revision

@@ -1,0 +1,1 @@
+Copy winpenguins.exe and winmon.dll somewhere and run them.  Howeverwinmon.dll is no longer required, if it cannot be found winpenguins.exewill extract a copy of winmon.dll from it's resources and use that instead.WinPenguins has only been tested on Windows 7 and Vista.However it should work for Windows XP SP3.
