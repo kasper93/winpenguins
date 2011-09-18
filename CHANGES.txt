@@ -1,0 +1,56 @@
+0.6 (April 4, 2005)
+  * Michael Adams (http://www.wolfsheep.com) made the following changes...
+  - Added external WAV file support.
+  - Added additional sounds.
+  - Cleaned up distribution.
+  - Built installer.
+
+0.5 (April 20, 2001)
+  - Alpha blending for Windows 98 (and possibly Window ME but I don't have a
+    Windows ME system to test with)
+  - Screen capture functionality added to system tray.  (thanks to Tom Lee)
+  - Added explosion noise when penguins hit the ground (thanks to Tom Lee)
+  - Santa Penguins added (thanks to Tom Lee)
+  - Fixed crash that occured when you exit WinPenguins with the Options
+    dialog or About box open.
+  - Added a border around the GPL text in the About box
+  - Made the URL in the About box work when clicked on
+  
+0.4   April 4, 2001
+  - Added alpha blending (Windows 2000 only)
+  - cleaned up the options dialog slightly
+  - left clicking on the system tray icon brings up the options dialog
+  - moved the WinPenguins homepage to SourceForge
+  - stop the user from opening multiple option windows at the same time
+  - changed the scale on the Speed option slightly (the slowest speed
+    was too slow to be usable)
+
+
+0.3   May 18, 2000
+  - After discussing with the FSF, updated license to include a special 
+    exception for the Visual C++ runtime library
+  - Options dialog spelling mistake fixed
+  - Prevent multiple instances running at the same time
+  - Minor change to the winmon.dll resource extraction code, the actual name
+    "winmon.dll" is used instead of creating a random temporary filename 
+
+
+0.2   May 12, 2000
+  - fixed jittering "floaters"
+  - fixed taskbar resize/auto-hide/screen_resolution bug
+  - some general code cleanup
+  - winmon.dll is no longer required.  If it cannot be found winpenguins.exe
+    will extract a copy of winmon.dll from its resources into a temporary file 
+    and use that instead
+  - systray icon is removed when the program terminates
+
+0.1b  May 11, 2000
+  - minor fix so that msimg32.dll is only loaded if it will 
+    actually be used.
+
+0.1a  May 10, 2000
+  - small change to the desktop repainting code 
+
+0.1   May 9, 2000
+  - initial revision
+

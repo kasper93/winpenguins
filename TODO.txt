@@ -1,0 +1,1 @@
+- If winmon.dll is loaded from resources, it is not deleted due to an access denied error- Fix desktop window painting glitches- doesn't work with ActiveDesktop enabled

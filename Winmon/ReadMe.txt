@@ -1,0 +1,2 @@
+This DLL is used by winpenguins to monitor all desktop windows for 
+position changes 
