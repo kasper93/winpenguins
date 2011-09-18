@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinPenguins", "Winpenguins.vcxproj", "{97060222-168A-FCE3-2EB4-B492A75639EF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Winmon", "Winmon\Winmon.vcxproj", "{3C5B1773-F9B4-757E-CC16-4505A425D68F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97060222-168A-FCE3-2EB4-B492A75639EF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{97060222-168A-FCE3-2EB4-B492A75639EF}.Debug|Win32.Build.0 = Debug|Win32
+		{97060222-168A-FCE3-2EB4-B492A75639EF}.Release|Win32.ActiveCfg = Release|Win32
+		{97060222-168A-FCE3-2EB4-B492A75639EF}.Release|Win32.Build.0 = Release|Win32
+		{3C5B1773-F9B4-757E-CC16-4505A425D68F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C5B1773-F9B4-757E-CC16-4505A425D68F}.Debug|Win32.Build.0 = Debug|Win32
+		{3C5B1773-F9B4-757E-CC16-4505A425D68F}.Release|Win32.ActiveCfg = Release|Win32
+		{3C5B1773-F9B4-757E-CC16-4505A425D68F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

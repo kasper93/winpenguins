@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,114 +25,53 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_WINPENGUINS_DIALOG DIALOGEX 0, 0, 271, 262
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "WinPenguins Options"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&OK",IDOK,108,241,50,14
-    CONTROL         "Slider1",IDC_PCOUNT,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    WS_TABSTOP,15,21,165,19
+    CONTROL         "Slider1",IDC_PCOUNT,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,21,165,19
     LTEXT           "Number of Penguins",IDC_STATIC,65,10,65,8
     PUSHBUTTON      "&Cancel",IDCANCEL,161,241,50,14
     PUSHBUTTON      "&Apply",IDAPPLY,214,241,50,14,BS_CENTER
-    CONTROL         "Slider1",IDC_SPEED,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    WS_TABSTOP,15,65,165,20
+    CONTROL         "Slider1",IDC_SPEED,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,65,165,20
     LTEXT           "Solo",IDC_STATIC,15,40,15,8
     LTEXT           "Small Army",IDC_STATIC,145,40,35,8
     LTEXT           "Speed",IDC_STATIC,85,55,22,8
     LTEXT           "Hare",IDC_STATIC,164,84,16,8
     LTEXT           "Tortoise",IDC_STATIC,15,84,25,8
-    CONTROL         "Slider1",IDC_SPLAT,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    TBS_VERT | WS_TABSTOP,210,30,25,120
-    CTEXT           "Fall Distance Before Splattering",IDC_STATIC,195,10,60,
-                    20
+    CONTROL         "Slider1",IDC_SPLAT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | WS_TABSTOP,210,30,25,120
+    CTEXT           "Fall Distance Before Splattering",IDC_STATIC,195,10,60,20
     LTEXT           "Never",IDC_STATIC,235,140,25,9
     LTEXT           "Always",IDC_STATIC,235,35,23,8
-    CONTROL         "Slider1",IDC_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    WS_TABSTOP,15,110,165,20
+    CONTROL         "Slider1",IDC_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,110,165,20
     LTEXT           "Alpha Blending",IDC_STATIC,75,100,48,8
     RTEXT           "Solid",IDC_STATIC,155,130,25,9
     LTEXT           "Invisible",IDC_STATIC,15,130,26,8
-    CONTROL         "&Enable Sound",IDC_SOUNDENABLED,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,200,170,61,10
-    CONTROL         "Slider1",IDC_SANTA,"msctls_trackbar32",TBS_AUTOTICKS | 
-                    WS_TABSTOP,15,155,165,20
+    CONTROL         "&Enable Sound",IDC_SOUNDENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,200,170,61,10
+    CONTROL         "Slider1",IDC_SANTA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,15,155,165,20
     LTEXT           "Santa Penguins",IDC_STATIC,75,145,51,8
     RTEXT           "Always",IDC_STATIC,145,175,35,9
     LTEXT           "Never",IDC_STATIC,20,175,20,8
     EDITTEXT        IDC_SOUNDFILENAME,25,207,150,12,ES_AUTOHSCROLL
-    LTEXT           "Alternate ""Boom/Splat"" Sound Filename",IDC_STATIC,35,
-                    193,128,8
+    LTEXT           "Alternate ""Boom/Splat"" Sound Filename",IDC_STATIC,35,193,128,8
     PUSHBUTTON      "&Browse",IDSFBROWSE,190,206,68,12
 END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 297, 206
-STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "About WinPenguins"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     LTEXT           "WinPenguins 0.6",IDC_STATIC,45,10,55,8,SS_NOPREFIX
-    LTEXT           "Copyright (c) 2000,2001,2005  Michael Vines",IDC_STATIC,
-                    45,20,142,8
+    LTEXT           "Copyright (c) 2000,2001,2005  Michael Vines",IDC_STATIC,45,20,142,8
     DEFPUSHBUTTON   "OK",IDOK,240,185,50,14,WS_GROUP
-    LTEXT           "WinPenguins is based on xpenguins 1.1",IDC_STATIC,90,
-                    170,127,8
-    EDITTEXT        IDC_GPL,45,45,245,120,ES_MULTILINE | ES_AUTOVSCROLL | 
-                    ES_READONLY | NOT WS_BORDER | WS_VSCROLL,
-                    WS_EX_CLIENTEDGE
-    LTEXT           "http://winpenguins.sourceforge.net/",IDC_STATIC_URL,45,
-                    30,159,10
+    LTEXT           "WinPenguins is based on xpenguins 1.1",IDC_STATIC,90,170,127,8
+    EDITTEXT        IDC_GPL,45,45,245,120,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL,WS_EX_CLIENTEDGE
+    LTEXT           "http://winpenguins.sourceforge.net/",IDC_STATIC_URL,45,30,159,10
     ICON            IDR_ICON,IDC_STATIC,10,10,20,20
 END
-
-
-#ifndef _MAC
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,6
- PRODUCTVERSION 1,0,0,6
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904b0"
-        BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "WinPenguins\0"
-            VALUE "FileVersion", "1, 0, 0, 6\0"
-            VALUE "InternalName", "winpenguins\0"
-            VALUE "LegalCopyright", "Copyright (C) 2000-2005  Michael Vines\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "winpenguins.EXE\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "WinPenguins\0"
-            VALUE "ProductVersion", "1, 0, 0, 6\0"
-            VALUE "SpecialBuild", "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1200
-    END
-END
-
-#endif    // !_MAC
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -143,7 +80,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_WINPENGUINS_DIALOG, DIALOG
     BEGIN
@@ -170,26 +107,16 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDB_SANTA_WALKER        BITMAP  DISCARDABLE     "res\\SantaWalker.bmp"
-IDB_SANTA_WALKERMSK     BITMAP  DISCARDABLE     "res\\SantaWalkerMask.bmp"
-IDB_SANTA_CLIMBER       BITMAP  DISCARDABLE     "res\\SantaClimber.bmp"
-IDB_SANTA_CLIMBERMSK    BITMAP  DISCARDABLE     "res\\SantaClimberMask.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_ABOUTBOX            "&About WinPenguins..."
     IDS_GPL                 "This program is free software; you can redistribute it and/or modify\r\nit under the terms of the GNU General Public License as published by\r\nthe Free Software Foundation; either version 2 of the License, or\r\n(at your option) any later version.\r\n\r\nThis program is distributed in the hope that it will be useful,\r\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\r\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\nSee the GNU General Public License for more details.\r\n\r\nYou should have received a copy of the GNU General Public License\r\nalong with this program; if not, write to the Free Software\r\nFoundation, Inc., 59 Temple Place, Suite 330,\r\nBoston, MA  02111-1307  USA\r\n\r\nAs a special exception, Michael Vines gives permission to link this\r\nprogram with the Microsoft Visual C++ Runtime/MFC Environment,\r\nand distribute the resulting executable, without including the\r\nsource code for the Microsoft Visual C++ Runtime/MFC Environment\r\nin the source distribution"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -197,30 +124,8 @@ END
 // English (Canada) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 #pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_EXPLOSION           BITMAP  DISCARDABLE     "res\\explosion.bmp"
-IDB_WALKER              BITMAP  DISCARDABLE     "res\\walker.bmp"
-IDB_CLIMBER             BITMAP  DISCARDABLE     "res\\climber.bmp"
-IDB_FALLER              BITMAP  DISCARDABLE     "res\\faller.bmp"
-IDB_FLOATER             BITMAP  DISCARDABLE     "res\\floater.bmp"
-IDB_TUMBLER             BITMAP  DISCARDABLE     "res\\tumbler.bmp"
-IDB_BOMBER              BITMAP  DISCARDABLE     "res\\bomber.bmp"
-IDB_BOMBERMSK           BITMAP  DISCARDABLE     "RES\\BomberMask.bmp"
-IDB_CLIMBERMSK          BITMAP  DISCARDABLE     "RES\\ClimberMask.bmp"
-IDB_EXPLOSIONMSK        BITMAP  DISCARDABLE     "RES\\explosionMask.bmp"
-IDB_FALLERMSK           BITMAP  DISCARDABLE     "RES\\FallerMask.bmp"
-IDB_FLOATERMSK          BITMAP  DISCARDABLE     "RES\\FloaterMask.bmp"
-IDB_TUMBLERMSK          BITMAP  DISCARDABLE     "RES\\TumblerMask.bmp"
-IDB_WALKERMSK           BITMAP  DISCARDABLE     "RES\\WalkerMask.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -228,18 +133,18 @@ IDB_WALKERMSK           BITMAP  DISCARDABLE     "RES\\WalkerMask.bmp"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -262,19 +167,10 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDR_ICON                ICON    DISCARDABLE     "res\\winpenguins.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Menu
 //
 
-IDR_SYSTRAY MENU DISCARDABLE 
+IDR_SYSTRAY MENU
 BEGIN
     POPUP "Systray"
     BEGIN
@@ -285,37 +181,6 @@ BEGIN
         MENUITEM "Exit",                        ID_EXIT
     END
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// BINARY
-//
-
-#if defined(APSTUDIO_INVOKED) || defined(_DEBUG)
-#if defined(APSTUDIO_INVOKED)
-IDR_WINMONDLL$(_DEBUG)  BINARY  DISCARDABLE     "Debug\\winmon.dll"
-#else
-IDR_WINMONDLL           BINARY  DISCARDABLE     "Debug\\winmon.dll"
-#endif
-#endif
-#if defined(APSTUDIO_INVOKED) || defined(NDEBUG)
-#if defined(APSTUDIO_INVOKED)
-IDR_WINMONDLL$(NDEBUG)  BINARY  DISCARDABLE     "Release\\winmon.dll"
-#else
-IDR_WINMONDLL           BINARY  DISCARDABLE     "Release\\winmon.dll"
-#endif
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// WAVE
-//
-
-IDR_SOUND_BOOM          WAVE    DISCARDABLE     "res\\boom.wav"
-#endif    // English (Canada) resources
-/////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED

@@ -8,6 +8,110 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Add manually edited resources here...
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,6
+ PRODUCTVERSION 1,0,0,6
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "WinPenguins"
+            VALUE "FileVersion", "1, 0, 0, 6"
+            VALUE "InternalName", "WinPenguins"
+            VALUE "LegalCopyright", "Copyright (C) 2000-2005  Michael Vines"
+            VALUE "OriginalFilename", "WinPenguins.exe"
+            VALUE "ProductName", "WinPenguins"
+            VALUE "ProductVersion", "1, 0, 0, 6"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_ICON                ICON                    "res\\winpenguins.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SANTA_WALKER        BITMAP                  "res\\SantaWalker.bmp"
+IDB_SANTA_WALKERMSK     BITMAP                  "res\\SantaWalkerMask.bmp"
+IDB_SANTA_CLIMBER       BITMAP                  "res\\SantaClimber.bmp"
+IDB_SANTA_CLIMBERMSK    BITMAP                  "res\\SantaClimberMask.bmp"
+IDB_EXPLOSION           BITMAP                  "res\\explosion.bmp"
+IDB_WALKER              BITMAP                  "res\\walker.bmp"
+IDB_CLIMBER             BITMAP                  "res\\climber.bmp"
+IDB_FALLER              BITMAP                  "res\\faller.bmp"
+IDB_FLOATER             BITMAP                  "res\\floater.bmp"
+IDB_TUMBLER             BITMAP                  "res\\tumbler.bmp"
+IDB_BOMBER              BITMAP                  "res\\bomber.bmp"
+IDB_BOMBERMSK           BITMAP                  "RES\\BomberMask.bmp"
+IDB_CLIMBERMSK          BITMAP                  "RES\\ClimberMask.bmp"
+IDB_EXPLOSIONMSK        BITMAP                  "RES\\explosionMask.bmp"
+IDB_FALLERMSK           BITMAP                  "RES\\FallerMask.bmp"
+IDB_FLOATERMSK          BITMAP                  "RES\\FloaterMask.bmp"
+IDB_TUMBLERMSK          BITMAP                  "RES\\TumblerMask.bmp"
+IDB_WALKERMSK           BITMAP                  "RES\\WalkerMask.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BINARY
+//
+
+#if defined(APSTUDIO_INVOKED) || defined(_DEBUG)
+#if defined(APSTUDIO_INVOKED)
+IDR_WINMONDLL$(_DEBUG)  BINARY                  "Winmon\\Debug\\winmon.dll"
+#else
+IDR_WINMONDLL           BINARY                  "Winmon\\Debug\\winmon.dll"
+#endif
+#endif
+#if defined(APSTUDIO_INVOKED) || defined(NDEBUG)
+#if defined(APSTUDIO_INVOKED)
+IDR_WINMONDLL$(NDEBUG)  BINARY                  "Winmon\\Release\\winmon.dll"
+#else
+IDR_WINMONDLL           BINARY                  "Winmon\\Release\\winmon.dll"
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDR_SOUND_BOOM          WAVE                    "res\\boom.wav"
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+IDR_RT_MANIFEST         RT_MANIFEST             "res\\WinPenguins.exe.manifest"
