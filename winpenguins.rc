@@ -17,7 +17,40 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#include ""res\\winpenguins.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -70,7 +103,7 @@ BEGIN
     LTEXT           "WinPenguins is based on xpenguins 1.1",IDC_STATIC,90,170,127,8
     EDITTEXT        IDC_GPL,45,45,245,120,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL,WS_EX_CLIENTEDGE
     LTEXT           "http://winpenguins.sourceforge.net/",IDC_STATIC_URL,45,30,159,10
-    ICON            IDR_ICON,IDC_STATIC,10,10,20,20
+    ICON            128,IDC_STATIC,10,10,20,20
 END
 
 
@@ -107,66 +140,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// String Table
-//
-
-STRINGTABLE
-BEGIN
-    IDS_ABOUTBOX            "&About WinPenguins..."
-    IDS_GPL                 "This program is free software; you can redistribute it and/or modify\r\nit under the terms of the GNU General Public License as published by\r\nthe Free Software Foundation; either version 2 of the License, or\r\n(at your option) any later version.\r\n\r\nThis program is distributed in the hope that it will be useful,\r\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\r\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\nSee the GNU General Public License for more details.\r\n\r\nYou should have received a copy of the GNU General Public License\r\nalong with this program; if not, write to the Free Software\r\nFoundation, Inc., 59 Temple Place, Suite 330,\r\nBoston, MA  02111-1307  USA\r\n\r\nAs a special exception, Michael Vines gives permission to link this\r\nprogram with the Microsoft Visual C++ Runtime/MFC Environment,\r\nand distribute the resulting executable, without including the\r\nsource code for the Microsoft Visual C++ Runtime/MFC Environment\r\nin the source distribution"
-END
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (Canada) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
-#pragma code_page(1252)
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
-    "#define _AFX_NO_OLE_RESOURCES\r\n"
-    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
-    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
-    "\r\n"
-    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
-    "#ifdef _WIN32\r\n"
-    "LANGUAGE 9, 1\r\n"
-    "#pragma code_page(1252)\r\n"
-    "#endif //_WIN32\r\n"
-    "#include ""res\\winpenguins.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#include ""afxres.rc""         // Standard components\r\n"
-    "#endif\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Menu
 //
 
@@ -183,6 +156,22 @@ BEGIN
 END
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About WinPenguins..."
+    IDS_GPL                 "This program is free software; you can redistribute it and/or modify\r\nit under the terms of the GNU General Public License as published by\r\nthe Free Software Foundation; either version 2 of the License, or\r\n(at your option) any later version.\r\n\r\nThis program is distributed in the hope that it will be useful,\r\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\r\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\nSee the GNU General Public License for more details.\r\n\r\nYou should have received a copy of the GNU General Public License\r\nalong with this program; if not, write to the Free Software\r\nFoundation, Inc., 59 Temple Place, Suite 330,\r\nBoston, MA  02111-1307  USA\r\n\r\nAs a special exception, Michael Vines gives permission to link this\r\nprogram with the Microsoft Visual C++ Runtime/MFC Environment,\r\nand distribute the resulting executable, without including the\r\nsource code for the Microsoft Visual C++ Runtime/MFC Environment\r\nin the source distribution"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -194,14 +183,11 @@ END
 #define _AFX_NO_PROPERTY_RESOURCES
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#endif //_WIN32
+#include "afxres.rc"     // Standard components
 #include "res\winpenguins.rc2"  // non-Microsoft Visual C++ edited resources
-#include "afxres.rc"         // Standard components
 #endif
-
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+//#endif    // not APSTUDIO_INVOKED
 
