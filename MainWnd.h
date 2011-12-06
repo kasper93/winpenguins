@@ -23,9 +23,6 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#if !defined(AFX_MAINWND_H__A5A421E7_D255_40F8_8E29_9C2DD2A83624__INCLUDED_)
-#define AFX_MAINWND_H__A5A421E7_D255_40F8_8E29_9C2DD2A83624__INCLUDED_
-
 #pragma once
 
 // MainWnd.h : header file
@@ -128,10 +125,3 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_MAINWND_H__A5A421E7_D255_40F8_8E29_9C2DD2A83624__INCLUDED_)

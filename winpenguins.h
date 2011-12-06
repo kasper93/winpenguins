@@ -23,9 +23,6 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#if !defined(AFX_WINPENGUINS_H__9EE34D44_6D41_4245_B2B2_08F6FAFBCCCA__INCLUDED_)
-#define AFX_WINPENGUINS_H__9EE34D44_6D41_4245_B2B2_08F6FAFBCCCA__INCLUDED_
-
 #pragma once
 
 #ifndef __AFXWIN_H__
@@ -60,11 +57,3 @@ public:
 
 
 extern CWinpenguinsApp theApp;
-
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_WINPENGUINS_H__9EE34D44_6D41_4245_B2B2_08F6FAFBCCCA__INCLUDED_)

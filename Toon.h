@@ -26,9 +26,6 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#if !defined(AFX_TOON_H__7339F5A5_53B0_4448_8C93_420E8E3B5FEC__INCLUDED_)
-#define AFX_TOON_H__7339F5A5_53B0_4448_8C93_420E8E3B5FEC__INCLUDED_
-
 #pragma once
 // Toon.h : header file
 //
@@ -128,10 +125,3 @@ protected:
 	//}}AFX_MSG
 	//	DECLARE_MESSAGE_MAP()
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_TOON_H__7339F5A5_53B0_4448_8C93_420E8E3B5FEC__INCLUDED_)

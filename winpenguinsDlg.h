@@ -23,9 +23,6 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#if !defined(AFX_WINPENGUINSDLG_H__9A375BB6_4AD9_4221_9C06_B83B6BF7DDA8__INCLUDED_)
-#define AFX_WINPENGUINSDLG_H__9A375BB6_4AD9_4221_9C06_B83B6BF7DDA8__INCLUDED_
-
 #pragma once
 
 
@@ -108,8 +105,3 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_WINPENGUINSDLG_H__9A375BB6_4AD9_4221_9C06_B83B6BF7DDA8__INCLUDED_)

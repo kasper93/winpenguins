@@ -23,9 +23,6 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#if !defined(AFX_URLSTATIC_H__7E240B89_C265_4298_87CF_4FB6D8FB612B__INCLUDED_)
-#define AFX_URLSTATIC_H__7E240B89_C265_4298_87CF_4FB6D8FB612B__INCLUDED_
-
 #pragma once
 // UrlStatic.h : header file
 //
@@ -67,10 +64,3 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_URLSTATIC_H__7E240B89_C265_4298_87CF_4FB6D8FB612B__INCLUDED_)
