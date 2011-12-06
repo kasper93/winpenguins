@@ -7,7 +7,7 @@
 !define VERSION            "${VERSION_MAJOR}.${VERSION_MINOR}"
 !define VERSION_FULL       "${VERSION_MAJOR}.${VERSION_MINOR}.0.0"
 !define PRODUCT_WEB_SITE   "http://WinPenguins.sourceforge.net"
-!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}64"
 !define PUBLISHER          "Michael Vines"
 
 !include "MUI2.nsh"
@@ -50,8 +50,8 @@ VIAddVersionKey "LegalCopyright"   "${PUBLISHER}"
 VIAddVersionKey "OriginalFilename" "${PRODUCT_NAME}_${VERSION}_setup.exe"
 
 Name "${PRODUCT_NAME} ${VERSION}"
-OutFile "${PRODUCT_NAME}_${VERSION}_setup.exe"
-InstallDir "$PROGRAMFILES\WinPenguins"
+OutFile "${PRODUCT_NAME}_${VERSION}_x64_setup.exe"
+InstallDir "$PROGRAMFILES64\WinPenguins"
 ShowInstDetails show
 ShowUnInstDetails show
 
@@ -60,8 +60,8 @@ RequestExecutionLevel admin
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite on
-  File "Release\Win32\WinPenguins.exe"
-  File "Winmon\Release\Win32\Winmon.dll"
+  File "Release\x64\WinPenguins.exe"
+  File "Winmon\Release\x64\Winmon.dll"
   File "CHANGES.txt"
   File "COPYING.txt"
   File "README.txt"
@@ -82,7 +82,7 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayName"      "${PRODUCT_NAME} ${VERSION}"
+  WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayName"      "${PRODUCT_NAME} ${VERSION} (64bit)"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "UninstallString"  "$INSTDIR\uninst.exe"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayIcon"      "$INSTDIR\WinPenguins.exe"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayVersion"   "${VERSION}"

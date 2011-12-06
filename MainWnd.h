@@ -120,7 +120,7 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg LRESULT OnSysTray(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose();
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnAbout();
 	afx_msg void OnExit();
 	afx_msg void OnOptions();

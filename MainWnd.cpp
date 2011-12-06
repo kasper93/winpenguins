@@ -400,7 +400,7 @@ void CMainWnd::OnClose()
 }
 
 
-void CMainWnd::OnTimer(UINT nIDEvent)
+void CMainWnd::OnTimer(UINT_PTR nIDEvent)
 {
 	switch (nIDEvent) {
 		case 0:
