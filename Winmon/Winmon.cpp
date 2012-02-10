@@ -24,7 +24,7 @@
  */
 
 #include "stdafx.h"
-#include "winmon.h"
+#include "Winmon.h"
 #include <assert.h>
 #include <stdio.h>
 

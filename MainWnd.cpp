@@ -49,7 +49,7 @@ void (WINAPI *alphablend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION)
 /////////////////////////////////////////////////////////////////////////////
 // Locals used by CMainWnd
 
-#include "winmon/winmon_ptr.h"
+#include "Winmon/winmon_ptr.h"
 
 static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM lParam)
 {
@@ -209,7 +209,7 @@ CMainWnd::CMainWnd()
 	// winpenguins executable without worrying about the additional DLL
 
 	winmonFileName[0] = '\0';
-	//winmon = ::LoadLibrary("winmon.dll");
+	//winmon = ::LoadLibrary("Winmon.dll");
 	winmon = NULL;
 	if (NULL == winmon) {
 		HRSRC hRes;
@@ -224,16 +224,16 @@ CMainWnd::CMainWnd()
 
 		winmonPtr = ::LockResource(hGlobal);
 		if (NULL == winmonPtr) {
-			MessageBox("Unable to load 'winmon.dll'", "Error", MB_ICONERROR);
+			MessageBox("Unable to load 'Winmon.dll'", "Error", MB_ICONERROR);
 			ExitProcess(0);
 		}
 		winmonSize = ::SizeofResource(NULL, hRes);
 
 		GetTempPath(MAX_PATH, winmonFileName);
-		strncat(winmonFileName, "winmon.dll", MAX_PATH);
+		strncat(winmonFileName, "Winmon.dll", MAX_PATH);
 		winmonFileName[MAX_PATH] = '\0';
 
-		// write winmon.dll and load it
+		// write Winmon.dll and load it
 		HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, NULL,
 								  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, NULL);
@@ -241,7 +241,7 @@ CMainWnd::CMainWnd()
 		winmon = ::LoadLibrary(winmonFileName);
 
 		if (NULL == winmon) {
-			MessageBox("Unable to load 'winmon.dll'", "Error", MB_ICONERROR);
+			MessageBox("Unable to load 'Winmon.dll'", "Error", MB_ICONERROR);
 			::ExitProcess(0);
 		}
 	}
@@ -666,7 +666,7 @@ void CMainWnd::OnTimer(UINT_PTR nIDEvent)
 			tmpDC.DeleteDC();
 
 			if (deadToons) {
-				for (int i = toonList.GetSize()-1; i >= 0; i--) {
+				for (int i = (int)toonList.GetSize()-1; i >= 0; i--) {
 					if (!toonList[i]->m_active) {
 						toonList.RemoveAt(i);
 					}
@@ -796,7 +796,7 @@ void CMainWnd::OnOptions()
 
 void CMainWnd::SetToonCountTo(int count)
 {
-	for (int i = count - toonList.GetSize(); i > 0; i--) {
+	for (int i = count - (int)toonList.GetSize(); i > 0; i--) {
 		CToon *toon = new CToon();
 		toonList.Add(toon);
 	}

@@ -82,7 +82,7 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayName"      "${PRODUCT_NAME} ${VERSION} (64bit)"
+  WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayName"      "${PRODUCT_NAME} ${VERSION} (64-bit)"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "UninstallString"  "$INSTDIR\uninst.exe"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayIcon"      "$INSTDIR\WinPenguins.exe"
   WriteRegStr HKLM "${PRODUCT_UNINST_KEY}" "DisplayVersion"   "${VERSION}"

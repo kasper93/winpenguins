@@ -191,7 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="winmon.h" />
+    <ClInclude Include="Winmon.h" />
     <ClInclude Include="winmon_ptr.h" />
   </ItemGroup>
   <ItemGroup>

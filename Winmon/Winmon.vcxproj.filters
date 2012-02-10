@@ -26,7 +26,7 @@
     <ClInclude Include="StdAfx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="winmon.h">
+    <ClInclude Include="Winmon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="winmon_ptr.h">
