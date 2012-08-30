@@ -1,0 +1,12 @@
+/*.aps
+/*.opensdf
+/*.sdf
+/*.suo
+/*.user
+/Debug
+/ipch
+/Release
+/Winmon/*.user
+/Winmon/Debug
+/Winmon/Release
+/WinPenguins*.exe
