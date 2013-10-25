@@ -154,8 +154,6 @@ CMainWnd::CMainWnd()
 		::ExitProcess(0);  	// Exit quitely if the mutex already exists
 	}
 
-	time_t srand(time(NULL));
-
 	// Find the desktop window
 	//   this is kindof kludgy and I'm not sure if it'll work in all cases!
 	CWnd *progMan = CWnd::FindWindow(L"Progman", L"Program Manager");
