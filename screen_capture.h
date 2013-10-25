@@ -33,37 +33,36 @@ extern "C"
 {
 #endif
 
-	typedef struct _tagRECTCAPINFO
-	{
-		HDC hDisplayDC;
-		HDC hImageDC;
-		HANDLE hImage;
-		int nCapX;
-		int nCapY;
-		int nCapWidth;
-		int nCapHeight;
-		DWORD dwBPP;
-		DWORD dwNumColors;
-		LPVOID pBits;
+typedef struct _tagRECTCAPINFO {
+    HDC hDisplayDC;
+    HDC hImageDC;
+    HANDLE hImage;
+    int nCapX;
+    int nCapY;
+    int nCapWidth;
+    int nCapHeight;
+    DWORD dwBPP;
+    DWORD dwNumColors;
+    LPVOID pBits;
 
-	} RECTCAPINFO, FAR *LPRECTCAPINFO;
+} RECTCAPINFO, FAR* LPRECTCAPINFO;
 
-	// low level functions
-	int __cdecl CreateDisplayDC( LPRECTCAPINFO lpCapInfo );
-	void __cdecl AdjustCaptureRect( LPRECTCAPINFO lpCapInfo, int x, int y, int nWidth, int nHeight );
-	int __cdecl CreateSuitableDIB( LPRECTCAPINFO lpCapInfo );
-	int __cdecl PerformBitBlockTransfer( LPRECTCAPINFO lpCapInfo );
+// low level functions
+int __cdecl CreateDisplayDC(LPRECTCAPINFO lpCapInfo);
+void __cdecl AdjustCaptureRect(LPRECTCAPINFO lpCapInfo, int x, int y, int nWidth, int nHeight);
+int __cdecl CreateSuitableDIB(LPRECTCAPINFO lpCapInfo);
+int __cdecl PerformBitBlockTransfer(LPRECTCAPINFO lpCapInfo);
 
-	// high level functions
-	int __cdecl FullScreenCapture( LPRECTCAPINFO lpCapInfo );
-	int __cdecl CaptureScreenRect( LPRECTCAPINFO lpCapInfo, LPRECT lpBounds );
-	int __cdecl CaptureWindow( LPRECTCAPINFO lpCapInfo, HWND hWnd );
+// high level functions
+int __cdecl FullScreenCapture(LPRECTCAPINFO lpCapInfo);
+int __cdecl CaptureScreenRect(LPRECTCAPINFO lpCapInfo, LPRECT lpBounds);
+int __cdecl CaptureWindow(LPRECTCAPINFO lpCapInfo, HWND hWnd);
 
-	// cleanup functions
-	int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem );
+// cleanup functions
+int __cdecl ResetCaptureInfo(LPRECTCAPINFO lpCapInfo, BOOL bCheckMem);
 
-	// file i/o functions
-	int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const TCHAR *pszFileName );
+// file i/o functions
+int __cdecl SaveCaptureToFile(LPRECTCAPINFO lpCapInfo, const TCHAR* pszFileName);
 
 #ifdef __cplusplus
 };

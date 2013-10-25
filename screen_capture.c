@@ -19,7 +19,7 @@
  *
  *  As a special exception, Michael Vines gives permission to link this program
  *  with the Microsoft Visual C++ Runtime/MFC Environment, and distribute the
- *  resulting executable, without including the source code for the Microsoft 
+ *  resulting executable, without including the source code for the Microsoft
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 #include "screen_capture.h"
@@ -30,50 +30,45 @@
 //
 // + Description: Creates a DC associated with the Display
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: A reset 
-//					 capture info structure
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: A reset
+//                   capture info structure
 //
 // + Return Type: int
 //
-// + Returns:     
-//				  -> -1: Display DC has already been created in
-//						 this LPRECTCAPINFO
-//				  -> -2: Unable to create new Display DC
-//				  -> 0:  Display DC successfully created
+// + Returns:
+//                -> -1: Display DC has already been created in
+//                       this LPRECTCAPINFO
+//                -> -2: Unable to create new Display DC
+//                -> 0:  Display DC successfully created
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl CreateDisplayDC( LPRECTCAPINFO lpCapInfo )
+int __cdecl CreateDisplayDC(LPRECTCAPINFO lpCapInfo)
 {
-	if( lpCapInfo->hDisplayDC != NULL )
-	{
-		return -1;
-	}
+    if (lpCapInfo->hDisplayDC != NULL) {
+        return -1;
+    }
 
-	lpCapInfo->hDisplayDC = CreateDC( L"DISPLAY", NULL, NULL, NULL );
+    lpCapInfo->hDisplayDC = CreateDC(L"DISPLAY", NULL, NULL, NULL);
 
-	if( lpCapInfo->hDisplayDC == NULL )
-	{
-		return -2;
-	}
+    if (lpCapInfo->hDisplayDC == NULL) {
+        return -2;
+    }
 
-	lpCapInfo->dwBPP = GetDeviceCaps( lpCapInfo->hDisplayDC, BITSPIXEL );
+    lpCapInfo->dwBPP = GetDeviceCaps(lpCapInfo->hDisplayDC, BITSPIXEL);
 
-	if( lpCapInfo->dwBPP <= 8 )
-	{
-		lpCapInfo->dwNumColors = GetDeviceCaps( lpCapInfo->hDisplayDC, NUMCOLORS );
-	}
-	else
-	{
-		lpCapInfo->dwNumColors = 0;
-	}
+    if (lpCapInfo->dwBPP <= 8) {
+        lpCapInfo->dwNumColors = GetDeviceCaps(lpCapInfo->hDisplayDC, NUMCOLORS);
+    } else {
+        lpCapInfo->dwNumColors = 0;
+    }
 
-	return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -82,28 +77,28 @@ int __cdecl CreateDisplayDC( LPRECTCAPINFO lpCapInfo )
 //
 // + Description: Adjusts the rectangle to capture
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: The LPRECTCAPINFO
-//					 whose coordinates are to be adjusted
-//				  -> int x, y, nWidth, nHeight: Position & size
-//					 of the capture rectangle
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: The LPRECTCAPINFO
+//                   whose coordinates are to be adjusted
+//                -> int x, y, nWidth, nHeight: Position & size
+//                   of the capture rectangle
 //
 // + Return Type: void
 //
 // + Returns:     None
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-void __cdecl AdjustCaptureRect( LPRECTCAPINFO lpCapInfo, int x, int y, int nWidth, int nHeight )
+void __cdecl AdjustCaptureRect(LPRECTCAPINFO lpCapInfo, int x, int y, int nWidth, int nHeight)
 {
-	lpCapInfo->nCapX = x;
-	lpCapInfo->nCapY = y;
-	lpCapInfo->nCapWidth = nWidth;
-	lpCapInfo->nCapHeight = nHeight;
+    lpCapInfo->nCapX = x;
+    lpCapInfo->nCapY = y;
+    lpCapInfo->nCapWidth = nWidth;
+    lpCapInfo->nCapHeight = nHeight;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -111,71 +106,66 @@ void __cdecl AdjustCaptureRect( LPRECTCAPINFO lpCapInfo, int x, int y, int nWidt
 // + Method:      CreateSuitableDIB
 //
 // + Description: Creates a DIB and a DC to be associated with it.
-//				  These are used together to save the copy of the
-//				  screen to memory.
+//                These are used together to save the copy of the
+//                screen to memory.
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: Capture info that's
-//					 had CreateDisplayDC and AdjustCaptureRect
-//					 perform the necessary operations.
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: Capture info that's
+//                   had CreateDisplayDC and AdjustCaptureRect
+//                   perform the necessary operations.
 //
 // + Return Type: int
 //
-// + Returns:     
-//				  -1: hImage or hImageDC has already been created
-//				  -2: Unable to create the DIB
-//				  -3: Unable to create the DIB's DC
-//				  0: Created both the new DIB and DC
+// + Returns:
+//                -1: hImage or hImageDC has already been created
+//                -2: Unable to create the DIB
+//                -3: Unable to create the DIB's DC
+//                0: Created both the new DIB and DC
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl CreateSuitableDIB( LPRECTCAPINFO lpCapInfo )
+int __cdecl CreateSuitableDIB(LPRECTCAPINFO lpCapInfo)
 {
-	BITMAPINFO bi;
-	BITMAPINFOHEADER *hdr;
-	
-	if( lpCapInfo->hImage != 0 || lpCapInfo->hImageDC != 0 )
-	{
-		return -1;
-	}
+    BITMAPINFO bi;
+    BITMAPINFOHEADER* hdr;
 
-	hdr = &bi.bmiHeader;
+    if (lpCapInfo->hImage != 0 || lpCapInfo->hImageDC != 0) {
+        return -1;
+    }
 
-	hdr->biSize				= sizeof( BITMAPINFOHEADER );
-	hdr->biBitCount			= (WORD)lpCapInfo->dwBPP;
-	hdr->biClrImportant		= lpCapInfo->dwNumColors;
-	hdr->biClrUsed			= lpCapInfo->dwNumColors;
-	hdr->biCompression		= BI_RGB;
-	hdr->biPlanes			= 1;
-	hdr->biWidth			= lpCapInfo->nCapWidth;
-	hdr->biHeight			= lpCapInfo->nCapHeight;
-	hdr->biXPelsPerMeter	= 0;
-	hdr->biYPelsPerMeter	= 0;
-	hdr->biSizeImage		= 0;
+    hdr = &bi.bmiHeader;
 
-	lpCapInfo->hImage = CreateDIBSection( lpCapInfo->hDisplayDC, &bi, DIB_PAL_COLORS, &lpCapInfo->pBits, NULL, 0 );
+    hdr->biSize             = sizeof(BITMAPINFOHEADER);
+    hdr->biBitCount         = (WORD)lpCapInfo->dwBPP;
+    hdr->biClrImportant     = lpCapInfo->dwNumColors;
+    hdr->biClrUsed          = lpCapInfo->dwNumColors;
+    hdr->biCompression      = BI_RGB;
+    hdr->biPlanes           = 1;
+    hdr->biWidth            = lpCapInfo->nCapWidth;
+    hdr->biHeight           = lpCapInfo->nCapHeight;
+    hdr->biXPelsPerMeter    = 0;
+    hdr->biYPelsPerMeter    = 0;
+    hdr->biSizeImage        = 0;
 
-	if( lpCapInfo->hImage == NULL )
-	{
-		return -2;
-	}
+    lpCapInfo->hImage = CreateDIBSection(lpCapInfo->hDisplayDC, &bi, DIB_PAL_COLORS, &lpCapInfo->pBits, NULL, 0);
 
-	lpCapInfo->hImageDC = CreateCompatibleDC( lpCapInfo->hDisplayDC );
+    if (lpCapInfo->hImage == NULL) {
+        return -2;
+    }
 
-	if( lpCapInfo->hImageDC == NULL )
-	{
-		DeleteObject( lpCapInfo->hImage );
-		return -3;
-	}
-	else
-	{
-		SelectObject( lpCapInfo->hImageDC, lpCapInfo->hImage );
-		return 0;
-	}
+    lpCapInfo->hImageDC = CreateCompatibleDC(lpCapInfo->hDisplayDC);
+
+    if (lpCapInfo->hImageDC == NULL) {
+        DeleteObject(lpCapInfo->hImage);
+        return -3;
+    } else {
+        SelectObject(lpCapInfo->hImageDC, lpCapInfo->hImage);
+        return 0;
+    }
 }
 
 ////////////////////////////////////////////////////////////////
@@ -184,39 +174,35 @@ int __cdecl CreateSuitableDIB( LPRECTCAPINFO lpCapInfo )
 //
 // + Description: A fancy way of saying BitBlt :)
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: A pointer to a 
-//					 RECTCAPINFO structure that's had the hDisplayDC,
-//					 hImage, hImageDC, x, y, nWidth, nHeight members set.
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: A pointer to a
+//                   RECTCAPINFO structure that's had the hDisplayDC,
+//                   hImage, hImageDC, x, y, nWidth, nHeight members set.
 //
 // + Return Type: int
 //
-// + Returns:     
-//				  -> -1: hImageDC or hDisplayDC is NULL
-//				  -> -2: BitBlt failed
-//				  -> 0: Copied the image to hImage
+// + Returns:
+//                -> -1: hImageDC or hDisplayDC is NULL
+//                -> -2: BitBlt failed
+//                -> 0: Copied the image to hImage
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl PerformBitBlockTransfer( LPRECTCAPINFO lpCapInfo )
+int __cdecl PerformBitBlockTransfer(LPRECTCAPINFO lpCapInfo)
 {
-	if( lpCapInfo->hImageDC == NULL || lpCapInfo->hDisplayDC == NULL )
-	{
-		return -1;
-	}
+    if (lpCapInfo->hImageDC == NULL || lpCapInfo->hDisplayDC == NULL) {
+        return -1;
+    }
 
-	if( !BitBlt( lpCapInfo->hImageDC, 0, 0, lpCapInfo->nCapWidth, lpCapInfo->nCapHeight, lpCapInfo->hDisplayDC, lpCapInfo->nCapX, lpCapInfo->nCapY, SRCCOPY ) )
-	{
-		return -2;
-	}
-	else
-	{
-		return 0;
-	}
+    if (!BitBlt(lpCapInfo->hImageDC, 0, 0, lpCapInfo->nCapWidth, lpCapInfo->nCapHeight, lpCapInfo->hDisplayDC, lpCapInfo->nCapX, lpCapInfo->nCapY, SRCCOPY)) {
+        return -2;
+    } else {
+        return 0;
+    }
 }
 
 ////////////////////////////////////////////////////////////////
@@ -224,50 +210,47 @@ int __cdecl PerformBitBlockTransfer( LPRECTCAPINFO lpCapInfo )
 // + Method:      FullScreenCapture
 //
 // + Description: Captures the entire display and saves all
-//				  recorded info into lpCapInfo
+//                recorded info into lpCapInfo
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: receives info about
-//					 the capture.
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: receives info about
+//                   the capture.
 //
 // + Return Type: int
 //
-// + Returns:     
-//				  -> -1: Couldn't create display DC
-//				  -> -2: Couldn't create suitable DIB
-//				  -> -3: BitBlt failed
-//				  -> 0: Screen sucessfully captured
+// + Returns:
+//                -> -1: Couldn't create display DC
+//                -> -2: Couldn't create suitable DIB
+//                -> -3: BitBlt failed
+//                -> 0: Screen sucessfully captured
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl FullScreenCapture( LPRECTCAPINFO lpCapInfo )
+int __cdecl FullScreenCapture(LPRECTCAPINFO lpCapInfo)
 {
-	ResetCaptureInfo( lpCapInfo, FALSE );
+    ResetCaptureInfo(lpCapInfo, FALSE);
 
-	if( CreateDisplayDC( lpCapInfo ) != 0 )
-	{
-		return -1;
-	}
+    if (CreateDisplayDC(lpCapInfo) != 0) {
+        return -1;
+    }
 
-	AdjustCaptureRect( lpCapInfo, 0, 0, GetDeviceCaps( lpCapInfo->hDisplayDC, HORZRES ), GetDeviceCaps( lpCapInfo->hDisplayDC, VERTRES ) );
+    AdjustCaptureRect(lpCapInfo, 0, 0, GetDeviceCaps(lpCapInfo->hDisplayDC, HORZRES), GetDeviceCaps(lpCapInfo->hDisplayDC, VERTRES));
 
-	if( CreateSuitableDIB( lpCapInfo ) != 0 )
-	{
-		ResetCaptureInfo( lpCapInfo, TRUE );
-		return -2;
-	}
+    if (CreateSuitableDIB(lpCapInfo) != 0) {
+        ResetCaptureInfo(lpCapInfo, TRUE);
+        return -2;
+    }
 
-	if( PerformBitBlockTransfer( lpCapInfo ) != 0 )
-	{
-		ResetCaptureInfo( lpCapInfo, TRUE );
-		return -3;
-	}
+    if (PerformBitBlockTransfer(lpCapInfo) != 0) {
+        ResetCaptureInfo(lpCapInfo, TRUE);
+        return -3;
+    }
 
-	return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -276,44 +259,41 @@ int __cdecl FullScreenCapture( LPRECTCAPINFO lpCapInfo )
 //
 // + Description: Captures a portion of the screen
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: Structure to receive
-//					 capture information
-//				  -> LPRECT lpBounds: Pointer to a rect containing
-//					 the coordinates to capture
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: Structure to receive
+//                   capture information
+//                -> LPRECT lpBounds: Pointer to a rect containing
+//                   the coordinates to capture
 //
 // + Return Type: int
 //
 // + Returns:     As for FullScreenCapture
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl CaptureScreenRect( LPRECTCAPINFO lpCapInfo, LPRECT lpBounds )
+int __cdecl CaptureScreenRect(LPRECTCAPINFO lpCapInfo, LPRECT lpBounds)
 {
-	if( CreateDisplayDC( lpCapInfo ) != 0 )
-	{
-		return -1;
-	}
+    if (CreateDisplayDC(lpCapInfo) != 0) {
+        return -1;
+    }
 
-	AdjustCaptureRect( lpCapInfo, lpBounds->left, lpBounds->top, lpBounds->right - lpBounds->left, lpBounds->bottom - lpBounds->top );
+    AdjustCaptureRect(lpCapInfo, lpBounds->left, lpBounds->top, lpBounds->right - lpBounds->left, lpBounds->bottom - lpBounds->top);
 
-	if( CreateSuitableDIB( lpCapInfo ) != 0 )
-	{
-		ResetCaptureInfo( lpCapInfo, TRUE );
-		return -2;
-	}
+    if (CreateSuitableDIB(lpCapInfo) != 0) {
+        ResetCaptureInfo(lpCapInfo, TRUE);
+        return -2;
+    }
 
-	if( PerformBitBlockTransfer( lpCapInfo ) != 0 )
-	{
-		ResetCaptureInfo( lpCapInfo, TRUE );
-		return -3;
-	}
+    if (PerformBitBlockTransfer(lpCapInfo) != 0) {
+        ResetCaptureInfo(lpCapInfo, TRUE);
+        return -3;
+    }
 
-	return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -322,28 +302,28 @@ int __cdecl CaptureScreenRect( LPRECTCAPINFO lpCapInfo, LPRECT lpBounds )
 //
 // + Description: Captures a still image of a window
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: structure to receive
-//					 info about the capture operation
-//				  -> HWND hWnd: Window to capture
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: structure to receive
+//                   info about the capture operation
+//                -> HWND hWnd: Window to capture
 //
 // + Return Type: int
 //
 // + Returns:     As per CaptureScreenRect
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl CaptureWindow( LPRECTCAPINFO lpCapInfo, HWND hWnd )
+int __cdecl CaptureWindow(LPRECTCAPINFO lpCapInfo, HWND hWnd)
 {
-	RECT rc;
+    RECT rc;
 
-	GetWindowRect( hWnd, &rc );
+    GetWindowRect(hWnd, &rc);
 
-	return CaptureScreenRect( lpCapInfo, &rc );
+    return CaptureScreenRect(lpCapInfo, &rc);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -351,46 +331,42 @@ int __cdecl CaptureWindow( LPRECTCAPINFO lpCapInfo, HWND hWnd )
 // + Method:      ResetCaptureInfo
 //
 // + Description: Zeroes RECTCAPINFO structure and, if wished,
-//				  frees memory associated with it.
+//                frees memory associated with it.
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: structure to reset
-//				  -> BOOL bCheckMem: checks for allocated memory 
-//					 within the structure and frees it as necessary
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: structure to reset
+//                -> BOOL bCheckMem: checks for allocated memory
+//                   within the structure and frees it as necessary
 //
 // + Return Type: int
 //
 // + Returns:     0 - always
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem )
+int __cdecl ResetCaptureInfo(LPRECTCAPINFO lpCapInfo, BOOL bCheckMem)
 {
-	if( bCheckMem )
-	{
-		if( lpCapInfo->hDisplayDC != NULL )
-		{
-			DeleteDC( lpCapInfo->hDisplayDC );
-		}
+    if (bCheckMem) {
+        if (lpCapInfo->hDisplayDC != NULL) {
+            DeleteDC(lpCapInfo->hDisplayDC);
+        }
 
-		if( lpCapInfo->hImageDC != NULL )
-		{
-			DeleteDC( lpCapInfo->hImageDC );
-		}
+        if (lpCapInfo->hImageDC != NULL) {
+            DeleteDC(lpCapInfo->hImageDC);
+        }
 
-		if( lpCapInfo->hImage != NULL )
-		{
-			DeleteObject( lpCapInfo->hImage );
-		}
-	}
+        if (lpCapInfo->hImage != NULL) {
+            DeleteObject(lpCapInfo->hImage);
+        }
+    }
 
-	SecureZeroMemory( lpCapInfo, sizeof( RECTCAPINFO ) );
+    SecureZeroMemory(lpCapInfo, sizeof(RECTCAPINFO));
 
-	return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -399,78 +375,75 @@ int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem )
 //
 // + Description: Saves a screen capture to disk
 //
-// + Params:      
-//				  -> LPRECTCAPINFO lpCapInfo: structure containing
-//					 information retrieved from a successful capture
-//				  -> const TCHAR *pszFileName: Name of the file to save
-//				     to. Be warned, this file will be OVERWRITTEN if
-//					 it already exists!
+// + Params:
+//                -> LPRECTCAPINFO lpCapInfo: structure containing
+//                   information retrieved from a successful capture
+//                -> const TCHAR *pszFileName: Name of the file to save
+//                   to. Be warned, this file will be OVERWRITTEN if
+//                   it already exists!
 //
 // + Return Type: int
 //
-// + Returns:     
-//				  -> -1: lpCapInfo doesn't contain enough info
-//				  -> -2: Couldn't open pszFileName for writing
-//				  -> 0: Saved capture to file!
+// + Returns:
+//                -> -1: lpCapInfo doesn't contain enough info
+//                -> -2: Couldn't open pszFileName for writing
+//                -> 0: Saved capture to file!
 //
-// + Change Log:  
+// + Change Log:
 //
-//				-> 3/28/01: Method created
+//              -> 3/28/01: Method created
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const TCHAR *pszFileName )
+int __cdecl SaveCaptureToFile(LPRECTCAPINFO lpCapInfo, const TCHAR* pszFileName)
 {
-	HANDLE hFile; DWORD dwWriteSize;
-	RGBQUAD clrs[ 256 ];
-	BITMAPFILEHEADER bfh;
-	BITMAPINFOHEADER bih;
+    HANDLE hFile;
+    DWORD dwWriteSize;
+    RGBQUAD clrs[ 256 ];
+    BITMAPFILEHEADER bfh;
+    BITMAPINFOHEADER bih;
 
-	if( lpCapInfo->hDisplayDC == NULL || lpCapInfo->hImageDC == NULL || lpCapInfo->hImage == NULL || lpCapInfo->pBits == NULL )
-	{
-		return -1;
-	}
+    if (lpCapInfo->hDisplayDC == NULL || lpCapInfo->hImageDC == NULL || lpCapInfo->hImage == NULL || lpCapInfo->pBits == NULL) {
+        return -1;
+    }
 
-	hFile = CreateFile( pszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+    hFile = CreateFile(pszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if( hFile == INVALID_HANDLE_VALUE )
-	{
-		return -2;
-	}
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return -2;
+    }
 
-	if( lpCapInfo->dwNumColors != 0 )
-	{
-		lpCapInfo->dwNumColors = GetDIBColorTable( lpCapInfo->hImageDC, 0, lpCapInfo->dwNumColors, clrs );
-	}
+    if (lpCapInfo->dwNumColors != 0) {
+        lpCapInfo->dwNumColors = GetDIBColorTable(lpCapInfo->hImageDC, 0, lpCapInfo->dwNumColors, clrs);
+    }
 
-	bfh.bfType = 0x4D42;
-	bfh.bfSize = ((lpCapInfo->nCapWidth * lpCapInfo->nCapHeight * lpCapInfo->dwBPP)/8 ) + sizeof( BITMAPFILEHEADER ) + sizeof( BITMAPINFOHEADER ) + (lpCapInfo->dwNumColors * sizeof( RGBQUAD ) );
-	bfh.bfReserved1 = 0;
-	bfh.bfReserved2 = 0;
-	bfh.bfOffBits = sizeof( BITMAPFILEHEADER ) + sizeof( BITMAPINFOHEADER ) + ( lpCapInfo->dwNumColors * sizeof( RGBQUAD ) );
+    bfh.bfType = 0x4D42;
+    bfh.bfSize = ((lpCapInfo->nCapWidth * lpCapInfo->nCapHeight * lpCapInfo->dwBPP) / 8) + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + (lpCapInfo->dwNumColors * sizeof(RGBQUAD));
+    bfh.bfReserved1 = 0;
+    bfh.bfReserved2 = 0;
+    bfh.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + (lpCapInfo->dwNumColors * sizeof(RGBQUAD));
 
-	bih.biSize = sizeof( BITMAPINFOHEADER );
-	bih.biWidth = lpCapInfo->nCapWidth;
-	bih.biHeight = lpCapInfo->nCapHeight;
-	bih.biPlanes = 1;
-	bih.biBitCount = (WORD)lpCapInfo->dwBPP;
-	bih.biCompression = BI_RGB;
-	bih.biClrUsed = lpCapInfo->dwNumColors;
-	bih.biClrImportant = 0;
-	bih.biXPelsPerMeter = 0;
-	bih.biYPelsPerMeter = 0;
-	bih.biSizeImage = 0;
+    bih.biSize = sizeof(BITMAPINFOHEADER);
+    bih.biWidth = lpCapInfo->nCapWidth;
+    bih.biHeight = lpCapInfo->nCapHeight;
+    bih.biPlanes = 1;
+    bih.biBitCount = (WORD)lpCapInfo->dwBPP;
+    bih.biCompression = BI_RGB;
+    bih.biClrUsed = lpCapInfo->dwNumColors;
+    bih.biClrImportant = 0;
+    bih.biXPelsPerMeter = 0;
+    bih.biYPelsPerMeter = 0;
+    bih.biSizeImage = 0;
 
-	WriteFile( hFile, &bfh, sizeof( BITMAPFILEHEADER ), &dwWriteSize, NULL );
-	WriteFile( hFile, &bih, sizeof( BITMAPINFOHEADER ), &dwWriteSize, NULL );
+    WriteFile(hFile, &bfh, sizeof(BITMAPFILEHEADER), &dwWriteSize, NULL);
+    WriteFile(hFile, &bih, sizeof(BITMAPINFOHEADER), &dwWriteSize, NULL);
 
-	if( lpCapInfo->dwNumColors != 0 )
-	{
-		WriteFile( hFile, clrs, lpCapInfo->dwNumColors * sizeof( RGBQUAD ), &dwWriteSize, NULL );
-	}
+    if (lpCapInfo->dwNumColors != 0) {
+        WriteFile(hFile, clrs, lpCapInfo->dwNumColors * sizeof(RGBQUAD), &dwWriteSize, NULL);
+    }
 
-	WriteFile( hFile, lpCapInfo->pBits, (lpCapInfo->nCapWidth * lpCapInfo->nCapHeight * lpCapInfo->dwBPP)/8, &dwWriteSize, NULL );
-	CloseHandle( hFile );
+    WriteFile(hFile, lpCapInfo->pBits, (lpCapInfo->nCapWidth * lpCapInfo->nCapHeight * lpCapInfo->dwBPP) / 8, &dwWriteSize, NULL);
+    CloseHandle(hFile);
 
-	return 0;
+    return 0;
 }

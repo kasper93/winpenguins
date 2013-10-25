@@ -35,8 +35,8 @@
 #include "winpenguinsdlg.h"
 #include "def.h"
 
-extern void (WINAPI *transparentblt) (HDC,int,int,int,int,HDC,int,int,int,int,UINT);
-extern void (WINAPI *alphablend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION);
+extern void (WINAPI* transparentblt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
+extern void (WINAPI* alphablend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainWnd window
@@ -44,84 +44,84 @@ extern void (WINAPI *alphablend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFU
 class CMainWnd : public CFrameWnd
 {
 private:
-	void CreateScreenBitmaps();
+    void CreateScreenBitmaps();
 
-	int m_numPenguins;
-	int m_moveDelay;
-	int m_splatDist;
-
-
-	CArray<CToon*,CToon*> toonList;
-
-	CBitmap bgBitmap;
-	CBitmap activeBmp;
-
-	HMODULE msimg32;
-	HMODULE winmon;
-	TCHAR winmonFileName[MAX_PATH];
-
-	HICON trayIcon;
-	HANDLE hInstanceMutex;
-
-	CDialog *activeDlg;
+    int m_numPenguins;
+    int m_moveDelay;
+    int m_splatDist;
 
 
-	// Construction
+    CArray<CToon*, CToon*> toonList;
+
+    CBitmap bgBitmap;
+    CBitmap activeBmp;
+
+    HMODULE msimg32;
+    HMODULE winmon;
+    TCHAR winmonFileName[MAX_PATH];
+
+    HICON trayIcon;
+    HANDLE hInstanceMutex;
+
+    CDialog* activeDlg;
+
+
+    // Construction
 public:
-	CMainWnd();
+    CMainWnd();
 
-	// Attributes
-public:
-
-	// desktop window that is drawn on
-	static CWnd dskWnd;
-
-	// The region that covers all top level windows
-	static CRgn *wndRgn;
-
-	// alpha blending level (0-255)
-	static unsigned char blendLevel;
-
-	// !0 if sound is enabled
-	static int soundEnabled;
-
-	// number between 0-100: 0 = no santa, 100 = always santa
-	static int santaPercent;
-
-	// MPA 4-3-2005: added "soundfilename"
-	static CString soundFilename;
-
-	// Operations
+    // Attributes
 public:
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMainWnd)
-	//}}AFX_VIRTUAL
+    // desktop window that is drawn on
+    static CWnd dskWnd;
 
-	// Implementation
+    // The region that covers all top level windows
+    static CRgn* wndRgn;
+
+    // alpha blending level (0-255)
+    static unsigned char blendLevel;
+
+    // !0 if sound is enabled
+    static int soundEnabled;
+
+    // number between 0-100: 0 = no santa, 100 = always santa
+    static int santaPercent;
+
+    // MPA 4-3-2005: added "soundfilename"
+    static CString soundFilename;
+
+    // Operations
 public:
-	bool CheckSubType( CToon *pToon );
-	void UpdateWndRgn();
-	void UpdateBgBitmap(RECT *updateRect);
+
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMainWnd)
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    bool CheckSubType(CToon* pToon);
+    void UpdateWndRgn();
+    void UpdateBgBitmap(RECT* updateRect);
 
 
-	void SetToonCountTo(int count);
-	void ApplyOptions(CWinpenguinsDlg *const dlg);
-	void BrowseSoundFilename(CWinpenguinsDlg *const dlg);
-	virtual ~CMainWnd();
+    void SetToonCountTo(int count);
+    void ApplyOptions(CWinpenguinsDlg* const dlg);
+    void BrowseSoundFilename(CWinpenguinsDlg* const dlg);
+    virtual ~CMainWnd();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CMainWnd)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg LRESULT OnSysTray(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnClose();
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	afx_msg void OnAbout();
-	afx_msg void OnExit();
-	afx_msg void OnOptions();
-	afx_msg void OnScreenCapture();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CMainWnd)
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg LRESULT OnSysTray(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnClose();
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
+    afx_msg void OnAbout();
+    afx_msg void OnExit();
+    afx_msg void OnOptions();
+    afx_msg void OnScreenCapture();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };

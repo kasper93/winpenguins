@@ -27,6 +27,6 @@
 
 WINMON_API void Winmon_LoadHook(DWORD myPid, HWND dskWnd);
 WINMON_API BOOL Winmon_Moved(void);
-WINMON_API BOOL Winmon_DeskWndPainted(RECT *dskRt);
+WINMON_API BOOL Winmon_DeskWndPainted(RECT* dskRt);
 WINMON_API BOOL Winmon_DesktopChanged(void);
 WINMON_API void Winmon_UnloadHook(void);

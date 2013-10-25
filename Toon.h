@@ -4,7 +4,7 @@
  *  Copyright (C) 2000  Michael Vines
  *
  *  This file contains code from XPenguins 1.1
- *		Copyright (C) 1999,2000  Robin Hogan
+ *      Copyright (C) 1999,2000  Robin Hogan
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -42,11 +42,10 @@
 #define TOON_HERE -1
 
 
-typedef enum TToonSubType
-{
-	TST_UNSPECIFIED,
-	TST_NORMAL_PENGUIN,
-	TST_SANTA_PENGUIN
+typedef enum TToonSubType {
+    TST_UNSPECIFIED,
+    TST_NORMAL_PENGUIN,
+    TST_SANTA_PENGUIN
 
 } ToonSubType;
 
@@ -60,68 +59,68 @@ typedef enum TToonSubType
 class CToon
 {
 
-	// Construction
+    // Construction
 public:
-	CToon();
+    CToon();
 
-	// Attributes
+    // Attributes
 public:
-	int m_x;
-	int m_y;
-	int m_u;
-	int m_v;
-	int m_prefd;  // prefered direction -- -1 = none
-	int m_tumbleStartY;
+    int m_x;
+    int m_y;
+    int m_u;
+    int m_v;
+    int m_prefd;  // prefered direction -- -1 = none
+    int m_tumbleStartY;
 
-	int m_bmpIndex;
-	int m_frameIndex;
-	int m_directionIndex;
+    int m_bmpIndex;
+    int m_frameIndex;
+    int m_directionIndex;
 
-	bool m_active;
-	bool m_startingUp;
+    bool m_active;
+    bool m_startingUp;
 
-	ToonSubType m_tstSubType;
+    ToonSubType m_tstSubType;
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CToon)
-	//}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CToon)
+    //}}AFX_VIRTUAL
 
-	// Implementation
+    // Implementation
 public:
-	bool IsBlocked(int direction);
-	int AdvanceToon(bool force);
-	void SetVelocity(int u, int v);
-	void SetPosition(int x, int y);
-	void SetType(int type, int direction);
-	virtual ~CToon();
+    bool IsBlocked(int direction);
+    int AdvanceToon(bool force);
+    void SetVelocity(int u, int v);
+    void SetPosition(int x, int y);
+    void SetType(int type, int direction);
+    virtual ~CToon();
 
-	void DeleteAni();
-	void ExplodeAni();
+    void DeleteAni();
+    void ExplodeAni();
 
-	void GetRect(RECT &rt);
-	void GetRect(RECT &rt, int newx, int newy);
+    void GetRect(RECT& rt);
+    void GetRect(RECT& rt, int newx, int newy);
 
-	void Erase(CWnd &wnd, RECT *wndRt);
+    void Erase(CWnd& wnd, RECT* wndRt);
 
-	void Paint(CDC *activeDC, CDC *tmpDc);
-	void PaintBackground(CDC *bgBitmapDC, CDC *activeDC);
-	void PaintToDesktop(CDC *dc, CDC *activeBmpDC);
+    void Paint(CDC* activeDC, CDC* tmpDc);
+    void PaintBackground(CDC* bgBitmapDC, CDC* activeDC);
+    void PaintToDesktop(CDC* dc, CDC* activeBmpDC);
 
-	void SetSubType( ToonSubType tst ) {
-		m_tstSubType = tst;
-	}
-	ToonSubType GetSubType( void ) {
-		return m_tstSubType;
-	}
+    void SetSubType(ToonSubType tst) {
+        m_tstSubType = tst;
+    }
+    ToonSubType GetSubType(void) {
+        return m_tstSubType;
+    }
 private:
-	void AdvanceFrame();
+    void AdvanceFrame();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
 
 
-	//{{AFX_MSG(CToon)
-	//}}AFX_MSG
-	//	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CToon)
+    //}}AFX_MSG
+    //  DECLARE_MESSAGE_MAP()
 };

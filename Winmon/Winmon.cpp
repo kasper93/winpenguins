@@ -31,34 +31,33 @@
 HINSTANCE hMod;
 HANDLE hSem;
 
-BOOL APIENTRY DllMain( HINSTANCE hModule,
-					   DWORD  ul_reason_for_call,
-					   LPVOID /*lpReserved*/
-					 )
+BOOL APIENTRY DllMain(HINSTANCE hModule,
+                      DWORD  ul_reason_for_call,
+                      LPVOID /*lpReserved*/
+                     )
 {
-	hMod = hModule;
-	switch (ul_reason_for_call)
-	{
-		case DLL_PROCESS_ATTACH:
-			hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
-								 L"WinPenguins-DeskPaintSem");
-			if (hSem == NULL) {
-				hSem = CreateSemaphore(NULL, 1, 1,
-									   L"WinPenguins-DeskPaintSem");
-				assert(hSem != NULL);
-			}
-			break;
+    hMod = hModule;
+    switch (ul_reason_for_call) {
+        case DLL_PROCESS_ATTACH:
+            hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
+                                 L"WinPenguins-DeskPaintSem");
+            if (hSem == NULL) {
+                hSem = CreateSemaphore(NULL, 1, 1,
+                                       L"WinPenguins-DeskPaintSem");
+                assert(hSem != NULL);
+            }
+            break;
 
-		case DLL_PROCESS_DETACH:
-			DeleteObject(hSem);
-			break;
+        case DLL_PROCESS_DETACH:
+            DeleteObject(hSem);
+            break;
 
-		case DLL_THREAD_ATTACH:
-		case DLL_THREAD_DETACH:
-			break;
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+            break;
 
-	}
-	return TRUE;
+    }
+    return TRUE;
 }
 
 
@@ -81,114 +80,114 @@ HWND desktopWnd;
 
 LRESULT CALLBACK SysMsgHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	MSG *cw = (MSG*)lParam;
+    MSG* cw = (MSG*)lParam;
 
-	switch (cw->message) {
-		case WM_ERASEBKGND:
-		case WM_PAINT:
-			if (cw->hwnd == desktopWnd) {
-				RECT rt;
+    switch (cw->message) {
+        case WM_ERASEBKGND:
+        case WM_PAINT:
+            if (cw->hwnd == desktopWnd) {
+                RECT rt;
 
-				if (!GetUpdateRect(cw->hwnd, &rt, false)) {
-					::GetClientRect(cw->hwnd, &rt);
-				}
+                if (!GetUpdateRect(cw->hwnd, &rt, false)) {
+                    ::GetClientRect(cw->hwnd, &rt);
+                }
 
-				WaitForSingleObject(hSem, INFINITE);
-				UnionRect(&dskWndPaintedRect, &dskWndPaintedRect, &rt);
-				ReleaseSemaphore(hSem, 1, NULL);
+                WaitForSingleObject(hSem, INFINITE);
+                UnionRect(&dskWndPaintedRect, &dskWndPaintedRect, &rt);
+                ReleaseSemaphore(hSem, 1, NULL);
 
-				dskWndPainted = TRUE;
-			}
-			break;
-		default:
-			break;
-	}
+                dskWndPainted = TRUE;
+            }
+            break;
+        default:
+            break;
+    }
 
-	return CallNextHookEx(hWndMsgHook, nCode, wParam, lParam);
+    return CallNextHookEx(hWndMsgHook, nCode, wParam, lParam);
 }
 
 
 LRESULT CALLBACK SysMsgRetHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	DWORD pid;
-	CWPRETSTRUCT *cw = (CWPRETSTRUCT*)lParam;
+    DWORD pid;
+    CWPRETSTRUCT* cw = (CWPRETSTRUCT*)lParam;
 
-	GetWindowThreadProcessId(cw->hwnd, &pid);
+    GetWindowThreadProcessId(cw->hwnd, &pid);
 
-	if (pid != pidToIgnore) {
-		switch (cw->message) {
-			case WM_WINDOWPOSCHANGED:
-				if (cw->hwnd == desktopWnd) {
-					dskWndResized = TRUE;
-				}
+    if (pid != pidToIgnore) {
+        switch (cw->message) {
+            case WM_WINDOWPOSCHANGED:
+                if (cw->hwnd == desktopWnd) {
+                    dskWndResized = TRUE;
+                }
 
-				wndPosInvalid = TRUE;
-				break;
-			default:
-				break;
-		}
-	}
+                wndPosInvalid = TRUE;
+                break;
+            default:
+                break;
+        }
+    }
 
-	return CallNextHookEx(hWndRetHook, nCode, wParam, lParam);
+    return CallNextHookEx(hWndRetHook, nCode, wParam, lParam);
 }
 
 
 WINMON_API void Winmon_LoadHook(DWORD myPid, HWND dskWnd)
 {
-	wndPosInvalid = TRUE;
-	dskWndPainted = TRUE;
-	dskWndResized = TRUE;
+    wndPosInvalid = TRUE;
+    dskWndPainted = TRUE;
+    dskWndResized = TRUE;
 
-	pidToIgnore = myPid;
-	desktopWnd = dskWnd;
+    pidToIgnore = myPid;
+    desktopWnd = dskWnd;
 
-	GetClientRect(dskWnd, &dskWndPaintedRect);
+    GetClientRect(dskWnd, &dskWndPaintedRect);
 
-	hWndMsgHook = SetWindowsHookEx(WH_GETMESSAGE, SysMsgHook, hMod, 0);
-	hWndRetHook = SetWindowsHookEx(WH_CALLWNDPROCRET, SysMsgRetHook, hMod, 0);
+    hWndMsgHook = SetWindowsHookEx(WH_GETMESSAGE, SysMsgHook, hMod, 0);
+    hWndRetHook = SetWindowsHookEx(WH_CALLWNDPROCRET, SysMsgRetHook, hMod, 0);
 }
 
 
 
 WINMON_API BOOL Winmon_Moved(void)
 {
-	BOOL ret = wndPosInvalid;
-	wndPosInvalid = FALSE;
+    BOOL ret = wndPosInvalid;
+    wndPosInvalid = FALSE;
 
-	return ret;
+    return ret;
 }
 
 
-WINMON_API BOOL Winmon_DeskWndPainted(RECT *dskRt)
+WINMON_API BOOL Winmon_DeskWndPainted(RECT* dskRt)
 {
-	BOOL ret = dskWndPainted;
-	dskWndPainted = FALSE;
+    BOOL ret = dskWndPainted;
+    dskWndPainted = FALSE;
 
-	if (dskRt != NULL) {
-		WaitForSingleObject(hSem, INFINITE);
-		CopyRect(dskRt, &dskWndPaintedRect);
-		SetRectEmpty(&dskWndPaintedRect);
-		ReleaseSemaphore(hSem, 1, NULL);
-	}
+    if (dskRt != NULL) {
+        WaitForSingleObject(hSem, INFINITE);
+        CopyRect(dskRt, &dskWndPaintedRect);
+        SetRectEmpty(&dskWndPaintedRect);
+        ReleaseSemaphore(hSem, 1, NULL);
+    }
 
-	return ret;
+    return ret;
 }
 
 
 WINMON_API BOOL Winmon_DesktopChanged(void)
 {
-	BOOL ret = dskWndResized;
-	dskWndResized = FALSE;
+    BOOL ret = dskWndResized;
+    dskWndResized = FALSE;
 
-	return ret;
+    return ret;
 }
 
 
 
 WINMON_API void Winmon_UnloadHook(void)
 {
-	UnhookWindowsHookEx(hWndMsgHook);
-	UnhookWindowsHookEx(hWndRetHook);
+    UnhookWindowsHookEx(hWndMsgHook);
+    UnhookWindowsHookEx(hWndRetHook);
 }
 
 

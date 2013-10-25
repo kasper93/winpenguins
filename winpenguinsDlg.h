@@ -40,29 +40,29 @@
 class CAboutDlg : public CDialog
 {
 public:
-	CAboutDlg();
+    CAboutDlg();
 
-	// Dialog Data
-	//{{AFX_DATA(CAboutDlg)
-	enum { IDD = IDD_ABOUTBOX };
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAboutDlg)
+    enum { IDD = IDD_ABOUTBOX };
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAboutDlg)
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CAboutDlg)
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 
-	// Implementation
+    // Implementation
 protected:
-	CUrlStatic urlStatic;
+    CUrlStatic urlStatic;
 
-	//{{AFX_MSG(CAboutDlg)
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CAboutDlg)
+    afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 
@@ -71,37 +71,37 @@ protected:
 
 class CWinpenguinsDlg : public CDialog
 {
-	// Construction
+    // Construction
 public:
-	CWinpenguinsDlg(CWnd* pParent = NULL);	// standard constructor
+    CWinpenguinsDlg(CWnd* pParent = NULL);  // standard constructor
 
-	// Dialog Data
-	//{{AFX_DATA(CWinpenguinsDlg)
-	enum { IDD = IDD_WINPENGUINS_DIALOG };
-	int		m_pcount;
-	int		m_delay;
-	int		m_splat;
-	int		m_alpha;
-	int		m_soundenabled;
-	int		m_santa;
-	CString	m_soundfilename;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CWinpenguinsDlg)
+    enum { IDD = IDD_WINPENGUINS_DIALOG };
+    int     m_pcount;
+    int     m_delay;
+    int     m_splat;
+    int     m_alpha;
+    int     m_soundenabled;
+    int     m_santa;
+    CString m_soundfilename;
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWinpenguinsDlg)
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CWinpenguinsDlg)
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	//}}AFX_VIRTUAL
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Implementation
+    // Implementation
 protected:
-	HICON m_hIcon;
+    HICON m_hIcon;
 
-	// Generated message map functions
-	//{{AFX_MSG(CWinpenguinsDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnApply();
-	afx_msg void OnSFBrowse();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CWinpenguinsDlg)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnApply();
+    afx_msg void OnSFBrowse();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };

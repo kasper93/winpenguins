@@ -38,9 +38,9 @@ static char THIS_FILE[] = __FILE__;
 // CWinpenguinsApp
 
 BEGIN_MESSAGE_MAP(CWinpenguinsApp, CWinApp)
-	//{{AFX_MSG_MAP(CWinpenguinsApp)
-	//}}AFX_MSG_MAP
-	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
+    //{{AFX_MSG_MAP(CWinpenguinsApp)
+    //}}AFX_MSG_MAP
+    ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -48,8 +48,8 @@ END_MESSAGE_MAP()
 
 CWinpenguinsApp::CWinpenguinsApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -62,14 +62,14 @@ CWinpenguinsApp theApp;
 
 BOOL CWinpenguinsApp::InitInstance()
 {
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	//  of your final executable, you should remove from the following
-	//  the specific initialization routines you do not need.
+    // Standard initialization
+    // If you are not using these features and wish to reduce the size
+    //  of your final executable, you should remove from the following
+    //  the specific initialization routines you do not need.
 
-	SetRegistryKey(L"WinPenguins");
+    SetRegistryKey(L"WinPenguins");
 
-	m_pMainWnd = new CMainWnd;
-	return TRUE;
+    m_pMainWnd = new CMainWnd;
+    return TRUE;
 }
 

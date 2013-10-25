@@ -45,10 +45,10 @@ CUrlStatic::~CUrlStatic()
 
 
 BEGIN_MESSAGE_MAP(CUrlStatic, CStatic)
-	//{{AFX_MSG_MAP(CUrlStatic)
-	ON_WM_PAINT()
-	ON_WM_LBUTTONDOWN()
-	//}}AFX_MSG_MAP
+    //{{AFX_MSG_MAP(CUrlStatic)
+    ON_WM_PAINT()
+    ON_WM_LBUTTONDOWN()
+    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
@@ -57,90 +57,90 @@ END_MESSAGE_MAP()
 
 void CUrlStatic::OnPaint()
 {
-	CPaintDC dc(this); // device context for painting
+    CPaintDC dc(this); // device context for painting
 
-	// Do not call CStatic::OnPaint() for painting messages
+    // Do not call CStatic::OnPaint() for painting messages
 
-	CString text;
-	GetWindowText(text);
+    CString text;
+    GetWindowText(text);
 
 
-	CPen pen(PS_SOLID, 1, RGB(0,0,255)), *oldPen;
-	CGdiObject *oldFont;
+    CPen pen(PS_SOLID, 1, RGB(0, 0, 255)), *oldPen;
+    CGdiObject* oldFont;
 
-	oldFont = dc.SelectStockObject(ANSI_VAR_FONT);
-	oldPen = dc.SelectObject(&pen);
+    oldFont = dc.SelectStockObject(ANSI_VAR_FONT);
+    oldPen = dc.SelectObject(&pen);
 
-	dc.SetTextColor(RGB(0, 0, 255));
-	dc.SetBkMode(TRANSPARENT);
+    dc.SetTextColor(RGB(0, 0, 255));
+    dc.SetBkMode(TRANSPARENT);
 
-	dc.TextOut(0, 0, text);
+    dc.TextOut(0, 0, text);
 
-	CSize size = dc.GetTextExtent(text);
-	dc.MoveTo(0, size.cy);
-	dc.LineTo(size.cx, size.cy);
+    CSize size = dc.GetTextExtent(text);
+    dc.MoveTo(0, size.cy);
+    dc.LineTo(size.cx, size.cy);
 
-	dc.SelectObject(oldPen);
-	dc.SelectObject(oldFont);
+    dc.SelectObject(oldPen);
+    dc.SelectObject(oldFont);
 }
 
 
-BOOL CUrlStatic::Create(CWnd *parent, UINT staticId)
+BOOL CUrlStatic::Create(CWnd* parent, UINT staticId)
 {
-	CString text;
-	RECT rt;
+    CString text;
+    RECT rt;
 
-	CWnd *base = parent->GetDlgItem(staticId);
+    CWnd* base = parent->GetDlgItem(staticId);
 
-	base->GetWindowRect(&rt);
-	parent->ScreenToClient(&rt);
+    base->GetWindowRect(&rt);
+    parent->ScreenToClient(&rt);
 
-	base->GetWindowText(text);
-	base->ShowWindow(SW_HIDE);
+    base->GetWindowText(text);
+    base->ShowWindow(SW_HIDE);
 
-	return CStatic::Create(text, WS_CHILD | WS_VISIBLE | SS_LEFT | SS_NOTIFY,
-						   rt, parent, staticId);
+    return CStatic::Create(text, WS_CHILD | WS_VISIBLE | SS_LEFT | SS_NOTIFY,
+                           rt, parent, staticId);
 }
 
 
 void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	CStatic::OnLButtonDown(nFlags, point);
+    CStatic::OnLButtonDown(nFlags, point);
 
-	TCHAR *ignored = L"";
-	TCHAR browserExec[MAX_PATH];
-	TCHAR filename[MAX_PATH];
+    TCHAR* ignored = L"";
+    TCHAR browserExec[MAX_PATH];
+    TCHAR filename[MAX_PATH];
 
 
-	GetTempPath(MAX_PATH, filename);
-	GetTempFileName(filename, L"html", 0, filename);
-	_tcsncat_s(filename, L".htm", MAX_PATH);
+    GetTempPath(MAX_PATH, filename);
+    GetTempFileName(filename, L"html", 0, filename);
+    _tcsncat_s(filename, L".htm", MAX_PATH);
 
-	FILE *fp = _tfopen(filename, L"w");
-	if (NULL == fp) {
-		MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
-		return;
-	}
+    FILE* fp = _tfopen(filename, L"w");
+    if (NULL == fp) {
+        MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
+        return;
+    }
 
-	fputs("<html></html>", fp);
-	fclose(fp);
+    fputs("<html></html>", fp);
+    fclose(fp);
 
-	browserExec[0] = '\0';
-	FindExecutable(filename, ignored, browserExec);
-	_tunlink(filename);
+    browserExec[0] = '\0';
+    FindExecutable(filename, ignored, browserExec);
+    _tunlink(filename);
 
-	if (_tcslen(browserExec) <= 0) {
-		MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
+    if (_tcslen(browserExec) <= 0) {
+        MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
 
-	} else {
-		CString url;
+    } else {
+        CString url;
 
-		GetWindowText(url);
+        GetWindowText(url);
 
-		if ((int)ShellExecute(m_hWnd, L"open", browserExec,
-							  url, ignored, SW_SHOWNORMAL) <= 32) {
-			MessageBox(L"Unable to open URL", L"Browser 'open' Failed", MB_ICONWARNING);
-		}
-	}
+        if ((int)ShellExecute(m_hWnd, L"open", browserExec,
+                              url, ignored, SW_SHOWNORMAL) <= 32) {
+            MessageBox(L"Unable to open URL", L"Browser 'open' Failed", MB_ICONWARNING);
+        }
+    }
 
 }

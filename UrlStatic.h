@@ -32,34 +32,34 @@
 
 class CUrlStatic : public CStatic
 {
-	// Construction
+    // Construction
 public:
-	CUrlStatic();
+    CUrlStatic();
 
-	// Attributes
-public:
-
-	// Operations
+    // Attributes
 public:
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CUrlStatic)
+    // Operations
 public:
-	virtual BOOL Create(CWnd *parent, UINT staticId);
 
-	//}}AFX_VIRTUAL
-
-	// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CUrlStatic)
 public:
-	virtual ~CUrlStatic();
+    virtual BOOL Create(CWnd* parent, UINT staticId);
 
-	// Generated message map functions
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CUrlStatic();
+
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CUrlStatic)
-	afx_msg void OnPaint();
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	//}}AFX_MSG
+    //{{AFX_MSG(CUrlStatic)
+    afx_msg void OnPaint();
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };

@@ -29,7 +29,7 @@
 #error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h"       // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CWinpenguinsApp:
@@ -39,20 +39,20 @@
 class CWinpenguinsApp : public CWinApp
 {
 public:
-	CWinpenguinsApp();
+    CWinpenguinsApp();
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWinpenguinsApp)
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CWinpenguinsApp)
 public:
-	virtual BOOL InitInstance();
-	//}}AFX_VIRTUAL
+    virtual BOOL InitInstance();
+    //}}AFX_VIRTUAL
 
-	// Implementation
+    // Implementation
 
-	//{{AFX_MSG(CWinpenguinsApp)
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CWinpenguinsApp)
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 

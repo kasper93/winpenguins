@@ -28,32 +28,32 @@
 
 #pragma once
 
-#define PENGUIN_FOREWARD		0
-#define PENGUIN_LEFTRIGHT		1
-#define PENGUIN_LEFT			0
-#define PENGUIN_RIGHT			1
+#define PENGUIN_FOREWARD        0
+#define PENGUIN_LEFTRIGHT       1
+#define PENGUIN_LEFT            0
+#define PENGUIN_RIGHT           1
 
-#define PENGUIN_WALKER			0
-#define PENGUIN_FALLER			1
-#define PENGUIN_TUMBLER			2
-#define PENGUIN_FLOATER			3
-#define PENGUIN_CLIMBER			4
-#define PENGUIN_BOMBER			5
-#define PENGUIN_EXPLOSION		6
-#define PENGUIN_SANTA_WALKER	7
-#define PENGUIN_SANTA_CLIMBER	8
-#define PENGUIN_COUNT			9
+#define PENGUIN_WALKER          0
+#define PENGUIN_FALLER          1
+#define PENGUIN_TUMBLER         2
+#define PENGUIN_FLOATER         3
+#define PENGUIN_CLIMBER         4
+#define PENGUIN_BOMBER          5
+#define PENGUIN_EXPLOSION       6
+#define PENGUIN_SANTA_WALKER    7
+#define PENGUIN_SANTA_CLIMBER   8
+#define PENGUIN_COUNT           9
 
 typedef struct {
-	DWORD resId;	// resource id
-	DWORD mskResId;	// resource id of the bitmask
-	CBitmap *bmp;
-	CBitmap *mskBmp;
+    DWORD resId;    // resource id
+    DWORD mskResId; // resource id of the bitmask
+    CBitmap* bmp;
+    CBitmap* mskBmp;
 
-	int nframes,ndirections;	/* number of frames and directions in image */
-	int width,height;			/* width and height of an individual frame/direction */
+    int nframes, ndirections;   /* number of frames and directions in image */
+    int width, height;          /* width and height of an individual frame/direction */
 
-	bool cycle;  // does the animation cycle
+    bool cycle;  // does the animation cycle
 } ToonData;
 
 
