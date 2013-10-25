@@ -117,7 +117,7 @@ void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
     _tcsncat_s(filename, L".htm", MAX_PATH);
 
     FILE* fp = _tfopen(filename, L"w");
-    if (NULL == fp) {
+    if (nullptr == fp) {
         MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
         return;
     }

@@ -89,7 +89,7 @@ void CAboutDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 /////////////////////////////////////////////////////////////////////////////
 // CWinpenguinsDlg dialog
 
-CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=NULL*/)
+CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CWinpenguinsDlg::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CWinpenguinsDlg)

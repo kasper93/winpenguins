@@ -41,15 +41,15 @@ static char THIS_FILE[] = __FILE__;
 
 
 ToonData penguin_data[PENGUIN_COUNT] = {
-    { IDB_WALKER,        IDB_WALKERMSK,         NULL, NULL, 8, 2, 32, 32, TRUE },
-    { IDB_FALLER,        IDB_FALLERMSK,         NULL, NULL, 8, 1, 32, 32, TRUE },
-    { IDB_TUMBLER,       IDB_TUMBLERMSK,        NULL, NULL, 8, 1, 32, 32, TRUE },
-    { IDB_FLOATER,       IDB_FLOATERMSK,        NULL, NULL, 8, 1, 32, 32, TRUE },
-    { IDB_CLIMBER,       IDB_CLIMBERMSK,        NULL, NULL, 8, 2, 32, 32, TRUE },
-    { IDB_BOMBER,        IDB_BOMBERMSK,         NULL, NULL, 17, 1, 32, 32, FALSE },
-    { IDB_EXPLOSION,     IDB_EXPLOSIONMSK,      NULL, NULL, 3, 1, 64, 64, FALSE },
-    { IDB_SANTA_WALKER,  IDB_SANTA_WALKERMSK,   NULL, NULL, 8, 2, 32, 32, TRUE },
-    { IDB_SANTA_CLIMBER, IDB_SANTA_CLIMBERMSK,  NULL, NULL, 8, 2, 32, 32, TRUE }
+    { IDB_WALKER,        IDB_WALKERMSK,         nullptr, nullptr, 8, 2, 32, 32, TRUE },
+    { IDB_FALLER,        IDB_FALLERMSK,         nullptr, nullptr, 8, 1, 32, 32, TRUE },
+    { IDB_TUMBLER,       IDB_TUMBLERMSK,        nullptr, nullptr, 8, 1, 32, 32, TRUE },
+    { IDB_FLOATER,       IDB_FLOATERMSK,        nullptr, nullptr, 8, 1, 32, 32, TRUE },
+    { IDB_CLIMBER,       IDB_CLIMBERMSK,        nullptr, nullptr, 8, 2, 32, 32, TRUE },
+    { IDB_BOMBER,        IDB_BOMBERMSK,         nullptr, nullptr, 17, 1, 32, 32, FALSE },
+    { IDB_EXPLOSION,     IDB_EXPLOSIONMSK,      nullptr, nullptr, 3, 1, 64, 64, FALSE },
+    { IDB_SANTA_WALKER,  IDB_SANTA_WALKERMSK,   nullptr, nullptr, 8, 2, 32, 32, TRUE },
+    { IDB_SANTA_CLIMBER, IDB_SANTA_CLIMBERMSK,  nullptr, nullptr, 8, 2, 32, 32, TRUE }
 };
 
 
@@ -62,7 +62,7 @@ ToonData penguin_data[PENGUIN_COUNT] = {
 static void myTransparentBlt(CDC* dst, int x, int y, int w, int h,
                              CDC* src, int srcx, int srcy, CBitmap* mskBmp)
 {
-    if (NULL == transparentblt) {
+    if (nullptr == transparentblt) {
         CDC mskDC;
         CBitmap* oldBmp;
 
@@ -122,7 +122,7 @@ static void doAlphaBlend(CDC* dst, int x, int y, int w, int h,
     mergeDC.BitBlt(0, 0, w, h, &blendDC, 0, 0, SRCAND);
 
 
-    if (NULL == transparentblt) {
+    if (nullptr == transparentblt) {
         dst->BitBlt(x, y, w, h, &maskDC, srcx, srcy, SRCAND);
         dst->BitBlt(x, y, w, h, &mergeDC, 0, 0, SRCPAINT);
     } else {
@@ -261,7 +261,7 @@ void CToon::Paint(CDC* activeDC, CDC* tmpDc)
 
     CBitmap* oldBmp = tmpDc->SelectObject(penguin_data[m_bmpIndex].bmp);
 
-    if ((255 == CMainWnd::blendLevel) || (NULL == alphablend)) {
+    if ((255 == CMainWnd::blendLevel) || (nullptr == alphablend)) {
         myTransparentBlt(activeDC, m_x, m_y,
                          penguin_data[m_bmpIndex].width, penguin_data[m_bmpIndex].height,
                          tmpDc, m_frameIndex * penguin_data[m_bmpIndex].width,

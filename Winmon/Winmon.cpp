@@ -41,10 +41,10 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
         case DLL_PROCESS_ATTACH:
             hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
                                  L"WinPenguins-DeskPaintSem");
-            if (hSem == NULL) {
-                hSem = CreateSemaphore(NULL, 1, 1,
+            if (hSem == nullptr) {
+                hSem = CreateSemaphore(nullptr, 1, 1,
                                        L"WinPenguins-DeskPaintSem");
-                assert(hSem != NULL);
+                assert(hSem != nullptr);
             }
             break;
 
@@ -94,7 +94,7 @@ LRESULT CALLBACK SysMsgHook(int nCode, WPARAM wParam, LPARAM lParam)
 
                 WaitForSingleObject(hSem, INFINITE);
                 UnionRect(&dskWndPaintedRect, &dskWndPaintedRect, &rt);
-                ReleaseSemaphore(hSem, 1, NULL);
+                ReleaseSemaphore(hSem, 1, nullptr);
 
                 dskWndPainted = TRUE;
             }
@@ -163,11 +163,11 @@ WINMON_API BOOL Winmon_DeskWndPainted(RECT* dskRt)
     BOOL ret = dskWndPainted;
     dskWndPainted = FALSE;
 
-    if (dskRt != NULL) {
+    if (dskRt != nullptr) {
         WaitForSingleObject(hSem, INFINITE);
         CopyRect(dskRt, &dskWndPaintedRect);
         SetRectEmpty(&dskWndPaintedRect);
-        ReleaseSemaphore(hSem, 1, NULL);
+        ReleaseSemaphore(hSem, 1, nullptr);
     }
 
     return ret;

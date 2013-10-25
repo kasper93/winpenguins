@@ -73,7 +73,7 @@ class CWinpenguinsDlg : public CDialog
 {
     // Construction
 public:
-    CWinpenguinsDlg(CWnd* pParent = NULL);  // standard constructor
+    CWinpenguinsDlg(CWnd* pParent = nullptr);  // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(CWinpenguinsDlg)

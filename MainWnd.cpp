@@ -83,7 +83,7 @@ static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
         return TRUE;
     }
 
-    if (CMainWnd::wndRgn != NULL) {
+    if (CMainWnd::wndRgn != nullptr) {
         if (!rgn.CreateRectRgnIndirect(&rt)) {
             return TRUE;
         }
@@ -108,7 +108,7 @@ static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
 
     GetClassName(hwnd, thisClass, sizeof(thisClass));
 
-    foundWnd = NULL;
+    foundWnd = nullptr;
     if (!_tcscmp(className, thisClass)) {
         foundWnd = hwnd;
         return FALSE;
@@ -123,7 +123,7 @@ static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
 CWnd CMainWnd::dskWnd;  // desktop window that is drawn on
 
 // The region that covers all top level windows
-CRgn* CMainWnd::wndRgn = NULL;
+CRgn* CMainWnd::wndRgn = nullptr;
 
 // alpha blending level (0-255)
 unsigned char CMainWnd::blendLevel = 255;
@@ -145,8 +145,8 @@ CMainWnd::CMainWnd()
     trayIcon = 0;
 
     // Check if another instance of WinPenguins is already running
-    hInstanceMutex = ::CreateMutex(NULL, FALSE, L"WinPenguinsInstanceMutex");
-    if (NULL == hInstanceMutex) {
+    hInstanceMutex = ::CreateMutex(nullptr, FALSE, L"WinPenguinsInstanceMutex");
+    if (nullptr == hInstanceMutex) {
         MessageBox(L"Unable to create instance mutex", L"Internal Error", MB_ICONERROR);
         ::ExitProcess(1);
     }
@@ -158,20 +158,20 @@ CMainWnd::CMainWnd()
     //   this is kindof kludgy and I'm not sure if it'll work in all cases!
     CWnd* progMan = CWnd::FindWindow(L"Progman", L"Program Manager");
 
-    ASSERT(progMan != NULL);
+    ASSERT(progMan != nullptr);
     EnumChildWindows(*progMan, FindWndWithClass, (LPARAM)L"SHELLDLL_DefView");
-    ASSERT(foundWnd != NULL);
+    ASSERT(foundWnd != nullptr);
     EnumChildWindows(foundWnd, FindWndWithClass, (LPARAM)L"SysListView32");
-    ASSERT(foundWnd != NULL);
+    ASSERT(foundWnd != nullptr);
 
     dskWnd.Attach(foundWnd);
 
 
-    transparentblt = NULL;
-    alphablend = NULL;
+    transparentblt = nullptr;
+    alphablend = nullptr;
 
     msimg32 = ::LoadLibrary(L"msimg32.dll");
-    if (msimg32 != NULL) {
+    if (msimg32 != nullptr) {
         (FARPROC&)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
         (FARPROC&)alphablend = GetProcAddress(msimg32, "AlphaBlend");
     }
@@ -186,8 +186,8 @@ CMainWnd::CMainWnd()
 
     winmonFileName[0] = '\0';
     //winmon = ::LoadLibrary(L"Winmon.dll");
-    winmon = NULL;
-    if (NULL == winmon) {
+    winmon = nullptr;
+    if (nullptr == winmon) {
         HRSRC hRes;
         HGLOBAL hGlobal;
         LPVOID winmonPtr;
@@ -195,27 +195,27 @@ CMainWnd::CMainWnd()
         DWORD bytesWritten;
 
         // find winmon.dll in the exe resources
-        hRes = ::FindResource(NULL, MAKEINTRESOURCE(IDR_WINMONDLL), L"Binary");
-        hGlobal = ::LoadResource(NULL, hRes);
+        hRes = ::FindResource(nullptr, MAKEINTRESOURCE(IDR_WINMONDLL), L"Binary");
+        hGlobal = ::LoadResource(nullptr, hRes);
 
         winmonPtr = ::LockResource(hGlobal);
-        if (NULL == winmonPtr) {
+        if (nullptr == winmonPtr) {
             MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
             ExitProcess(0);
         }
-        winmonSize = ::SizeofResource(NULL, hRes);
+        winmonSize = ::SizeofResource(nullptr, hRes);
 
         GetTempPath(MAX_PATH, winmonFileName);
         _tcsncat_s(winmonFileName, L"Winmon.dll", MAX_PATH);
 
         // write Winmon.dll and load it
-        HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, NULL,
-                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-        WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, NULL);
+        HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, nullptr,
+                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+        WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, nullptr);
         CloseHandle(hFile);
         winmon = ::LoadLibrary(winmonFileName);
 
-        if (NULL == winmon) {
+        if (nullptr == winmon) {
             MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
             ::ExitProcess(0);
         }
@@ -230,7 +230,7 @@ CMainWnd::CMainWnd()
         penguin_data[i].mskBmp->LoadBitmap(MAKEINTRESOURCE(penguin_data[i].mskResId));
     }
 
-    Create(NULL, L"MainWnd", WS_OVERLAPPEDWINDOW);
+    Create(nullptr, L"MainWnd", WS_OVERLAPPEDWINDOW);
 
     // Monitor window activity...
     Winmon_LoadHook(GetCurrentProcessId(), dskWnd.m_hWnd);
@@ -246,7 +246,7 @@ CMainWnd::~CMainWnd()
     ::FreeLibrary(winmon);
     ::DeleteFile(winmonFileName);
 
-    if (msimg32 != NULL) {
+    if (msimg32 != nullptr) {
         ::FreeLibrary(msimg32);
     }
 
@@ -341,7 +341,7 @@ LRESULT CMainWnd::OnSysTray(WPARAM /*wParam*/, LPARAM lParam)
                 sysMenu = menu.GetSubMenu(0);
                 sysMenu->SetDefaultItem(1, TRUE);
                 sysMenu->TrackPopupMenu(TPM_RIGHTALIGN | TPM_RIGHTBUTTON,
-                                        pt.x, pt.y, this, NULL);
+                                        pt.x, pt.y, this, nullptr);
             }
             break;
 
@@ -400,7 +400,7 @@ void CMainWnd::OnTimer(UINT_PTR nIDEvent)
 
                 // Ignore the WM_PAINT message we just sent to
                 // the desktop window
-                (void)Winmon_DeskWndPainted(NULL);
+                (void)Winmon_DeskWndPainted(nullptr);
             }
 
             // Do any required processing...
@@ -660,7 +660,7 @@ void CMainWnd::OnAbout()
 
 void CMainWnd::OnScreenCapture()
 {
-    CFileDialog dlg(FALSE, L"BMP", NULL, OFN_OVERWRITEPROMPT, L"Bitmap Files (*.bmp)|*.bmp||", this);
+    CFileDialog dlg(FALSE, L"BMP", nullptr, OFN_OVERWRITEPROMPT, L"Bitmap Files (*.bmp)|*.bmp||", this);
 
     activeDlg = &dlg;
 
@@ -777,7 +777,7 @@ void CMainWnd::SetToonCountTo(int count)
 //http://www.mindcracker.com/mindcracker/c_cafe/mfc/filedlg.asp
 void CMainWnd::BrowseSoundFilename(CWinpenguinsDlg* const dlg)
 {
-    CFileDialog fileDlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, L"Wave Files (*.wav)|*.wav||", dlg);
+    CFileDialog fileDlg(TRUE, nullptr, nullptr, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, L"Wave Files (*.wav)|*.wav||", dlg);
     fileDlg.m_ofn.lpstrTitle = L"Select Boom-Splat Sound File";
     if (fileDlg.DoModal() == IDOK) {
         dlg->m_soundfilename = fileDlg.GetPathName();
@@ -807,7 +807,7 @@ void CMainWnd::UpdateWndRgn()
 {
     if (Winmon_Moved()) {
         delete wndRgn;
-        wndRgn = NULL;
+        wndRgn = nullptr;
 
         // First find all the top level windows
         ::EnumWindows(EnumWindowCallback, 0);
