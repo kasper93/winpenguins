@@ -388,7 +388,7 @@ int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem )
 		}
 	}
 
-	memset( lpCapInfo, 0, sizeof( RECTCAPINFO ) );
+	SecureZeroMemory( lpCapInfo, sizeof( RECTCAPINFO ) );
 
 	return 0;
 }
