@@ -23,8 +23,7 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#ifndef _SCREEN_CAPTURE_H_INCLUDED_
-#define _SCREEN_CAPTURE_H_INCLUDED_
+#pragma once
 
 #include <windows.h>
 #include <memory.h>
@@ -70,4 +69,3 @@ extern "C"
 };
 #endif
 
-#endif

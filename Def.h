@@ -26,8 +26,7 @@
  *  Visual C++ Runtime/MFC Environment in the source distribution
  */
 
-#ifndef _DEF_H_INCLUDED_
-#define _DEF_H_INCLUDED_
+#pragma once
 
 #define PENGUIN_FOREWARD		0
 #define PENGUIN_LEFTRIGHT		1
@@ -60,4 +59,3 @@ typedef struct {
 
 extern ToonData penguin_data[PENGUIN_COUNT];
 
-#endif
