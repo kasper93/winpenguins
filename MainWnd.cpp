@@ -68,9 +68,9 @@ static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
 	}
 
 	// Ignore the "Program Manager" window
-	char title[256];
+	TCHAR title[256];
 	::GetWindowText(hWnd, title, 256);
-	if (!_stricmp(title, "Program Manager")) {
+	if (!_tcscmp(title, L"Program Manager")) {
 		return TRUE;
 	}
 
@@ -103,13 +103,13 @@ static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
 static HWND foundWnd;
 static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
 {
-	char *className = (char*)lParam;
-	char thisClass[256];
+	TCHAR *className = (TCHAR*)lParam;
+	TCHAR thisClass[256];
 
 	GetClassName(hwnd, thisClass, sizeof(thisClass));
 
 	foundWnd = NULL;
-	if (!strcmp(className, thisClass)) {
+	if (!_tcscmp(className, thisClass)) {
 		foundWnd = hwnd;
 		return FALSE;
 	}
@@ -141,9 +141,9 @@ CMainWnd::CMainWnd()
 	activeDlg = 0;
 
 	// Check if another instance of WinPenguins is already running
-	hInstanceMutex = ::CreateMutex(NULL, FALSE, "WinPenguinsInstanceMutex");
+	hInstanceMutex = ::CreateMutex(NULL, FALSE, L"WinPenguinsInstanceMutex");
 	if (NULL == hInstanceMutex) {
-		MessageBox("Unable to create instance mutex", "Internal Error", MB_ICONERROR);
+		MessageBox(L"Unable to create instance mutex", L"Internal Error", MB_ICONERROR);
 		::ExitProcess(1);
 	}
 	if (::GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -154,7 +154,7 @@ CMainWnd::CMainWnd()
 
 	// Find the desktop window
 	//   this is kindof kludgy and I'm not sure if it'll work in all cases!
-	CWnd *progMan = CWnd::FindWindow("Progman", "Program Manager");
+	CWnd *progMan = CWnd::FindWindow(L"Progman", L"Program Manager");
 
 	ASSERT(progMan != NULL);
 	EnumChildWindows(*progMan, FindWndWithClass, (LPARAM)"SHELLDLL_DefView");
@@ -168,7 +168,7 @@ CMainWnd::CMainWnd()
 	transparentblt = NULL;
 	alphablend = NULL;
 
-	msimg32 = ::LoadLibrary("msimg32.dll");
+	msimg32 = ::LoadLibrary(L"msimg32.dll");
 	if (msimg32 != NULL) {
 		(FARPROC &)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
 		(FARPROC &)alphablend = GetProcAddress(msimg32, "AlphaBlend");
@@ -193,18 +193,18 @@ CMainWnd::CMainWnd()
 		DWORD bytesWritten;
 
 		// find winmon.dll in the exe resources
-		hRes = ::FindResource(NULL, MAKEINTRESOURCE(IDR_WINMONDLL), "Binary");
+		hRes = ::FindResource(NULL, MAKEINTRESOURCE(IDR_WINMONDLL), L"Binary");
 		hGlobal = ::LoadResource(NULL, hRes);
 
 		winmonPtr = ::LockResource(hGlobal);
 		if (NULL == winmonPtr) {
-			MessageBox("Unable to load 'Winmon.dll'", "Error", MB_ICONERROR);
+			MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
 			ExitProcess(0);
 		}
 		winmonSize = ::SizeofResource(NULL, hRes);
 
 		GetTempPath(MAX_PATH, winmonFileName);
-		strncat(winmonFileName, "Winmon.dll", MAX_PATH);
+		_tcsncat(winmonFileName, L"Winmon.dll", MAX_PATH);
 		winmonFileName[MAX_PATH] = '\0';
 
 		// write Winmon.dll and load it
@@ -215,7 +215,7 @@ CMainWnd::CMainWnd()
 		winmon = ::LoadLibrary(winmonFileName);
 
 		if (NULL == winmon) {
-			MessageBox("Unable to load 'Winmon.dll'", "Error", MB_ICONERROR);
+			MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
 			::ExitProcess(0);
 		}
 	}
@@ -229,7 +229,7 @@ CMainWnd::CMainWnd()
 		penguin_data[i].mskBmp->LoadBitmap(MAKEINTRESOURCE(penguin_data[i].mskResId));
 	}
 
-	Create(NULL, "MainWnd", WS_OVERLAPPEDWINDOW);
+	Create(NULL, L"MainWnd", WS_OVERLAPPEDWINDOW);
 
 	// Monitor window activity...
 	Winmon_LoadHook(GetCurrentProcessId(), dskWnd.m_hWnd);
@@ -281,13 +281,13 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// Load config options from registry
-	m_numPenguins = theApp.GetProfileInt("Options", "PenguinCount", 5);
-	m_moveDelay = theApp.GetProfileInt("Options", "MoveDelay", 50);
-	m_splatDist = theApp.GetProfileInt("Options", "SplatDistance", 2000);
-	blendLevel = theApp.GetProfileInt("Options", "BlendLevel", 255);
-	santaPercent = theApp.GetProfileInt("Options", "SantaPercent", 0);
-	soundEnabled = theApp.GetProfileInt("Options", "SoundEnabled", 0);
-	soundFilename = theApp.GetProfileString("Options", "SoundFilename",0);//MPA 4-3-2005
+	m_numPenguins = theApp.GetProfileInt(L"Options", L"PenguinCount", 5);
+	m_moveDelay = theApp.GetProfileInt(L"Options", L"MoveDelay", 50);
+	m_splatDist = theApp.GetProfileInt(L"Options", L"SplatDistance", 2000);
+	blendLevel = theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
+	santaPercent = theApp.GetProfileInt(L"Options", L"SantaPercent", 0);
+	soundEnabled = theApp.GetProfileInt(L"Options", L"SoundEnabled", 0);
+	soundFilename = theApp.GetProfileString(L"Options", L"SoundFilename",0);//MPA 4-3-2005
 
 	SetToonCountTo(m_numPenguins);
 
@@ -299,7 +299,7 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ni.hWnd = m_hWnd;
 	ni.uID = 0;
 	ni.uCallbackMessage = UWM_SYSTRAY;
-	strcpy(ni.szTip, "WinPenguins");
+	_tcscpy(ni.szTip, L"WinPenguins");
 	trayIcon = theApp.LoadIcon(IDR_ICON);
 	ni.hIcon = trayIcon;
 
@@ -677,7 +677,7 @@ void CMainWnd::OnAbout()
 
 void CMainWnd::OnScreenCapture()
 {
-	CFileDialog dlg( FALSE, "BMP", NULL, OFN_OVERWRITEPROMPT, "Bitmap Files (*.bmp)|*.bmp||", this );
+	CFileDialog dlg( FALSE, L"BMP", NULL, OFN_OVERWRITEPROMPT, L"Bitmap Files (*.bmp)|*.bmp||", this );
 
 	activeDlg = &dlg;
 
@@ -709,7 +709,7 @@ void CMainWnd::OnExit()
 	ni.uID = 0;
 	ni.hWnd = m_hWnd;
 	ni.uCallbackMessage = UWM_SYSTRAY;
-	strcpy(ni.szTip, "WinPenguins");
+	_tcscpy(ni.szTip, L"WinPenguins");
 	ni.hIcon = trayIcon;
 
 	Shell_NotifyIcon(NIM_DELETE, &ni);
@@ -736,22 +736,22 @@ void CMainWnd::OnOptions()
 	if (optiondlg.DoModal() == IDOK)	{
 		ApplyOptions(&optiondlg);
 
-		theApp.WriteProfileInt("Options", "PenguinCount", m_numPenguins);
-		theApp.WriteProfileInt("Options", "MoveDelay", m_moveDelay);
-		theApp.WriteProfileInt("Options", "SplatDistance", m_splatDist);
-		theApp.WriteProfileInt("Options", "BlendLevel", blendLevel);
-		theApp.WriteProfileInt("Options", "SantaPercent", santaPercent);
-		theApp.WriteProfileInt("Options", "SoundEnabled", soundEnabled);
-		theApp.WriteProfileString("Options", "SoundFilename", soundFilename);//MPA 4-3-2005
+		theApp.WriteProfileInt(L"Options", L"PenguinCount", m_numPenguins);
+		theApp.WriteProfileInt(L"Options", L"MoveDelay", m_moveDelay);
+		theApp.WriteProfileInt(L"Options", L"SplatDistance", m_splatDist);
+		theApp.WriteProfileInt(L"Options", L"BlendLevel", blendLevel);
+		theApp.WriteProfileInt(L"Options", L"SantaPercent", santaPercent);
+		theApp.WriteProfileInt(L"Options", L"SoundEnabled", soundEnabled);
+		theApp.WriteProfileString(L"Options", L"SoundFilename", soundFilename);//MPA 4-3-2005
 	} else {
 		/* restore original values  */
-		m_numPenguins = theApp.GetProfileInt("Options", "PenguinCount", 5);
-		m_moveDelay = theApp.GetProfileInt("Options", "MoveDelay", 50);
-		m_splatDist = theApp.GetProfileInt("Options", "SplatDistance", 2000);
-		blendLevel = theApp.GetProfileInt("Options", "BlendLevel", 255);
-		santaPercent = theApp.GetProfileInt("Options", "SantaPercent", 0);
-		soundEnabled = theApp.GetProfileInt("Options", "SoundEnabled", 0);
-		soundFilename = theApp.GetProfileString("Options", "SoundFilename", "");//MPA 4-3-2005
+		m_numPenguins = theApp.GetProfileInt(L"Options", L"PenguinCount", 5);
+		m_moveDelay = theApp.GetProfileInt(L"Options", L"MoveDelay", 50);
+		m_splatDist = theApp.GetProfileInt(L"Options", L"SplatDistance", 2000);
+		blendLevel = theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
+		santaPercent = theApp.GetProfileInt(L"Options", L"SantaPercent", 0);
+		soundEnabled = theApp.GetProfileInt(L"Options", L"SoundEnabled", 0);
+		soundFilename = theApp.GetProfileString(L"Options", L"SoundFilename", L"");//MPA 4-3-2005
 
 		optiondlg.m_pcount = m_numPenguins;
 		optiondlg.m_delay = MAX_MOVE_DELAY - m_moveDelay;
@@ -794,8 +794,8 @@ void CMainWnd::SetToonCountTo(int count)
 //http://www.mindcracker.com/mindcracker/c_cafe/mfc/filedlg.asp
 void CMainWnd::BrowseSoundFilename(CWinpenguinsDlg *const dlg)
 {
-	CFileDialog fileDlg( TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, "Wave Files (*.wav)|*.wav||", dlg);
-	fileDlg.m_ofn.lpstrTitle = "Select Boom-Splat Sound File";
+	CFileDialog fileDlg( TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY, L"Wave Files (*.wav)|*.wav||", dlg);
+	fileDlg.m_ofn.lpstrTitle = L"Select Boom-Splat Sound File";
 	if (fileDlg.DoModal() == IDOK)
 	{
 		dlg->m_soundfilename = fileDlg.GetPathName();

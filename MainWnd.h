@@ -58,7 +58,7 @@ private:
 
 	HMODULE msimg32;
 	HMODULE winmon;
-	char winmonFileName[MAX_PATH];
+	TCHAR winmonFileName[MAX_PATH];
 
 	HICON trayIcon;
 	HANDLE hInstanceMutex;

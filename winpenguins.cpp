@@ -67,7 +67,7 @@ BOOL CWinpenguinsApp::InitInstance()
 	//  of your final executable, you should remove from the following
 	//  the specific initialization routines you do not need.
 
-	SetRegistryKey("WinPenguins");
+	SetRegistryKey(L"WinPenguins");
 
 	m_pMainWnd = new CMainWnd;
 	return TRUE;

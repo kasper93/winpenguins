@@ -55,7 +55,7 @@ int __cdecl CreateDisplayDC( LPRECTCAPINFO lpCapInfo )
 		return -1;
 	}
 
-	lpCapInfo->hDisplayDC = CreateDC( "DISPLAY", NULL, NULL, NULL );
+	lpCapInfo->hDisplayDC = CreateDC( L"DISPLAY", NULL, NULL, NULL );
 
 	if( lpCapInfo->hDisplayDC == NULL )
 	{
@@ -402,7 +402,7 @@ int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem )
 // + Params:      
 //				  -> LPRECTCAPINFO lpCapInfo: structure containing
 //					 information retrieved from a successful capture
-//				  -> const char *pszFileName: Name of the file to save
+//				  -> const TCHAR *pszFileName: Name of the file to save
 //				     to. Be warned, this file will be OVERWRITTEN if
 //					 it already exists!
 //
@@ -419,7 +419,7 @@ int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem )
 //
 ////////////////////////////////////////////////////////////////
 
-int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const char *pszFileName )
+int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const TCHAR *pszFileName )
 {
 	HANDLE hFile; DWORD dwWriteSize;
 	RGBQUAD clrs[ 256 ];

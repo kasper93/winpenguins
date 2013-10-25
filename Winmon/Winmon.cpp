@@ -41,10 +41,10 @@ BOOL APIENTRY DllMain( HINSTANCE hModule,
 	{
 		case DLL_PROCESS_ATTACH:
 			hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
-								 "WinPenguins-DeskPaintSem");
+								 L"WinPenguins-DeskPaintSem");
 			if (hSem == NULL) {
 				hSem = CreateSemaphore(NULL, 1, 1,
-									   "WinPenguins-DeskPaintSem");
+									   L"WinPenguins-DeskPaintSem");
 				assert(hSem != NULL);
 			}
 			break;

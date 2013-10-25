@@ -205,7 +205,7 @@ void CWinpenguinsDlg::OnSFBrowse()
 	UpdateData(TRUE);
 	((CMainWnd*)theApp.m_pMainWnd)->BrowseSoundFilename(this);
 	CEdit *ef = (CEdit*)GetDlgItem(IDC_SOUNDFILENAME);
-	ef->SetWindowText((LPCSTR)m_soundfilename);
+	ef->SetWindowText((LPCWSTR)m_soundfilename);
 	ef->UpdateWindow();
 }
 

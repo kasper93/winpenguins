@@ -107,19 +107,19 @@ void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CStatic::OnLButtonDown(nFlags, point);
 
-	char *ignored = "";
-	char browserExec[MAX_PATH];
-	char filename[MAX_PATH];
+	TCHAR *ignored = L"";
+	TCHAR browserExec[MAX_PATH];
+	TCHAR filename[MAX_PATH];
 
 
 	GetTempPath(MAX_PATH, filename);
-	GetTempFileName(filename, "html", 0, filename);
-	strncat(filename, ".htm", MAX_PATH);
+	GetTempFileName(filename, L"html", 0, filename);
+	_tcsncat(filename, L".htm", MAX_PATH);
 	filename[MAX_PATH] = '\0';
 
-	FILE *fp = fopen(filename, "w");
+	FILE *fp = _tfopen(filename, L"w");
 	if (NULL == fp) {
-		MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
+		MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
 		return;
 	}
 
@@ -128,19 +128,19 @@ void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 
 	browserExec[0] = '\0';
 	FindExecutable(filename, ignored, browserExec);
-	_unlink(filename);
+	_tunlink(filename);
 
-	if (strlen(browserExec) <= 0) {
-		MessageBox("Unable to open URL", "Browser Not Found", MB_ICONWARNING);
+	if (_tcslen(browserExec) <= 0) {
+		MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
 
 	} else {
 		CString url;
 
 		GetWindowText(url);
 
-		if ((int)ShellExecute(m_hWnd, "open", browserExec,
+		if ((int)ShellExecute(m_hWnd, L"open", browserExec,
 							  url, ignored, SW_SHOWNORMAL) <= 32) {
-			MessageBox("Unable to open URL", "Browser 'open' Failed", MB_ICONWARNING);
+			MessageBox(L"Unable to open URL", L"Browser 'open' Failed", MB_ICONWARNING);
 		}
 	}
 

@@ -63,7 +63,7 @@ extern "C"
 	int __cdecl ResetCaptureInfo( LPRECTCAPINFO lpCapInfo, BOOL bCheckMem );
 
 	// file i/o functions
-	int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const char *pszFileName );
+	int __cdecl SaveCaptureToFile( LPRECTCAPINFO lpCapInfo, const TCHAR *pszFileName );
 
 #ifdef __cplusplus
 };
