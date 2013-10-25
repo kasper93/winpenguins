@@ -126,7 +126,7 @@ CWnd CMainWnd::dskWnd;  // desktop window that is drawn on
 CRgn* CMainWnd::wndRgn = nullptr;
 
 // alpha blending level (0-255)
-unsigned char CMainWnd::blendLevel = 255;
+BYTE CMainWnd::blendLevel = 255;
 
 int CMainWnd::soundEnabled = 0;
 
@@ -286,7 +286,7 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
     m_numPenguins = theApp.GetProfileInt(L"Options", L"PenguinCount", 5);
     m_moveDelay = theApp.GetProfileInt(L"Options", L"MoveDelay", 50);
     m_splatDist = theApp.GetProfileInt(L"Options", L"SplatDistance", 2000);
-    blendLevel = theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
+    blendLevel = (BYTE)theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
     santaPercent = theApp.GetProfileInt(L"Options", L"SantaPercent", 0);
     soundEnabled = theApp.GetProfileInt(L"Options", L"SoundEnabled", 0);
     soundFilename = theApp.GetProfileString(L"Options", L"SoundFilename", 0); //MPA 4-3-2005
@@ -734,7 +734,7 @@ void CMainWnd::OnOptions()
         m_numPenguins = theApp.GetProfileInt(L"Options", L"PenguinCount", 5);
         m_moveDelay = theApp.GetProfileInt(L"Options", L"MoveDelay", 50);
         m_splatDist = theApp.GetProfileInt(L"Options", L"SplatDistance", 2000);
-        blendLevel = theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
+        blendLevel = (BYTE)theApp.GetProfileInt(L"Options", L"BlendLevel", 255);
         santaPercent = theApp.GetProfileInt(L"Options", L"SantaPercent", 0);
         soundEnabled = theApp.GetProfileInt(L"Options", L"SoundEnabled", 0);
         soundFilename = theApp.GetProfileString(L"Options", L"SoundFilename", L"");//MPA 4-3-2005
@@ -792,7 +792,7 @@ void CMainWnd::ApplyOptions(CWinpenguinsDlg* const dlg)
     m_numPenguins = dlg->m_pcount;
     m_moveDelay = MAX_MOVE_DELAY - dlg->m_delay;
     m_splatDist = dlg->m_splat;
-    blendLevel = dlg->m_alpha;
+    blendLevel = (BYTE)dlg->m_alpha;
     soundEnabled = dlg->m_soundenabled;
     santaPercent = dlg->m_santa;
     soundFilename = dlg->m_soundfilename;
