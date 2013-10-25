@@ -189,15 +189,13 @@ void CToon::ExplodeAni()
 	m_y -= 16;
 
 	if (CMainWnd::soundEnabled) {
-		BOOL ret;
 
 		//MPA 4-3-2005: play default sound if no soundFilename, else try file
 		if (CMainWnd::soundFilename == "") {
-			ret = PlaySound(MAKEINTRESOURCE( IDR_SOUND_BOOM ), theApp.m_hInstance,
+			PlaySound(MAKEINTRESOURCE( IDR_SOUND_BOOM ), theApp.m_hInstance,
 							SND_RESOURCE | SND_ASYNC | SND_NOWAIT);
-		}
-		else {
-			ret = PlaySound(CMainWnd::soundFilename, theApp.m_hInstance,
+		} else {
+			PlaySound(CMainWnd::soundFilename, theApp.m_hInstance,
 							SND_FILENAME | SND_ASYNC | SND_NOWAIT);
 		}
 	}

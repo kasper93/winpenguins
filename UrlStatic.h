@@ -56,7 +56,6 @@ public:
 
 	// Generated message map functions
 protected:
-	BOOL m_mouseDown;
 	//{{AFX_MSG(CUrlStatic)
 	afx_msg void OnPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
