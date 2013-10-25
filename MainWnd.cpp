@@ -159,9 +159,9 @@ CMainWnd::CMainWnd()
 	CWnd *progMan = CWnd::FindWindow(L"Progman", L"Program Manager");
 
 	ASSERT(progMan != NULL);
-	EnumChildWindows(*progMan, FindWndWithClass, (LPARAM)"SHELLDLL_DefView");
+	EnumChildWindows(*progMan, FindWndWithClass, (LPARAM)L"SHELLDLL_DefView");
 	ASSERT(foundWnd != NULL);
-	EnumChildWindows(foundWnd, FindWndWithClass, (LPARAM)"SysListView32");
+	EnumChildWindows(foundWnd, FindWndWithClass, (LPARAM)L"SysListView32");
 	ASSERT(foundWnd != NULL);
 
 	dskWnd.Attach(foundWnd);
@@ -207,7 +207,6 @@ CMainWnd::CMainWnd()
 
 		GetTempPath(MAX_PATH, winmonFileName);
 		_tcsncat_s(winmonFileName, L"Winmon.dll", MAX_PATH);
-		winmonFileName[MAX_PATH] = '\0';
 
 		// write Winmon.dll and load it
 		HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, NULL,
