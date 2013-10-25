@@ -208,7 +208,7 @@ CMainWnd::CMainWnd()
 		winmonSize = ::SizeofResource(NULL, hRes);
 
 		GetTempPath(MAX_PATH, winmonFileName);
-		_tcsncat(winmonFileName, L"Winmon.dll", MAX_PATH);
+		_tcsncat_s(winmonFileName, L"Winmon.dll", MAX_PATH);
 		winmonFileName[MAX_PATH] = '\0';
 
 		// write Winmon.dll and load it
@@ -303,7 +303,7 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ni.hWnd = m_hWnd;
 	ni.uID = 0;
 	ni.uCallbackMessage = UWM_SYSTRAY;
-	_tcscpy(ni.szTip, L"WinPenguins");
+	_tcscpy_s(ni.szTip, L"WinPenguins");
 	trayIcon = theApp.LoadIcon(IDR_ICON);
 	ni.hIcon = trayIcon;
 
@@ -713,7 +713,7 @@ void CMainWnd::OnExit()
 	ni.uID = 0;
 	ni.hWnd = m_hWnd;
 	ni.uCallbackMessage = UWM_SYSTRAY;
-	_tcscpy(ni.szTip, L"WinPenguins");
+	_tcscpy_s(ni.szTip, L"WinPenguins");
 	ni.hIcon = trayIcon;
 
 	Shell_NotifyIcon(NIM_DELETE, &ni);

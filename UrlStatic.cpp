@@ -114,7 +114,7 @@ void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 
 	GetTempPath(MAX_PATH, filename);
 	GetTempFileName(filename, L"html", 0, filename);
-	_tcsncat(filename, L".htm", MAX_PATH);
+	_tcsncat_s(filename, L".htm", MAX_PATH);
 	filename[MAX_PATH] = '\0';
 
 	FILE *fp = _tfopen(filename, L"w");
