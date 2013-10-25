@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -17,6 +16,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -189,5 +189,5 @@ LANGUAGE 9, 1
 #include "res\winpenguins.rc2"  // non-Microsoft Visual C++ edited resources
 #endif
 /////////////////////////////////////////////////////////////////////////////
-//#endif    // not APSTUDIO_INVOKED
+#endif    // not APSTUDIO_INVOKED
 

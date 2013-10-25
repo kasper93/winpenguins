@@ -1,10 +1,30 @@
 //
-// WINPENGUINS.RC2 - resources Microsoft Visual C++ does not edit directly
+// winpenguins.rc2 - resources Microsoft Visual C++ does not edit directly
 //
 
 #ifdef APSTUDIO_INVOKED
-	#error this file is not editable by Microsoft Visual C++
+#error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -125,7 +145,6 @@ IDR_WINMONDLL           BINARY                  "Winmon\\Release\\Win32\\Winmon.
 //
 
 IDR_SOUND_BOOM          WAVE                    "res\\boom.wav"
-#endif
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -134,3 +153,4 @@ IDR_SOUND_BOOM          WAVE                    "res\\boom.wav"
 //
 
 IDR_RT_MANIFEST         RT_MANIFEST             "res\\WinPenguins.exe.manifest"
+#endif    // English (United States) resources
