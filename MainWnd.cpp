@@ -51,7 +51,7 @@ void (WINAPI *alphablend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION)
 
 #include "Winmon/winmon_ptr.h"
 
-static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM lParam)
+static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
 {
 	RECT rt;
 	CRgn rgn;
@@ -209,7 +209,7 @@ CMainWnd::CMainWnd()
 	// winpenguins executable without worrying about the additional DLL
 
 	winmonFileName[0] = '\0';
-	//winmon = ::LoadLibrary("Winmon.dll");
+	//winmon = ::LoadLibrary(L"Winmon.dll");
 	winmon = NULL;
 	if (NULL == winmon) {
 		HRSRC hRes;
@@ -338,7 +338,7 @@ int CMainWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 
-LRESULT CMainWnd::OnSysTray(WPARAM wParam, LPARAM lParam)
+LRESULT CMainWnd::OnSysTray(WPARAM /*wParam*/, LPARAM lParam)
 {
 	switch (lParam) {
 		case WM_LBUTTONUP:

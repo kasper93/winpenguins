@@ -33,7 +33,7 @@ HANDLE hSem;
 
 BOOL APIENTRY DllMain( HINSTANCE hModule,
 					   DWORD  ul_reason_for_call,
-					   LPVOID lpReserved
+					   LPVOID /*lpReserved*/
 					 )
 {
 	hMod = hModule;
