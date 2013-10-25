@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -103,7 +104,7 @@ BEGIN
     LTEXT           "WinPenguins is based on xpenguins 1.1",IDC_STATIC,90,170,127,8
     EDITTEXT        IDC_GPL,45,45,245,120,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL,WS_EX_CLIENTEDGE
     LTEXT           "http://winpenguins.sourceforge.net/",IDC_STATIC_URL,45,30,159,10
-    ICON            128,IDC_STATIC,10,10,20,20
+    ICON            IDR_ICON,IDC_STATIC,10,10,20,20
 END
 
 
