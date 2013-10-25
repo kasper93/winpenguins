@@ -95,6 +95,7 @@ CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CWinpenguinsDlg)
 	m_pcount = 0;
 	m_delay = 0;
+	m_splat = 0;
 	m_alpha = 255;
 	m_santa = 10;
 	m_soundenabled = 0;

@@ -143,6 +143,7 @@ static void doAlphaBlend(CDC *dst, int x, int y, int w, int h,
 
 CToon::CToon()
 	: m_tstSubType( TST_UNSPECIFIED )
+	, m_tumbleStartY(0)
 {
 	RECT rt;
 	CMainWnd::dskWnd.GetClientRect(&rt);

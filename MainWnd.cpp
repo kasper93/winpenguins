@@ -139,6 +139,10 @@ CString CMainWnd::soundFilename = "";
 CMainWnd::CMainWnd()
 {
 	activeDlg = 0;
+	m_numPenguins = 0;
+	m_moveDelay = 0;
+	m_splatDist = 0;
+	trayIcon = 0;
 
 	// Check if another instance of WinPenguins is already running
 	hInstanceMutex = ::CreateMutex(NULL, FALSE, L"WinPenguinsInstanceMutex");
