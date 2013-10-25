@@ -241,12 +241,10 @@ CMainWnd::~CMainWnd()
 {
 	(void) dskWnd.Detach();
 
-	Winmon_UnloadHook();
-
-	::FreeLibrary(winmon);
-
-	// XXX: this api call fails with an access denied error!
-	::DeleteFile(winmonFileName);
+    Winmon_UnloadHook();
+    ::SendMessageTimeout(HWND_BROADCAST, WM_NULL, 0, 0, SMTO_ABORTIFHUNG|SMTO_NOTIMEOUTIFNOTHUNG, 1000, nullptr);
+    ::FreeLibrary(winmon);
+    ::DeleteFile(winmonFileName);
 
 	if (msimg32 != NULL) {
 		::FreeLibrary(msimg32);
