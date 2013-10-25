@@ -239,12 +239,15 @@ CMainWnd::CMainWnd()
 
 CMainWnd::~CMainWnd()
 {
-    (void) dskWnd.Detach();
+    (void)dskWnd.Detach();
 
     Winmon_UnloadHook();
     ::SendMessageTimeout(HWND_BROADCAST, WM_NULL, 0, 0, SMTO_ABORTIFHUNG | SMTO_NOTIMEOUTIFNOTHUNG, 1000, nullptr);
     ::FreeLibrary(winmon);
     ::DeleteFile(winmonFileName);
+
+    // Kill all the penguins (remaining glitches) with nuke. (Refresh desktop) Hacky a bit.
+    ::SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 
     if (msimg32 != nullptr) {
         ::FreeLibrary(msimg32);
