@@ -152,27 +152,6 @@ CMainWnd::CMainWnd()
 
 	time_t srand(time(NULL));
 
-	// Check OS version.  Windows 2000 has a TranparentBlt() function
-	// which makes things much cleaner, otherwise we have to fake it.
-	//
-	// NOTE: Win98 supposedly also has this function, however it seems
-	// to leak GDI resources whenever I use it.
-	bool enableAlpha = false;
-	bool transInternal = true;
-
-
-	OSVERSIONINFO vi;
-	vi.dwOSVersionInfoSize = sizeof(vi);
-	GetVersionEx(&vi);
-	if (vi.dwMajorVersion >= 5) {
-		transInternal = false;
-		enableAlpha = true;
-	} else {
-		if ((4 == vi.dwMajorVersion) && (vi.dwMinorVersion > 0)) {
-			enableAlpha = true;
-		}
-	}
-
 	// Find the desktop window
 	//   this is kindof kludgy and I'm not sure if it'll work in all cases!
 	CWnd *progMan = CWnd::FindWindow("Progman", "Program Manager");
@@ -191,13 +170,8 @@ CMainWnd::CMainWnd()
 
 	msimg32 = ::LoadLibrary("msimg32.dll");
 	if (msimg32 != NULL) {
-		if (!transInternal) {
-			(FARPROC &)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
-		}
-
-		if (enableAlpha) {
-			(FARPROC &)alphablend = GetProcAddress(msimg32, "AlphaBlend");
-		}
+		(FARPROC &)transparentblt = GetProcAddress(msimg32, "TransparentBlt");
+		(FARPROC &)alphablend = GetProcAddress(msimg32, "AlphaBlend");
 	}
 
 
