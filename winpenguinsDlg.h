@@ -25,7 +25,7 @@
 
 #pragma once
 
-
+#include "resource.h"
 #include "UrlStatic.h"
 
 // slowest allowed time between frames in ms

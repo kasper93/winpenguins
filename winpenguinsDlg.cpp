@@ -37,8 +37,6 @@ static char THIS_FILE[] = __FILE__;
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
-    //{{AFX_DATA_INIT(CAboutDlg)
-    //}}AFX_DATA_INIT
 }
 
 BOOL CAboutDlg::OnInitDialog()
@@ -60,18 +58,11 @@ BOOL CAboutDlg::OnInitDialog()
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CAboutDlg)
-    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-    //{{AFX_MSG_MAP(CAboutDlg)
     ON_WM_LBUTTONDBLCLK()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-
-
 
 
 void CAboutDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -84,14 +75,12 @@ void CAboutDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CWinpenguinsDlg dialog
 
 CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CWinpenguinsDlg::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CWinpenguinsDlg)
     m_pcount = 0;
     m_delay = 0;
     m_splat = 0;
@@ -99,7 +88,6 @@ CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=nullptr*/)
     m_santa = 10;
     m_soundenabled = 0;
     m_soundfilename = "";
-    //}}AFX_DATA_INIT
     // Note that LoadIcon does not require a subsequent DestroyIcon in Win32
     m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -107,7 +95,6 @@ CWinpenguinsDlg::CWinpenguinsDlg(CWnd* pParent /*=nullptr*/)
 void CWinpenguinsDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CWinpenguinsDlg)
     DDX_Slider(pDX, IDC_PCOUNT, m_pcount);
     DDX_Slider(pDX, IDC_SPEED, m_delay);
     DDX_Slider(pDX, IDC_SPLAT, m_splat);
@@ -115,14 +102,11 @@ void CWinpenguinsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Slider(pDX, IDC_SANTA, m_santa);
     DDX_Text(pDX, IDC_SOUNDFILENAME, m_soundfilename);
     DDX_Check(pDX, IDC_SOUNDENABLED, m_soundenabled);
-    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CWinpenguinsDlg, CDialog)
-    //{{AFX_MSG_MAP(CWinpenguinsDlg)
     ON_BN_CLICKED(IDAPPLY, OnApply)
     ON_BN_CLICKED(IDSFBROWSE, OnSFBrowse)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 

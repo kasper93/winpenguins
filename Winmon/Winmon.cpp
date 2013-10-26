@@ -26,7 +26,6 @@
 #include "stdafx.h"
 #include "Winmon.h"
 #include <assert.h>
-#include <stdio.h>
 
 HINSTANCE hMod;
 HANDLE hSem;
@@ -39,13 +38,8 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
     hMod = hModule;
     switch (ul_reason_for_call) {
         case DLL_PROCESS_ATTACH:
-            hSem = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE,
-                                 L"WinPenguins-DeskPaintSem");
-            if (hSem == nullptr) {
-                hSem = CreateSemaphore(nullptr, 1, 1,
-                                       L"WinPenguins-DeskPaintSem");
-                assert(hSem != nullptr);
-            }
+            hSem = CreateSemaphore(nullptr, 1, 1, L"WinPenguins-DeskPaintSem");
+            assert(hSem != nullptr);
             break;
 
         case DLL_PROCESS_DETACH:

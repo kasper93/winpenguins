@@ -164,7 +164,6 @@ CToon::~CToon()
 }
 
 
-
 void CToon::DeleteAni()
 {
     if (m_bmpIndex != PENGUIN_BOMBER) {
@@ -190,9 +189,8 @@ void CToon::ExplodeAni()
     m_y -= 16;
 
     if (CMainWnd::soundEnabled) {
-
         //MPA 4-3-2005: play default sound if no soundFilename, else try file
-        if (CMainWnd::soundFilename == "") {
+        if (CMainWnd::soundFilename.IsEmpty()) {
             PlaySound(MAKEINTRESOURCE(IDR_SOUND_BOOM), theApp.m_hInstance,
                       SND_RESOURCE | SND_ASYNC | SND_NOWAIT);
         } else {

@@ -28,10 +28,10 @@
 
 
 #include "stdafx.h"
-#include "winpenguins.h"
-#include "winpenguinsDlg.h"
-#include "MainWnd.h"
 #include "def.h"
+#include "MainWnd.h"
+#include "winpenguins.h"
+#include "Winmon/winmon_ptr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,10 +45,6 @@ static char THIS_FILE[] = __FILE__;
 void (WINAPI* transparentblt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
 void (WINAPI* alphablend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 
-/////////////////////////////////////////////////////////////////////////////
-// Locals used by CMainWnd
-
-#include "Winmon/winmon_ptr.h"
 
 static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
 {
@@ -98,7 +94,6 @@ static BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM /*lParam*/)
     return TRUE;
 }
 
-
 static HWND foundWnd;
 static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
 {
@@ -119,30 +114,19 @@ static BOOL CALLBACK FindWndWithClass(HWND hwnd, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////
 // CMainWnd
 
-CWnd CMainWnd::dskWnd;  // desktop window that is drawn on
-
-// The region that covers all top level windows
+CWnd CMainWnd::dskWnd;
 CRgn* CMainWnd::wndRgn = nullptr;
-
-// alpha blending level (0-255)
 BYTE CMainWnd::blendLevel = 255;
-
 int CMainWnd::soundEnabled = 0;
-
-int CMainWnd::santaPercent = 0;
-
-//MPA 4-3-2005: soundFilename support
-CString CMainWnd::soundFilename = "";
-
+CString CMainWnd::soundFilename;
 
 CMainWnd::CMainWnd()
+    : activeDlg(0)
+    , m_numPenguins(0)
+    , m_moveDelay(0)
+    , m_splatDist(0)
+    , trayIcon(0)
 {
-    activeDlg = 0;
-    m_numPenguins = 0;
-    m_moveDelay = 0;
-    m_splatDist = 0;
-    trayIcon = 0;
-
     // Check if another instance of WinPenguins is already running
     hInstanceMutex = ::CreateMutex(nullptr, FALSE, L"WinPenguinsInstanceMutex");
     if (nullptr == hInstanceMutex) {
@@ -183,42 +167,40 @@ CMainWnd::CMainWnd()
     // The reason this is done is so that people can simply distribute the
     // winpenguins executable without worrying about the additional DLL
 
-    winmonFileName[0] = '\0';
     //winmon = ::LoadLibrary(L"Winmon.dll");
-    winmon = nullptr;
-    if (nullptr == winmon) {
-        HRSRC hRes;
-        HGLOBAL hGlobal;
-        LPVOID winmonPtr;
-        DWORD winmonSize;
-        DWORD bytesWritten;
 
-        // find winmon.dll in the exe resources
-        hRes = ::FindResource(nullptr, MAKEINTRESOURCE(IDR_WINMONDLL), L"Binary");
-        hGlobal = ::LoadResource(nullptr, hRes);
+    HRSRC hRes;
+    HGLOBAL hGlobal;
+    LPVOID winmonPtr;
+    DWORD winmonSize;
+    DWORD bytesWritten;
 
-        winmonPtr = ::LockResource(hGlobal);
-        if (nullptr == winmonPtr) {
-            MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
-            ExitProcess(0);
-        }
-        winmonSize = ::SizeofResource(nullptr, hRes);
+    // find winmon.dll in the exe resources
+    hRes = ::FindResource(nullptr, MAKEINTRESOURCE(IDR_WINMONDLL), L"Binary");
+    hGlobal = ::LoadResource(nullptr, hRes);
 
-        GetTempPath(MAX_PATH, winmonFileName);
-        _tcsncat_s(winmonFileName, L"Winmon.dll", MAX_PATH);
-
-        // write Winmon.dll and load it
-        HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, nullptr,
-                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-        WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, nullptr);
-        CloseHandle(hFile);
-        winmon = ::LoadLibrary(winmonFileName);
-
-        if (nullptr == winmon) {
-            MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
-            ::ExitProcess(0);
-        }
+    winmonPtr = ::LockResource(hGlobal);
+    if (nullptr == winmonPtr) {
+        MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
+        ExitProcess(0);
     }
+    winmonSize = ::SizeofResource(nullptr, hRes);
+
+    GetTempPath(MAX_PATH, winmonFileName);
+    _tcsncat_s(winmonFileName, L"Winmon.dll", MAX_PATH);
+
+    // write Winmon.dll and load it
+    HANDLE hFile = CreateFile(winmonFileName, GENERIC_WRITE, 0, nullptr,
+                              CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    WriteFile(hFile, winmonPtr, winmonSize, &bytesWritten, nullptr);
+    CloseHandle(hFile);
+    winmon = ::LoadLibrary(winmonFileName);
+
+    if (nullptr == winmon) {
+        MessageBox(L"Unable to load 'Winmon.dll'", L"Error", MB_ICONERROR);
+        ::ExitProcess(0);
+    }
+
     LoadWinmonFunctions(winmon);
 
     // Load the penguin bitmap resources
@@ -258,7 +240,6 @@ CMainWnd::~CMainWnd()
 
 
 BEGIN_MESSAGE_MAP(CMainWnd, CWnd)
-    //{{AFX_MSG_MAP(CMainWnd)
     ON_WM_CREATE()
     ON_MESSAGE(UWM_SYSTRAY, OnSysTray)
     ON_WM_CLOSE()
@@ -268,7 +249,6 @@ BEGIN_MESSAGE_MAP(CMainWnd, CWnd)
     ON_COMMAND(ID_OPTIONS, OnOptions)
     ON_COMMAND(ID_SCREENCAP, OnScreenCapture)
     ON_WM_LBUTTONDBLCLK()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
@@ -826,10 +806,6 @@ void CMainWnd::UpdateBgBitmap(RECT* updateRect)
     dskWnd.ReleaseDC(dc);
 }
 
-
-
-
-
 void CMainWnd::CreateScreenBitmaps()
 {
     RECT rt;
@@ -862,3 +838,5 @@ bool CMainWnd::CheckSubType(CToon* pToon)
 
     return false;
 }
+
+

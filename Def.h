@@ -44,7 +44,7 @@
 #define PENGUIN_SANTA_CLIMBER   8
 #define PENGUIN_COUNT           9
 
-typedef struct {
+struct ToonData {
     DWORD resId;    // resource id
     DWORD mskResId; // resource id of the bitmask
     CBitmap* bmp;
@@ -54,8 +54,7 @@ typedef struct {
     int width, height;          /* width and height of an individual frame/direction */
 
     bool cycle;  // does the animation cycle
-} ToonData;
-
+};
 
 extern ToonData penguin_data[PENGUIN_COUNT];
 

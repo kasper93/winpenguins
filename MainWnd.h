@@ -31,9 +31,7 @@
 #define UWM_SYSTRAY (WM_USER + 1) // Sent to us by the systray
 
 #include "toon.h"
-#include "Afxtempl.h"
-#include "winpenguinsdlg.h"
-#include "def.h"
+#include "winpenguinsDlg.h"
 
 extern void (WINAPI* transparentblt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
 extern void (WINAPI* alphablend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
@@ -43,7 +41,6 @@ extern void (WINAPI* alphablend)(HDC, int, int, int, int, HDC, int, int, int, in
 
 class CMainWnd : public CFrameWnd
 {
-private:
     void CreateScreenBitmaps();
 
     int m_numPenguins;
@@ -68,10 +65,8 @@ private:
 
     // Construction
 public:
+    // BYTE GetBlendLevel() const { return blendLevel; }
     CMainWnd();
-
-    // Attributes
-public:
 
     // desktop window that is drawn on
     static CWnd dskWnd;
@@ -80,24 +75,18 @@ public:
     static CRgn* wndRgn;
 
     // alpha blending level (0-255)
-    static unsigned char blendLevel;
+    static BYTE blendLevel;
 
     // !0 if sound is enabled
     static int soundEnabled;
 
-    // number between 0-100: 0 = no santa, 100 = always santa
-    static int santaPercent;
-
     // MPA 4-3-2005: added "soundfilename"
     static CString soundFilename;
 
-    // Operations
-public:
+    // number between 0-100: 0 = no santa, 100 = always santa
+    int santaPercent;
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMainWnd)
-    //}}AFX_VIRTUAL
+
 
     // Implementation
 public:
@@ -111,9 +100,10 @@ public:
     void BrowseSoundFilename(CWinpenguinsDlg* const dlg);
     virtual ~CMainWnd();
 
+
+
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CMainWnd)
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg LRESULT OnSysTray(WPARAM wParam, LPARAM lParam);
     afx_msg void OnClose();
@@ -122,6 +112,5 @@ protected:
     afx_msg void OnExit();
     afx_msg void OnOptions();
     afx_msg void OnScreenCapture();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 };
