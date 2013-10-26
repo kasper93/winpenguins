@@ -29,9 +29,11 @@
 
 #include "stdafx.h"
 #include "def.h"
+#include <gdiplus.h>
 #include "MainWnd.h"
 #include "winpenguins.h"
 #include "Winmon/winmon_ptr.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -640,9 +642,111 @@ void CMainWnd::OnAbout()
 
 // <TL> Thought some people might find this nice...
 
+static int GetEncoderClsid(const TCHAR* format, CLSID& clsid)
+{
+    using namespace Gdiplus;
+
+    UINT num = 0, size = 0;
+    int ret = -1;
+
+    ImageCodecInfo* pImageCodecInfo = nullptr;
+
+    GetImageEncodersSize(&num, &size);
+    if (size == 0) {
+        return ret;
+    }
+
+    pImageCodecInfo = (ImageCodecInfo*)(malloc(size));
+    if (pImageCodecInfo == nullptr) {
+        return ret;
+    }
+
+    GetImageEncoders(num, size, pImageCodecInfo);
+
+    for (UINT i = 0; i < num; ++i) {
+        if (wcscmp(pImageCodecInfo[i].MimeType, format) == 0) {
+            clsid = pImageCodecInfo[i].Clsid;
+            ret = i;
+            break;
+        }
+    }
+
+    free(pImageCodecInfo);
+    return ret;
+}
+
+static void SaveImage(const HBITMAP& membit)
+{
+    TCHAR psrc[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, psrc);
+
+    CFileDialog fd(FALSE, L"BMP", psrc,
+                   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
+                   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), nullptr);
+
+    if (fd.DoModal() == IDOK) {
+        CString filter, imgType;
+        if (fd.m_pOFN->nFilterIndex == 1) {
+            filter = _T(".bmp");
+            imgType = _T("image/bmp");
+        } else if (fd.m_pOFN->nFilterIndex == 2) {
+            filter = _T(".jpg");
+            imgType = _T("image/jpeg");
+        } else {
+            filter = _T(".png");
+            imgType = _T("image/png");
+        }
+
+        CPath path(fd.GetPathName());
+        CString ext(path.GetExtension().MakeLower());
+        if (ext != filter) {
+            if (ext == _T(".bmp") || ext == _T(".jpg") || ext == _T(".png")) {
+                ext = filter;
+            } else {
+                ext += filter;
+            }
+            path.RenameExtension(ext);
+        }
+
+        Gdiplus::Bitmap bitmap(membit, nullptr);
+
+        CLSID clsid;
+        if (GetEncoderClsid(imgType, clsid) >= 0) {
+            bitmap.Save(path, &clsid);
+        }
+    }
+}
+
+
 void CMainWnd::OnScreenCapture()
 {
-    // TODO
+    using namespace Gdiplus;
+    GdiplusStartupInput gdiplusStartupInput;
+    ULONG_PTR gdiplusToken;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+
+    Sleep(300); // Wait for tooltip to disappear, ugly, but who on earth made button for taking screenshot of whole screen? :|
+
+    {
+        HDC scrdc, memdc;
+        HBITMAP membit;
+        scrdc = ::GetDC(0);
+        int Height = GetSystemMetrics(SM_CYSCREEN);
+        int Width = GetSystemMetrics(SM_CXSCREEN);
+        memdc = CreateCompatibleDC(scrdc);
+        membit = CreateCompatibleBitmap(scrdc, Width, Height);
+        HBITMAP hOldBitmap = (HBITMAP) SelectObject(memdc, membit);
+        BitBlt(memdc, 0, 0, Width, Height, scrdc, 0, 0, SRCCOPY);
+
+        SaveImage(membit);
+
+        SelectObject(memdc, hOldBitmap);
+        DeleteObject(memdc);
+        DeleteObject(membit);
+        ::ReleaseDC(0, scrdc);
+    }
+
+    GdiplusShutdown(gdiplusToken);
 }
 
 // </TL>
