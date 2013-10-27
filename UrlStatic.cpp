@@ -107,40 +107,10 @@ void CUrlStatic::OnLButtonDown(UINT nFlags, CPoint point)
 {
     CStatic::OnLButtonDown(nFlags, point);
 
-    TCHAR* ignored = L"";
-    TCHAR browserExec[MAX_PATH];
-    TCHAR filename[MAX_PATH];
+    CString url;
+    GetWindowText(url);
 
-
-    GetTempPath(MAX_PATH, filename);
-    GetTempFileName(filename, L"html", 0, filename);
-    _tcsncat_s(filename, L".htm", MAX_PATH);
-
-    FILE* fp = _tfopen(filename, L"w");
-    if (nullptr == fp) {
-        MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
-        return;
+    if ((int)ShellExecute(m_hWnd, L"open", url, nullptr, nullptr, SW_SHOWNORMAL) <= 32) {
+        MessageBox(L"Unable to open URL", L"Browser not found!", MB_ICONWARNING);
     }
-
-    fputs("<html></html>", fp);
-    fclose(fp);
-
-    browserExec[0] = '\0';
-    FindExecutable(filename, ignored, browserExec);
-    _tunlink(filename);
-
-    if (_tcslen(browserExec) <= 0) {
-        MessageBox(L"Unable to open URL", L"Browser Not Found", MB_ICONWARNING);
-
-    } else {
-        CString url;
-
-        GetWindowText(url);
-
-        if ((int)ShellExecute(m_hWnd, L"open", browserExec,
-                              url, ignored, SW_SHOWNORMAL) <= 32) {
-            MessageBox(L"Unable to open URL", L"Browser 'open' Failed", MB_ICONWARNING);
-        }
-    }
-
 }
