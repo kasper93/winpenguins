@@ -26,7 +26,6 @@
 #include "stdafx.h"
 #include "winpenguins.h"
 #include "MainWnd.h"
-#include "screen_capture.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

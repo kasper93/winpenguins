@@ -27,7 +27,6 @@
 #include "winpenguins.h"
 #include "winpenguinsDlg.h"
 #include "MainWnd.h"
-#include "screen_capture.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

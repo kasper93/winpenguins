@@ -32,7 +32,6 @@
 #include "winpenguinsDlg.h"
 #include "MainWnd.h"
 #include "def.h"
-#include "screen_capture.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -663,24 +662,7 @@ void CMainWnd::OnAbout()
 
 void CMainWnd::OnScreenCapture()
 {
-    CFileDialog dlg(FALSE, L"BMP", nullptr, OFN_OVERWRITEPROMPT, L"Bitmap Files (*.bmp)|*.bmp||", this);
-
-    activeDlg = &dlg;
-
-    if (dlg.DoModal() == IDOK) {
-        RECTCAPINFO rci;
-
-        CMainWnd::OnTimer(0);   // step forward a frame to avoid messing
-        // up our pretty scenery
-
-        ResetCaptureInfo(&rci, FALSE);
-
-        FullScreenCapture(&rci);
-        SaveCaptureToFile(&rci, LPCTSTR(dlg.GetPathName()));
-        ResetCaptureInfo(&rci, TRUE);
-    }
-
-    activeDlg = 0;
+    // TODO
 }
 
 // </TL>
